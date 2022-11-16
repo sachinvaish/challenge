@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const Feedback = require('../models/Feedback.js');
-const fetchuser = require('../middleware/fetchuser');
 const { body, validationResult } = require('express-validator');
+const Submission = require('../models/Submission.js');
+const fetchuser = require('../middleware/fetchuser');
 
-// POST Create a feedback
-router.post('/',fetchuser,[
-    body('feedback','Feedback cannot be empty').notEmpty()
-], async (req,res)=>{
+// POST : Create a Submission
+router.post('/', fetchuser, [
+    body('photo_url', 'Photo URL cannot be Empty').notEmpty(),
+    body('description', 'Description cannot be Empty').notEmpty()
+], async (req, res) => {
     const errors = validationResult(req);
     //validation check post
     if (!errors.isEmpty()) {
@@ -19,17 +20,17 @@ router.post('/',fetchuser,[
         if (!user) {
             return res.status(404).send({"error":"Login required"});
         }
-        let feedback = await Feedback.create({
-            submission_id : "63749eca6057278e2f24b74a",
+        let submission = await Submission.create({
+            challenge_id : "63748a4dfcc73c064df4c744",
             user_id : req.user.id,
-            feedback : req.body.feedback
+            photo_url : req.body.photo_url,
+            description : req.body.description
         });
 
-        res.json({feedback });
+        res.json({ submission });
     } catch (error) {
         res.json({ error });
     }
 })
-
 
 module.exports = router;

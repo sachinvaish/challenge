@@ -10,6 +10,9 @@ app.get('/',(req,res)=>{
 })
 
 app.use('/users',require('./routes/users'));
+app.use('/challenges',require('./routes/challenges'));
+app.use('/submissions',require('./routes/submissions'));
+app.use('/votes',require('./routes/votes'));
 app.use('/feedbacks',require('./routes/feedbacks'));
 
 app.listen(80,()=>{

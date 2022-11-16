@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
-
+// 
 const ChallengeSchema = new Schema ({
     title :{
         type : String,
@@ -15,8 +15,8 @@ const ChallengeSchema = new Schema ({
         default : Date.now
       },
     due_date : Date,
-    winner_prize : number,
-    runner_prize : number,
+    winner_prize : Number,
+    runner_prize : Number,
     winner_id : {
         type : mongoose.Schema.Types.ObjectId,
         ref :'users'
