@@ -3,53 +3,123 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const fetchuser = require('../middleware/fetchuser');
 
 // GET : Get a User
-router.get('/',async (req,res)=>{
-    res.send("GET Method called");
+router.get('/getuser', fetchuser, async (req, res) => {
+    try {
+        userID = req.user.id;
+        const user = await User.findById(userID).select("-password");
+        res.json(user);
+     } catch (error) {
+        //catching errors 
+        console.error(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+     }
 })
 
 // POST : Create a User
-router.post('/',[
-    body('name','Name cannot be Empty').notEmpty(),
-    body('email','Please enter a valid Email').isEmail(),
-    body('password','Password must be min 8 characters').isLength(8)
-],async(req,res)=>{
+router.post('/signup', [
+    body('name', 'Name cannot be Empty').notEmpty(),
+    body('email', 'Please enter a valid Email').isEmail(),
+    body('password', 'Password must be min 8 characters').isLength(8)
+], async (req, res) => {
     const errors = validationResult(req);
-   //validation check post
+    //validation check post
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ errors: errors.array() });
     }
-    
-    let user = await User.findOne({ email : req.body.email})
-    if (user) {
-        return res.status(400).json({ "error": "User already exists with this email" });
-     }
 
-    let salt = await bcrypt.genSalt(10);
-    let secPass = await bcrypt.hash(req.body.password, salt);
+    try {
+        let user = await User.findOne({ email: req.body.email })
+        if (user) {
+            return res.status(400).json({ "error": "User already exists with this email" });
+        }
 
-    user = User.create({
-        name : req.body.name,
-        email : req.body.email,
-        password : secPass,
-        photo_url : req.body.photo_url,
-        portfolio_url : req.body.portfolio_url,
-        instagram_id : req.body.instagram_id
-    });
-   
-    res.send("User Created Successfully");
+        let salt = await bcrypt.genSalt(10);
+        let secPass = await bcrypt.hash(req.body.password, salt);
+
+        user = await User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: secPass,
+            photo_url: req.body.photo_url,
+            portfolio_url: req.body.portfolio_url,
+            instagram_url: req.body.instagram_url
+        });
+
+        const payload = {
+            id: user.id
+        }
+        const secretKey = "ChallengeWebsite#1";
+        let authToken = await jwt.sign(payload, secretKey);
+        res.json({ authToken });
+    } catch (error) {
+        res.json({ error });
+    }
 })
 
+
+// POST : Authenticate a User
+router.post('/login', [
+    body('email', 'Please enter a valid Email').isEmail(),
+    body('password', 'Password must be min 8 characters').isLength(8)
+], async (req, res) => {
+    const errors = validationResult(req);
+    //validation check post
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        let user = await User.findOne({ email: req.body.email })
+        if (!user) {
+            return res.status(400).json({"error":"Please login with correct credentials"});
+        }
+        let hash = user.password;
+        let verified = bcrypt.compareSync(req.body.password, hash);
+
+        const payload = {
+            id: user.id
+        }
+        if(verified){
+            const secretKey = "ChallengeWebsite#1";
+            let authToken = await jwt.sign(payload, secretKey);
+            res.json({ authToken });
+        }else{
+            res.json({"error":"Please login with correct credentials"});
+        }
+        
+    } catch (error) {
+        res.json({ error });
+    }
+})
 
 // PUT : Update a User
-router.put('/',(req,res)=>{
-    console.log("PUT Method called");
-})
+router.put('/update', fetchuser, [
+    body('name', 'Name cannot be Empty').notEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    //validation check post
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
 
-// DELETE : Delete a User
-router.delete('/',(req,res)=>{
-    console.log("DELETE Method called");
+    try {
+        userID = req.user.id;
+        const user = await User.findByIdAndUpdate(userID,{
+            name: req.body.name,
+            photo_url: req.body.photo_url,
+            portfolio_url: req.body.portfolio_url,
+            instagram_url: req.body.instagram_url
+        },{new:true})
+        res.json(user);
+     } catch (error) {
+        //catching errors 
+        console.error(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+     }
+    
 })
 
 module.exports = router;
