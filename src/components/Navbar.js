@@ -1,4 +1,4 @@
-import { AppBar, Typography, Toolbar, Tabs, Tab, Box } from '@mui/material';
+import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container } from '@mui/material';
 import React from 'react';
 
 export default function Navbar() {
@@ -10,17 +10,23 @@ export default function Navbar() {
 
     return (
         <>
-            <AppBar sx={{ backgroundColor: "white", color: "blue" }}>
-                <Toolbar>
-                    <Typography variant='h6'>Crowwwn</Typography>
-                    <Box>
-                        <Tabs value={value} onChange={handleChange}>
-                            <Tab label="Home" />
-                            <Tab label="This Week's Challenge" />
-                            <Tab label="Explore" />
-                        </Tabs>
-                    </Box>
-                </Toolbar>
+            <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'static' }}>
+                <Container maxWidth="true">
+                    <Toolbar>
+                        <Typography variant='h6' flexGrow={1}>Crowwwn</Typography>
+                        <Box flexGrow={1}>
+                            <Tabs value={value} onChange={handleChange}>
+                                <Tab label="Home" />
+                                <Tab label="This Week's Challenge" />
+                                <Tab label="Explore" />
+                            </Tabs>
+                        </Box>
+                        <Box >
+                            <Button variant="outlined" sx={{ m: 1 }}>Login</Button>
+                            <Button variant="contained" sx={{ m: 1 }}>Sign up</Button>
+                        </Box>
+                    </Toolbar>
+                </Container>
             </AppBar>
         </>
     );
