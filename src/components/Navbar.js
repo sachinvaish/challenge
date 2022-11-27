@@ -11,9 +11,9 @@ export default function Navbar() {
     return (
         <>
             <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'static' }}>
-                <Container maxWidth="true">
-                    <Toolbar>
-                        <Typography variant='h6' flexGrow={1}>Crowwwn</Typography>
+                <Container>
+                    <Toolbar >
+                        <Typography  variant='h6' flexGrow={1}>Crowwwn</Typography>
                         <Box flexGrow={1}>
                             <Tabs value={value} onChange={handleChange}>
                                 <Tab label="Home" />
