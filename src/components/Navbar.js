@@ -1,8 +1,11 @@
 import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container } from '@mui/material';
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 export default function Navbar() {
     const [value, setValue] = React.useState(0);
+    const navigate = useNavigate();
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -16,7 +19,7 @@ export default function Navbar() {
                         <Typography  variant='h6' flexGrow={1}>Crowwwn</Typography>
                         <Box flexGrow={1}>
                             <Tabs value={value} onChange={handleChange}>
-                                <Tab label="Home" />
+                                <Tab label="Home" onClick={()=>{navigate("/")}}/>
                                 <Tab label="This Week's Challenge" />
                                 <Tab label="Explore" />
                             </Tabs>
