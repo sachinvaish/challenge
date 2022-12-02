@@ -37,7 +37,7 @@ export default function Submissions() {
     const [submissions, setSubmissions] = useState(initialState);
 
     return (
-        <Container sx={{ marginTop: '50px' }} >
+        <Container sx={{marginTop:'-20px'}}>
             <Stack direction='row' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent:'space-between' }} >
                 {submissions.map((submission)=>{
                     return <SubmissionItem key={submission._id} submission={submission}  />

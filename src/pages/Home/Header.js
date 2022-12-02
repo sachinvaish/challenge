@@ -4,7 +4,7 @@ import Timer from '../../components/Timer';
 
 export default function Header() {
     return (
-        <Container sx={{ marginTop: '50px' }}>
+        <Container sx={{ marginY: '30px' }}>
             <Grid container spacing={2} >
                 <Grid item md={9}>
                     <Typography variant='h6'>Last week's challenge</Typography>

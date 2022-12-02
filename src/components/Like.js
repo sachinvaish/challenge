@@ -1,4 +1,4 @@
-import { Checkbox, Typography, Box } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import React, { useState } from 'react';
