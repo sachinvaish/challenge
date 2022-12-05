@@ -1,6 +1,7 @@
 import { Link, Card, CardMedia, Typography, CardHeader, CardActions, Avatar, Box, } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Like from './Like';
+import { useNavigate } from 'react-router-dom';
 
 export default function SubmissionItem(props) {
 
@@ -9,6 +10,7 @@ export default function SubmissionItem(props) {
     const [feedbackCount, setFeedbackCount] = useState(5);
     const [user, setUser] = useState({});
     const [upvotes, setUpvotes] = useState(5);
+    const navigate = useNavigate();
 
     useEffect(() => {
         return () => {
@@ -39,11 +41,13 @@ export default function SubmissionItem(props) {
         //API CALL to get feedbacks on particular submission id
         setFeedbackCount(4);
     }
-    
+
 
     return (
-        <Card sx={{ width: 340, color: 'black', marginTop: 5 }}>
+        <Card sx={{ width: 340, color: 'black', marginTop: 5 }} >
             <CardMedia
+                onClick={() => { navigate('/submission') }}
+                sx={{cursor:'pointer'}}
                 component="img"
                 height="260"
                 image={photo_url}
@@ -64,8 +68,8 @@ export default function SubmissionItem(props) {
                     subheader={`${feedbackCount} Feedbacks`}
                 />
                 <CardActions>
-                <Typography variant='h6'>{upvotes}</Typography>
-                    <Like value={upvotes} method={setUpvotes}/>
+                    <Typography variant='h6'>{upvotes}</Typography>
+                    <Like value={upvotes} method={setUpvotes} />
                 </CardActions>
             </Box>
         </Card>

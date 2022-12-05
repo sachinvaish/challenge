@@ -1,5 +1,4 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import { Container } from '@mui/material';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import './App.css';
 import Navbar from './components/Navbar';
@@ -9,6 +8,8 @@ import {
   Routes, Route
 } from 'react-router-dom';
 import SubmissionView from "./pages/SubmissionView";
+import Footer from "./components/Footer";
+import CurrentChallenge from "./pages/CurrentChallenge.js";
 
 
 
@@ -23,22 +24,26 @@ function App() {
     },
     palette: {
       background: {
-        default: "#222222"
+        default: "#f2f2ed"
       },
       text: {
-        primary: "#ffffff"
+        primary: "#363636"
       }
     }
+
   });
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Router>
         <Navbar />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/submission" element={<SubmissionView/>} />
+          <Route exact path="/submission" element={<SubmissionView />} />
+          <Route exact path="/contest" element={<CurrentChallenge />} />
         </Routes>
+        <Footer/>
       </Router>
     </ThemeProvider>
   );

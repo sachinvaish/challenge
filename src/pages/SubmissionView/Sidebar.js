@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Like from '../../components/Like';
-import { Link, Box, Card, CardHeader, CardActions, Avatar, Typography, Divider } from '@mui/material';
+import { Link, Box, Card, CardHeader, CardActions, Avatar, Typography, Divider, Button, TextField } from '@mui/material';
 import Feedback from '../../components/Feedback';
 
 export default function Sidebar() {
@@ -34,46 +34,61 @@ export default function Sidebar() {
         setUser(user);
     }
 
-    const getFeedbacks=()=>{
+    const getFeedbacks = () => {
         //API call to fetch feedbacks
         setFeedbacks(3);
     }
 
     return (
-        <Card sx={{ maxHeight: '100vh', color: 'black', overflow: 'hidden' }}>
-            <Box sx={{ display: 'flex', overflow: 'auto' }} justifyContent='space-between'>
-                <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url} aria-label="recipe">
+        <Card >
+            <Box id='card' sx={{ maxHeight: '60vh', overflow: 'auto' }}>
+                <Box sx={{ display: 'flex'}} justifyContent='space-between'>
+                    <CardHeader
+                        avatar={
+                            <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url} aria-label="recipe">
 
-                        </Avatar>
-                    }
-                    title={
-                        <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
-                            {user.name}
-                        </Link>
-                    }
-                    subheader={`${upvotes} Upvotes`}
-                />
-                <CardActions>
-                    <Typography variant='h6'>{upvotes}</Typography>
-                    <Like value={upvotes} method={setUpvotes} />
-                </CardActions>
-            </Box>
-            <Box sx={{ marginX: 2, textAlign: 'justify' }}>
-                <Typography variant='p'>
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore similique magnam asperiores eius nobis illum aliquam quis, porro repellendus in cum adipisci ipsum velit? Autem obcaecati vel velit aliquid, earum porro quidem iste hic repellat rerum exercitationem, rem ab commodi corporis corrupti voluptatum illo laborum!
-                </Typography>
-                <Divider sx={{ marginY: 1 }} />
-                <Box>
-                    <Typography variant='h6'>Feedbacks ({feedbacks})</Typography>
-                    <Feedback/>
-                    <Feedback/>
-                    <Feedback/>
-                    <Feedback/><Feedback/><Feedback/>
+                            </Avatar>
+                        }
+                        title={
+                            <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                                {user.name}
+                            </Link>
+                        }
+                        subheader={`${upvotes} Upvotes`}
+                    />
+                    <CardActions>
+                        <Typography variant='h6'>{upvotes}</Typography>
+                        <Like value={upvotes} method={setUpvotes} />
+                    </CardActions>
+                </Box>
+                <Box sx={{ marginX: 2, textAlign: 'justify' }}>
+                    <Typography variant='body1'>
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore similique magnam asperiores eius nobis illum aliquam quis, porro repellendus in cum adipisci ipsum velit? Autem obcaecati vel velit aliquid, earum porro quidem iste hic repellat rerum exercitationem, rem ab commodi corporis corrupti voluptatum illo laborum!
+                    </Typography>
+                    <Divider sx={{ marginY: 1 }} />
+                    <Box>
+                        <Typography variant='h6'>Feedbacks ({feedbacks})</Typography>
+                        <Feedback />
+                        <Feedback />
+                        <Feedback />
+                        <Feedback /><Feedback /><Feedback />
+                    </Box>
                 </Box>
             </Box>
-
+            <Box sx={{ margin: 2, position: 'sticky', index: '-1' }}>
+                    <TextField
+                        multiline='true'
+                        minRows={4}
+                        maxRows={10}
+                        Rows={4}
+                        aria-label="maximum height"
+                        placeholder="Start typing to leave feedback"
+                        style={{ width: '100%', position:'sticky', marginBottom:'0'}}
+                    />
+                    <Box sx={{display:'flex', justifyContent:'flex-end', marginTop:1}}>
+                        <Button variant='contained'>Post</Button>
+                    </Box>
+                </Box>
         </Card>
     )
 }

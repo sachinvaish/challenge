@@ -1,8 +1,12 @@
 import { Grid, Typography, Container, Box, Card, CardContent, Button } from '@mui/material';
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import Timer from '../../components/Timer';
 
 export default function Header() {
+
+    const navigate=useNavigate();
+
     return (
         <Container sx={{ marginY: '30px' }}>
             <Grid container spacing={2} >
@@ -45,7 +49,7 @@ export default function Header() {
                             <h4>Winner Announced in</h4>
                             <Timer countDownDate='2022-12-30 19:43:00' />
                             <h4>Want to participate ?</h4>
-                            <Button variant="contained">View this week's challenge</Button>
+                            <Button variant="contained" onClick={()=>{navigate("/contest")}}>View this week's challenge</Button>
                         </CardContent>
                     </Card>
                 </Grid>

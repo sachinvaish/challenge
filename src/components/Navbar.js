@@ -20,7 +20,7 @@ export default function Navbar() {
                         <Box flexGrow={1}>
                             <Tabs value={value} onChange={handleChange}>
                                 <Tab label="Home" onClick={()=>{navigate("/")}}/>
-                                <Tab label="This Week's Challenge" />
+                                <Tab label="This Week's Challenge" onClick={()=>{navigate("/contest")}} />
                                 <Tab label="Explore" />
                             </Tabs>
                         </Box>

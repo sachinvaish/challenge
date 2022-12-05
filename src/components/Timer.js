@@ -40,7 +40,7 @@ export default function Timer(props) {
     });
 
     return (
-        <Box display='flex' justifyContent='center'>
+        <Box display='flex' justifyContent='space-between'>
             <Box >
                 <Typography variant='h4'>{timerDays}</Typography>
                 <Typography fontSize={12}>Days</Typography>

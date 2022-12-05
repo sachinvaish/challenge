@@ -32,7 +32,7 @@ export default function Feedback() {
     }
 
     return (
-        <Box sx={{ marginY: 2 }}>
+        <Box sx={{ marginY: 3 }}>
             <Box sx={{ display: 'flex', spacing: '2' }} >
                 <Avatar sx={{ bgcolor: 'primary', height: '30px', width: '30px' }} src={user.photo_url} aria-label="recipe"></Avatar>
                 <Link marginX={1} variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ fontSize: '16px', cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
