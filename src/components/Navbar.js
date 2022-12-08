@@ -13,7 +13,7 @@ export default function Navbar() {
 
     return (
         <>
-            <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'static' }}>
+            <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'sticky' }}>
                 <Container>
                     <Toolbar >
                         <Typography  variant='h6' flexGrow={1}>Crowwwn</Typography>

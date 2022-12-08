@@ -29,6 +29,17 @@ function App() {
       text: {
         primary: "#363636"
       }
+    },
+    components: {
+      MuiChip: {
+        styleOverrides: {
+          deletableColorPrimary: {
+            '&:hover': {
+              backgroundColor: '#eb432d'
+            }
+          }
+        }
+      }
     }
 
   });
@@ -43,7 +54,7 @@ function App() {
           <Route exact path="/submission" element={<SubmissionView />} />
           <Route exact path="/contest" element={<CurrentChallenge />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </Router>
     </ThemeProvider>
   );

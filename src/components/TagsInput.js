@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 export default function TagsInput() {
 
     const [chips, setChips] = useState([]);
-    const tagSuggestions = ['UX', 'UI', 'Graphic Design', 'UX Research'];
+    const tagSuggestions = ['UX', 'UI', 'Graphic Design', 'UX Research', 'Web'];
 
     const handleDeleteChip = (chip, index) => {
         let newChips = chips.filter((x) => { return x !== chip });
@@ -13,40 +13,23 @@ export default function TagsInput() {
 
     const addChip = (e) => {
         if (e.key === 'Enter') {
-            if (chips.length === 0) {
+            if(!chips.includes(e.target.value)){
                 setChips(chips.concat(e.target.value));
-                e.target.value = null;
-                return;
-            }
-            for (let index = 0; index < chips.length; index++) {
-                const element = chips[index];
-                if (element !== e.target.value) {
-                    setChips(chips.concat(e.target.value));
-                }
             }
             e.target.value = null;
         }
     }
 
     const addTag = (tag) => {
-        console.log("addTag called");
-        console.log("  Tag : " + tag);
-        if (chips.length === 0) {
+        if(!chips.includes(tag)){
             setChips(chips.concat(tag));
-            return;
-        }
-        for (let index = 0; index < chips.length; index++) {
-            const element = chips[index];
-            if (element !== tag) {
-                setChips(chips.concat(tag));
-            }
         }
 
     }
 
     return (
         <>
-            <Box sx={{ border: '1px solid grey' }}>
+            <Box sx={{ border: '1px solid #c7c7c7', borderRadius: '4px' }}>
                 {chips.map((chip, index) => (
                     <Chip key={index} sx={{ margin: '4px', borderRadius: '7px' }} color='primary' label={chip} onDelete={() => { handleDeleteChip(chip, index) }} />
                 ))}
@@ -55,12 +38,14 @@ export default function TagsInput() {
                     placeholder="Enter tags here"
                     inputProps={{ 'aria-label': 'Enter Tags' }}
                     onKeyUp={addChip}
+                    fullWidth
+                    maxLength={200}
                 />
             </Box>
-            <Box sx={{ marginY: '2px' }}>
-                <Typography variant='body2' sx={{ marginBottom: '4px' }}>Tags Suggestions</Typography>
+            <Box sx={{ marginY: '15px', display:'flex' }}>
+                <Typography variant='body2' sx={{ marginTop: '5px' }}>Suggested Tags : </Typography>
                 {tagSuggestions.map((tag, index) => (
-                    <Link key={index} onClick={() => { addTag(tag) }} variant='subtitle1' sx={{ cursor: 'pointer', textDecoration: 'none', marginRight: '8px' }}>{tag}</Link>
+                    <Link key={index} onClick={() => { addTag(tag) }} variant='subtitle1' sx={{ fontWeight:'bold', cursor: 'pointer', textDecoration: 'none', marginX: '5px' }}>{tag}</Link>
                 ))}
             </Box>
         </>
