@@ -20,7 +20,7 @@ export default function ChallengeHeader() {
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, iste iusto quam distinctio nulla ipsa. Vitae aut minus neque non deleniti. Recusandae autem necessitatibus laboriosam tempore quaerat provident dicta voluptas. Reprehenderit dolore fugiat cupiditate!
         </Typography>
         <Box marginY={2} width='100%' paddingX={30}>
-        <Button variant='contained' fullWidth='true' onClick={()=>{setOpen(true)}}>Submit Design</Button>
+        <Button variant='contained' fullWidth onClick={()=>{setOpen(true)}}>Submit Design</Button>
         </Box>
       </Container>
   );

@@ -16,7 +16,7 @@ export default function PrizeSection() {
                         <Typography fontSize={15}>Co-Founder Crowwwn</Typography>
                     </Paper>
                 </Grid>
-                <Grid Item md={6} sx={{display:'flex', flexDirection:'column'}}>
+                <Grid item md={6} sx={{display:'flex', flexDirection:'column'}}>
                     <Paper sx={{  padding:'20px', height: '31%', marginBottom:'10px' }}>
                         <Typography variant='h6'>Winner</Typography>
                         <Typography variant='h4'>$1000</Typography>
