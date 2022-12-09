@@ -45,7 +45,7 @@ export default function TagsInput() {
             <Box sx={{ marginY: '15px', display:'flex' }}>
                 <Typography variant='body2' sx={{ marginTop: '5px' }}>Suggested Tags : </Typography>
                 {tagSuggestions.map((tag, index) => (
-                    <Link key={index} onClick={() => { addTag(tag) }} variant='subtitle1' sx={{ fontWeight:'bold', cursor: 'pointer', textDecoration: 'none', marginX: '5px' }}>{tag}</Link>
+                    <Link key={index} onClick={() => { addTag(tag) }} variant='subtitle1' sx={{ userSelect:'none', fontWeight:'bold', cursor: 'pointer', textDecoration: 'none', marginX: '5px' }}>{tag}</Link>
                 ))}
             </Box>
         </>

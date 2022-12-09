@@ -1,4 +1,4 @@
-import { Label, PhotoCamera } from '@mui/icons-material';
+import { PhotoCamera } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, FormControlLabel, Grid, IconButton, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import React from 'react';
 import TagsInput from '../../components/TagsInput';
@@ -7,6 +7,10 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function SubmitDialog(props) {
 
     const { open, onClose } = props;
+    
+    const handleSubmit=(e)=>{
+
+    }
 
     return (
         <Box>
@@ -23,7 +27,6 @@ export default function SubmitDialog(props) {
                         </Box>
                     </DialogTitle>
                     <DialogContent>
-                    <FormControl sx={{ width: '100%', marginTop: '10px' }}>
                         <Grid container>
                             <Grid item md={6}>
                                 <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
@@ -54,7 +57,6 @@ export default function SubmitDialog(props) {
                                 <Button variant='contained' fullWidth>Save changes</Button>
                             </Grid>
                         </Grid>
-                    </FormControl>
                     </DialogContent>
                 </Box>
             </Dialog>
