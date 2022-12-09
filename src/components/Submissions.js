@@ -1,9 +1,14 @@
 import { Container } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import { getSubmissions } from '../actions';
 import SubmissionItem from './SubmissionItem';
 
 export default function Submissions() {
+
+    const submissions=useSelector((state)=>state.handleSubmissions);
+
     const initialState = [
         {
             "_id" : "1",
@@ -34,7 +39,7 @@ export default function Submissions() {
             "description": "I've made this Submission 4"
         }
     ]
-    const [submissions, setSubmissions] = useState(initialState);
+    // const [submissions, setSubmissions] = useState(initialState);
 
     return (
         <Container sx={{marginTop:'-20px'}}>

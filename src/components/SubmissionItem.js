@@ -66,6 +66,7 @@ export default function SubmissionItem(props) {
                         </Link>
                     }
                     subheader={`${feedbackCount} Feedbacks`}
+                    
                 />
                 <CardActions>
                     <Typography variant='h6'>{upvotes}</Typography>

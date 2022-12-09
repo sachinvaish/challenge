@@ -11,7 +11,7 @@ export default function SubmitDialog(props) {
     return (
         <Box>
             <Dialog open={open} onClose={onClose} fullWidth maxWidth='lg'>
-                <Box sx={{ width: '100%', height: '800px'}} >
+                <Box sx={{ width: '100%'}} >
                     <DialogTitle id="id">
                         <Box display="flex" alignItems="center">
                             <Box flexGrow={1} >Submit Design</Box>
