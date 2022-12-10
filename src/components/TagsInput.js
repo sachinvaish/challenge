@@ -1,20 +1,29 @@
 import { Box, Chip, InputBase, Link, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 
-export default function TagsInput() {
+export default function TagsInput(props) {
 
+    const {handleTags}=props;
     const [chips, setChips] = useState([]);
     const tagSuggestions = ['UX', 'UI', 'Graphic Design', 'UX Research', 'Web'];
+
+    // useEffect(() => {
+    //   return () => {
+    //     handleTags(chips);
+    //   };
+    // });
 
     const handleDeleteChip = (chip, index) => {
         let newChips = chips.filter((x) => { return x !== chip });
         setChips(newChips);
+        handleTags(newChips);
     }
 
     const addChip = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter'&& e.target.value) {
             if(!chips.includes(e.target.value)){
                 setChips(chips.concat(e.target.value));
+                handleTags(chips.concat(e.target.value));
             }
             e.target.value = null;
         }
@@ -23,6 +32,7 @@ export default function TagsInput() {
     const addTag = (tag) => {
         if(!chips.includes(tag)){
             setChips(chips.concat(tag));
+            handleTags(chips.concat(tag));
         }
 
     }
