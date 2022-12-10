@@ -30,7 +30,6 @@ export default function SubmissionItem(props) {
             "date": "2022-11-29T02:44:15.465Z",
             "__v": 0
         }
-        console.log('parsing data');
         // const parsedData = await JSON.parse(user);
         // console.log('parsed data');
         // console.log(parsedData);

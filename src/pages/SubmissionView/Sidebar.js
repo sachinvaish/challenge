@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Like from '../../components/Like';
 import { Link, Box, Card, CardHeader, CardActions, Avatar, Typography, Divider, Button, TextField } from '@mui/material';
 import Feedback from '../../components/Feedback';
+import { useSelector, useDispatch } from 'react-redux';
+import { addFeedback } from '../../redux/actions';
 
 export default function Sidebar() {
 
+    const feedbacks = useSelector((state) => state.handleFeedbacks);
+    const dispatch = useDispatch();
     const [user, setUser] = useState({});
     const [upvotes, setUpvotes] = useState(5);
-    const [feedbacks, setFeedbacks] = useState(0);
+    const [newFeedback, setNewFeedback] = useState([]);
 
     useEffect(() => {
         return () => {
@@ -27,7 +31,6 @@ export default function Sidebar() {
             "date": "2022-11-29T02:44:15.465Z",
             "__v": 0
         }
-        console.log('parsing data');
         // const parsedData = await JSON.parse(user);
         // console.log('parsed data');
         // console.log(parsedData);
@@ -36,13 +39,31 @@ export default function Sidebar() {
 
     const getFeedbacks = () => {
         //API call to fetch feedbacks
-        setFeedbacks(3);
+        // setFeedbacks(3);
+    }
+
+
+
+    const handleFeedback = (e) => {
+        const feedbackObject = {
+            "submission_id": "63449ecr6057278e2f24b74a",
+            "user_id": "637473c9b93c78059660ccdc",
+            "feedback": newFeedback,
+            "_id": Math.random(),
+            "date": "2022-12-10T03:27:31.674Z"
+        }
+        dispatch(addFeedback(feedbackObject));
+        setNewFeedback("");
+    }
+
+    const onChange = (e) => {
+        setNewFeedback(e.target.value);
     }
 
     return (
         <Card >
             <Box id='card' sx={{ maxHeight: '60vh', overflow: 'auto' }}>
-                <Box sx={{ display: 'flex'}} justifyContent='space-between'>
+                <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                     <CardHeader
                         avatar={
                             <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url} aria-label="recipe">
@@ -67,28 +88,30 @@ export default function Sidebar() {
                     </Typography>
                     <Divider sx={{ marginY: 1 }} />
                     <Box>
-                        <Typography variant='h6'>Feedbacks ({feedbacks})</Typography>
-                        <Feedback />
-                        <Feedback />
-                        <Feedback />
-                        <Feedback /><Feedback /><Feedback />
+                        <Typography variant='h6'>Feedbacks ({feedbacks.length})</Typography>
+                        {feedbacks.map((x) => {
+                            return (
+                                <Feedback key={x._id} feedback={x.feedback} date={x.date} />
+                            )
+                        })}
                     </Box>
                 </Box>
             </Box>
             <Box sx={{ margin: 2, position: 'sticky', index: '-1' }}>
-                    <TextField
-                        multiline='true'
-                        minRows={4}
-                        maxRows={10}
-                        Rows={4}
-                        aria-label="maximum height"
-                        placeholder="Start typing to leave feedback"
-                        style={{ width: '100%', position:'sticky', marginBottom:'0'}}
-                    />
-                    <Box sx={{display:'flex', justifyContent:'flex-end', marginTop:1}}>
-                        <Button variant='contained'>Post</Button>
-                    </Box>
+                <TextField
+                    multiline
+                    name='feedback'
+                    value={newFeedback}
+                    onChange={onChange}
+                    rows={4}
+                    aria-label="maximum height"
+                    placeholder="Start typing to leave feedback"
+                    style={{ width: '100%', position: 'sticky', marginBottom: '0' }}
+                />
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 1 }}>
+                    <Button onClick={handleFeedback} variant='contained'>Post</Button>
                 </Box>
+            </Box>
         </Card>
     )
 }

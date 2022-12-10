@@ -1,21 +1,35 @@
-import { PhotoCamera } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogContent, DialogTitle, FormControl, FormControlLabel, Grid, IconButton, Input, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import React , {useState} from 'react';
+import React, { useState } from 'react';
 import TagsInput from '../../components/TagsInput';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
+import {useDispatch} from 'react-redux';
+import {addSubmission} from '../../redux/actions';
 
 export default function SubmitDialog(props) {
 
     const { open, onClose } = props;
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit,formState: { errors } } = useForm();
     const [tags, setTags] = useState([]);
+    const dispatch = useDispatch();
 
-    const handleTags=(tags)=>{
+
+    const handleTags = (tags) => {
         setTags(tags);
     }
 
-    const onSubmit = (data) => console.log(data);
+    // "photo_url": data.photo[0].name,
+    const onSubmit = (data) => {
+        const newSubmission={
+            "_id": Math.random(),
+            "challenge_id": "63748a4dfcc73c0697996999",
+            "user_id": "63748a4dfcc73c064d0000010",
+            "photo_url": "https://crowwwn-prod.s3.amazonaws.com/uploads/submission/image/4049/thumb_Vending_Machine_App_-_By_Satish_Naukudkar.png",
+            "description": data.description
+        }
+        dispatch(addSubmission(newSubmission));
+        onClose();
+    }
 
     return (
         <Box>
@@ -32,14 +46,14 @@ export default function SubmitDialog(props) {
                         </Box>
                     </DialogTitle>
                     <DialogContent>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Grid container>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            <Grid container>
                                 <Grid item md={6} sm={12}>
                                     <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                                         <Typography variant='h5' sx={{ margin: '20px', fontWeight: 'bold' }} >Upload Design*</Typography>
                                         <Input color='primary' name='photo' accept="image/*" multiple type="file" {...register("photo", { required: true })} />
                                         <Typography variant='subtitle2' sx={{ marginTop: '10px' }} >(For best results upload designs with a 4:3 ratio)</Typography>
-                                        <Typography variant='subtitle2' sx={{ color:'red', marginTop: '10px' }} >{errors.photo && 'Please choose an Image'}</Typography>
+                                        <Typography variant='subtitle2' sx={{ color: 'red', marginTop: '10px' }} >{errors.photo && 'Please choose an Image'}</Typography>
                                     </Box>
                                 </Grid>
                                 <Grid item md={6} sm={12}>
@@ -49,8 +63,8 @@ export default function SubmitDialog(props) {
                                     </Box>
                                     <Box sx={{ marginY: '20px' }}>
                                         <Typography variant='body2' sx={{ fontWeight: 'bold' }} >Add tags</Typography>
-                                        <TagsInput handleTags={handleTags}/>
-                                        <input type='text' hidden {...register("tags")} value={tags}/>
+                                        <TagsInput handleTags={handleTags} />
+                                        <input type='text' hidden {...register("tags")} value={tags} />
                                     </Box>
                                     <Box sx={{ marginY: '20px' }}>
                                         <Typography variant='body2' sx={{ fontWeight: 'bold' }}  >Would you like feedback from the Crowwwn community?*</Typography>
@@ -61,8 +75,8 @@ export default function SubmitDialog(props) {
                                     </Box>
                                     <Button type='submit' variant='contained' fullWidth>Save changes</Button>
                                 </Grid>
-                            
-                        </Grid>
+
+                            </Grid>
                         </form>
                     </DialogContent>
                 </Box>

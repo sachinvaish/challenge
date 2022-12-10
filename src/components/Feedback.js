@@ -2,8 +2,9 @@ import { Box, Card, CardHeader, CardActions, Avatar, Link, Typography } from '@m
 import React, { useState, useEffect } from 'react';
 import Like from './Like';
 
-export default function Feedback() {
+export default function Feedback(props) {
 
+    const {feedback, date}=props;
     const [user, setUser] = useState({});
 
     useEffect(() => {
@@ -41,10 +42,10 @@ export default function Feedback() {
             </Box>
             <Box sx={{ marginY: 1, textAlign: 'left' }}>
                 <Typography variant='p'>
-                    nice Design
+                    {feedback}
                 </Typography>
             </Box>
-            <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}>Posted 10 mins ago</Typography>
+            <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}>{date}</Typography>
         </Box>
     );
 }

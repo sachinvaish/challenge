@@ -1,11 +1,30 @@
 import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container } from '@mui/material';
-import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import React ,{useState} from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Login from './Login';
 
 export default function Navbar() {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const navigate = useNavigate();
+    const location = useLocation().pathname;
+    const [openLogin, setOpenLogin]=useState(false);
 
+    const onClose=()=>{
+        setOpenLogin(false);
+    }
+
+    useEffect(() => {
+        if (location == '/') {
+            setValue(0);
+        }
+        if (location == '/contest') {
+            setValue(1);
+        }
+        if (location == '/explore') {
+            setValue(2);
+        }
+    },[location]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -14,18 +33,19 @@ export default function Navbar() {
     return (
         <>
             <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'sticky' }}>
+                <Login open={openLogin} onClose={onClose}/>
                 <Container>
                     <Toolbar >
-                        <Typography  variant='h6' flexGrow={1}>Crowwwn</Typography>
+                        <Typography variant='h6' flexGrow={1}>Crowwwn</Typography>
                         <Box flexGrow={1}>
                             <Tabs value={value} onChange={handleChange}>
-                                <Tab label="Home" onClick={()=>{navigate("/")}}/>
-                                <Tab label="This Week's Challenge" onClick={()=>{navigate("/contest")}} />
+                                <Tab label="Home" onClick={() => { navigate("/") }} />
+                                <Tab label="This Week's Challenge" onClick={() => { navigate("/contest") }} />
                                 <Tab label="Explore" />
                             </Tabs>
                         </Box>
                         <Box >
-                            <Button variant="outlined" sx={{ m: 1 }}>Login</Button>
+                            <Button variant="outlined" sx={{ m: 1 }} onClick={()=>{setOpenLogin(true)}} >Login</Button>
                             <Button variant="contained" sx={{ m: 1 }}>Sign up</Button>
                         </Box>
                     </Toolbar>

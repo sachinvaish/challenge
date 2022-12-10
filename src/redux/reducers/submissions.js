@@ -31,11 +31,10 @@ const initialState = [
 
 export const handleSubmissions=(state=initialState, action)=>{
     switch(action.type){
-        case 'ADDSUBMISSION':{
-            console.log('adding submission');
+        case 'ADD_SUBMISSION':{
+            return [...state,{...state,...action.payload}];
         }
-        case 'GETSUBMISSIONS' :{
-            console.log('getting all submissions');
+        case 'GET_SUBMISSIONS' :{
             return state;
         }
         default : return state;
