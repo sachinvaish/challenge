@@ -33,9 +33,8 @@ export default function SubmitDialog(props) {
 
     return (
         <Box>
-            <Dialog open={open} onClose={onClose} fullWidth maxWidth='100%'>
-                <Box sx={{ width: '100%' }} >
-                    <DialogTitle id="id">
+            <Dialog open={open} onClose={onClose} fullWidth maxWidth='lg'>
+                    <DialogTitle>
                         <Box display="flex" alignItems="center">
                             <Box flexGrow={1} >Submit Design</Box>
                             <Box>
@@ -79,7 +78,6 @@ export default function SubmitDialog(props) {
                             </Grid>
                         </form>
                     </DialogContent>
-                </Box>
             </Dialog>
         </Box>
     );

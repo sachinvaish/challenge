@@ -1,14 +1,18 @@
 import { Grid, Typography, Container, Box, Card, CardContent, Button } from '@mui/material';
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
 
 export default function Header() {
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     return (
         <Container sx={{ marginY: '30px' }}>
+            <Link to="login" >
+                login
+            </Link>
+            <Outlet />
             <Grid container spacing={2} >
                 <Grid item md={9}>
                     <Typography variant='h6'>Last week's challenge</Typography>
@@ -49,7 +53,7 @@ export default function Header() {
                             <h4>Winner Announced in</h4>
                             <Timer countDownDate='2022-12-30 19:43:00' />
                             <h4>Want to participate ?</h4>
-                            <Button variant="contained" onClick={()=>{navigate("/contest")}}>View this week's challenge</Button>
+                            <Button variant="contained" onClick={() => { navigate("/contest") }}>View this week's challenge</Button>
                         </CardContent>
                     </Card>
                 </Grid>

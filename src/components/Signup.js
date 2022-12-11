@@ -1,21 +1,21 @@
 import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
-import React , {useState} from 'react';
+import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function Login(props) {
+export default function Signup(props) {
 
-    const {open} = props;
-    const [loginOpen, setLoginOpen] = useState(open);
+    const { open} = props;
+    const [signupOpen, setSignupOpen] = useState(open);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const location = useLocation();
     const navigate = useNavigate();
 
     const onClose=()=>{
-        setLoginOpen(false);
+        setSignupOpen(false);
         navigate("/");
     }
+
 
     const onSubmit = (data) => {
         // const newSubmission={
@@ -30,23 +30,25 @@ export default function Login(props) {
         console.log(data);
     }
 
+    console.log("Inside Signup componetn");
+
     return (
         <>
-            <Dialog open={loginOpen} onClose={onClose} fullWidth maxWidth='sm' >
+            <Dialog open={signupOpen} onClose={onClose} fullWidth maxWidth='sm' >
 
                 <DialogContent>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Typography variant='h4' textAlign='center'>
-                            Log in
+                            Signup
                         </Typography>
                         <IconButton onClick={onClose}>
                             <CloseIcon />
                         </IconButton>
                     </Box>
-                    <DialogContentText textAlign='center' mb={2}>Don't have any account ?
-                    <Button disableRipple
-                        onClick={()=>{setLoginOpen(false); navigate("/signup")}}
-                        >Sign up</Button>
+                    <DialogContentText textAlign='center' mb={2}>Already have an account ?
+                        <Button disableRipple
+                        onClick={()=>{setSignupOpen(false); navigate("/login")}}
+                        >Log in</Button>
                     </DialogContentText>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction='column' gap={3}>
@@ -62,16 +64,16 @@ export default function Login(props) {
                                 <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} />
                             </Grid>
                             <Grid item lg>
+                                <TextField fullWidth label='Confirm Password' type='cpassword' {...register("cpassword", { required: true })} />
+                            </Grid>
+                            <Grid item lg>
                                 <FormControlLabel
                                     control={<Checkbox value="remember" color="primary" />}
-                                    label="Keep me logged in until I sign out"
+                                    label="I agree to Crowwwn’s Privacy Policy and Terms of service."
                                 />
                             </Grid>
                             <Grid item lg>
-                                <Button fullWidth type='submit' variant='contained'>Log in</Button>
-                            </Grid>
-                            <Grid item lg sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button>Forgot Password ?</Button>
+                                <Button fullWidth type='submit' variant='contained'>Sign up</Button>
                             </Grid>
                         </Grid>
                     </form>

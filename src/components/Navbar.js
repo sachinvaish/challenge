@@ -3,16 +3,12 @@ import React ,{useState} from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Login from './Login';
+import Signup from './Signup';
 
 export default function Navbar() {
     const [value, setValue] = useState(0);
     const navigate = useNavigate();
     const location = useLocation().pathname;
-    const [openLogin, setOpenLogin]=useState(false);
-
-    const onClose=()=>{
-        setOpenLogin(false);
-    }
 
     useEffect(() => {
         if (location == '/') {
@@ -33,7 +29,6 @@ export default function Navbar() {
     return (
         <>
             <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'sticky' }}>
-                <Login open={openLogin} onClose={onClose}/>
                 <Container>
                     <Toolbar >
                         <Typography variant='h6' flexGrow={1}>Crowwwn</Typography>
@@ -45,8 +40,8 @@ export default function Navbar() {
                             </Tabs>
                         </Box>
                         <Box >
-                            <Button variant="outlined" sx={{ m: 1 }} onClick={()=>{setOpenLogin(true)}} >Login</Button>
-                            <Button variant="contained" sx={{ m: 1 }}>Sign up</Button>
+                            <Button variant="outlined" sx={{ m: 1 }} onClick={()=>{navigate("/login")}} >Login</Button>
+                            <Button variant="contained" sx={{ m: 1 }} onClick={()=>{navigate("/signup")}}>Sign up</Button>
                         </Box>
                     </Toolbar>
                 </Container>
