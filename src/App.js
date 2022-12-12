@@ -4,14 +4,12 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home/index.js';
 import {
-  BrowserRouter as Router,
-  Routes, Route, useLocation
+  Routes, Route
 } from 'react-router-dom';
 import SubmissionView from "./pages/SubmissionView";
 import Footer from "./components/Footer";
 import CurrentChallenge from "./pages/CurrentChallenge/index.js";
 import Signup from "./components/Signup";
-import { useState } from "react";
 import Login from "./components/Login";
 import Profile from "./pages/Profile";
 

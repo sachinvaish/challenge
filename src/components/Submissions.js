@@ -1,20 +1,30 @@
-import { Container } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { Stack } from '@mui/system';
 import React from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import SubmissionItem from './SubmissionItem';
 
-export default function Submissions() {
+export default function Submissions(props) {
+    const {xs, sm, md, lg} = props;
 
-    const submissions=useSelector((state)=>state.handleSubmissions);
+    const submissions = useSelector((state) => state.handleSubmissions);
 
     return (
-        <Container sx={{marginTop:'-20px'}}>
-            <Stack direction='row' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent:'space-between' }} >
-                {submissions.map((submission)=>{
-                    return <SubmissionItem key={submission._id} submission={submission}  />
-                })}
-            </Stack>
-        </Container>
+        <Grid direction='row' fullWidth sx={{ display: 'flex', flexWrap: 'wrap' }} >
+            {submissions.map((submission) => {
+                return (
+                    <Grid item xs={xs} sm={sm} md={md} lg={lg} >
+                        <SubmissionItem key={submission._id} submission={submission} />
+                    </Grid>
+                )
+            })}
+        </Grid>
+        // <Container sx={{backgroundColor:'white', borderRadius:'20px', padding:'10px'}}>
+        // <Stack direction='row' fullWidth sx={{ display: 'flex', flexWrap: 'wrap' }} >
+        //     {submissions.map((submission)=>{
+        //         return <SubmissionItem key={submission._id} submission={submission}  />
+        //     })}
+        // </Stack>
+        // </Container>
     );
 }

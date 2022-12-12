@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Container } from '@mui/system';
+import { Box} from '@mui/system';
 import React from 'react';
 
 export default function PrizeSection() {

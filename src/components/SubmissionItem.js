@@ -43,12 +43,13 @@ export default function SubmissionItem(props) {
 
 
     return (
-        <Card sx={{ width: 340, color: 'black', marginTop: 5 }} >
+        <Card sx={{minWidth:'340px', width: 'auto', height: 'auto', color: 'black', margin: 1.5 }} >
             <CardMedia
                 onClick={() => { navigate('/submission') }}
                 sx={{cursor:'pointer'}}
                 component="img"
-                height="260"
+                height="auto"
+                width='auto'
                 image={photo_url}
                 alt="submission"
             />

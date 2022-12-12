@@ -2,8 +2,6 @@ import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container } from '
 import React ,{useState} from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Login from './Login';
-import Signup from './Signup';
 
 export default function Navbar() {
     const [value, setValue] = useState(0);
@@ -11,13 +9,13 @@ export default function Navbar() {
     const location = useLocation().pathname;
 
     useEffect(() => {
-        if (location == '/') {
+        if (location === '/') {
             setValue(0);
         }
-        if (location == '/contest') {
+        if (location === '/contest') {
             setValue(1);
         }
-        if (location == '/explore') {
+        if (location === '/explore') {
             setValue(2);
         }
     },[location]);
