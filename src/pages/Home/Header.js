@@ -9,9 +9,6 @@ export default function Header() {
 
     return (
         <Container sx={{ marginY: '30px' }}>
-            <Link to="login" >
-                login
-            </Link>
             <Outlet />
             <Grid container spacing={2} >
                 <Grid item md={9}>

@@ -9,10 +9,11 @@ import {
 } from 'react-router-dom';
 import SubmissionView from "./pages/SubmissionView";
 import Footer from "./components/Footer";
-import CurrentChallenge from "./pages/CurrentChallenge.js";
+import CurrentChallenge from "./pages/CurrentChallenge/index.js";
 import Signup from "./components/Signup";
 import { useState } from "react";
 import Login from "./components/Login";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
           </Route>
           <Route exact path="/submission" element={<SubmissionView />} />
           <Route exact path="/contest" element={<CurrentChallenge />} />
+          <Route exact path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
     </ThemeProvider>
