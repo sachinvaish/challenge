@@ -1,6 +1,6 @@
 import { Grid, Typography, Container, Box, Card, CardContent, Button } from '@mui/material';
 import React from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
 
 export default function Header() {

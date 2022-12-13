@@ -1,7 +1,7 @@
-import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText,FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
 import React , {useState} from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function Login(props) {
@@ -9,7 +9,6 @@ export default function Login(props) {
     const {open} = props;
     const [loginOpen, setLoginOpen] = useState(open);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const location = useLocation();
     const navigate = useNavigate();
 
     const onClose=()=>{

@@ -1,4 +1,4 @@
-import { Typography, Container, Button } from '@mui/material';
+import { Typography, Container} from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import Timer from '../../components/Timer';
