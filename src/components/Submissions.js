@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Box } from '@mui/material';
 import { Stack } from '@mui/system';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -10,15 +10,15 @@ export default function Submissions(props) {
     const submissions = useSelector((state) => state.handleSubmissions);
 
     return (
-        <Grid direction='row' fullWidth sx={{ display: 'flex', flexWrap: 'wrap' }} >
+        <Grid sx={{ display: 'flex', flexWrap: 'wrap' }} >
             {submissions.map((submission) => {
                 return (
-                    <Grid item xs={xs} sm={sm} md={md} lg={lg} >
+                    <Grid key={submission._id} item xs={xs} sm={sm} md={md} lg={lg} >
                         <SubmissionItem key={submission._id} submission={submission} />
                     </Grid>
                 )
             })}
-        </Grid>
+         </Grid>
         // <Container sx={{backgroundColor:'white', borderRadius:'20px', padding:'10px'}}>
         // <Stack direction='row' fullWidth sx={{ display: 'flex', flexWrap: 'wrap' }} >
         //     {submissions.map((submission)=>{

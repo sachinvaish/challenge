@@ -7,9 +7,9 @@ export default function Home() {
     return (
         <Container >
             <Header />
-            <Box fullWidth sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
+            <Box  sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                 <Grid container>
-                    <Submissions sm='12' md='6' lg='4' />
+                    <Submissions sm={12} md={6} lg={4} />
                 </Grid>
             </Box>
         </Container>

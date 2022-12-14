@@ -3,12 +3,13 @@ import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { Password } from '@mui/icons-material';
 
 export default function Signup(props) {
 
     const { open} = props;
     const [signupOpen, setSignupOpen] = useState(open);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, reset,  handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
 
     const onClose=()=>{
@@ -27,7 +28,8 @@ export default function Signup(props) {
         // }
         // dispatch(addSubmission(newSubmission));
         // onClose();
-        console.log(data);
+        console.log(email);
+        // reset({email, username, password});
     }
 
     console.log("Inside Signup componetn");
@@ -61,10 +63,10 @@ export default function Signup(props) {
                                 })} placeholder="yourname@crowwwn.com" helperText={errors.email && 'Please enter valid Email'} />
                             </Grid>
                             <Grid item lg>
-                                <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} />
+                                <TextField fullWidth label='username' type='text' {...register("username", { required: true })}/>
                             </Grid>
                             <Grid item lg>
-                                <TextField fullWidth label='Confirm Password' type='cpassword' {...register("cpassword", { required: true })} />
+                                <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} />
                             </Grid>
                             <Grid item lg>
                                 <FormControlLabel

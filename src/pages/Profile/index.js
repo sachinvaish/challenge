@@ -13,7 +13,7 @@ export default function Profile() {
           </Grid>
           <Grid item md={9}>
             <Box sx={{ marginX:'10px', display: 'flex',  justifyContent: 'space-between' }}>
-              <Submissions sm='12' md='12' lg='6'/>
+              <Submissions sm={12} md={12} lg={6}/>
             </Box>
           </Grid>
         </Grid>
