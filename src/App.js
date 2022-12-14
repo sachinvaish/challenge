@@ -47,17 +47,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />}>
-            <Route path="/login" element={<Login open={true} />} />
-            <Route path="/signup" element={<Signup open={true} />} />
-          </Route>
-          <Route exact path="/submission" element={<SubmissionView />} />
-          <Route exact path="/contest" element={<CurrentChallenge />} />
-          <Route exact path="/profile" element={<Profile />} />
-        </Routes>
-        <Footer />
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<Home />}>
+          <Route path="/login" element={<Login open={true} />} />
+          <Route path="/signup" element={<Signup open={true} />} />
+        </Route>
+        <Route exact path="/submission" element={<SubmissionView />} />
+        <Route exact path="/contest" element={<CurrentChallenge />} />
+        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/*" element={<h3>404 Not Found</h3>} />
+      </Routes>
+      <Footer />
     </ThemeProvider>
   );
 }

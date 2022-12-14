@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
-import { Password } from '@mui/icons-material';
 
 export default function Signup(props) {
 
@@ -19,16 +18,15 @@ export default function Signup(props) {
 
 
     const onSubmit = (data) => {
-        // const newSubmission={
-        //     "_id": Math.random(),
-        //     "challenge_id": "63748a4dfcc73c0697996999",
-        //     "user_id": "63748a4dfcc73c064d0000010",
-        //     "photo_url": "https://crowwwn-prod.s3.amazonaws.com/uploads/submission/image/4049/thumb_Vending_Machine_App_-_By_Satish_Naukudkar.png",
-        //     "description": data.description
-        // }
-        // dispatch(addSubmission(newSubmission));
-        // onClose();
-        console.log(email);
+       
+        const user={
+            "email": data.email,
+            "username":data.username,
+            "password" : data.password
+          }
+       
+        console.log(data);
+        reset({email:'', username:'', password:''});
         // reset({email, username, password});
     }
 
@@ -55,7 +53,7 @@ export default function Signup(props) {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction='column' gap={3}>
                             <Grid item lg>
-                                <TextField fullWidth label='Email' {...register("email", {
+                                <TextField fullWidth label='Email' type='email' {...register("email", {
                                     required: true, pattern: {
                                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                         message: "invalid email address"
@@ -63,10 +61,14 @@ export default function Signup(props) {
                                 })} placeholder="yourname@crowwwn.com" helperText={errors.email && 'Please enter valid Email'} />
                             </Grid>
                             <Grid item lg>
-                                <TextField fullWidth label='username' type='text' {...register("username", { required: true })}/>
+                                <TextField fullWidth label='username' type='text' {...register("username",{ required: true,
+                                pattern: {
+                                        value: /^\S+$/i,
+                                        message: "No White space allowed"
+                                    } })} placeholder="Username" helperText={errors.username && 'No White Space Allowed'}/>
                             </Grid>
                             <Grid item lg>
-                                <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} />
+                                <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} placeholder="minimum 8 Character" />
                             </Grid>
                             <Grid item lg>
                                 <FormControlLabel
