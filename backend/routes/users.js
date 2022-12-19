@@ -21,7 +21,7 @@ router.get('/getuser', fetchuser, async (req, res) => {
 
 // POST : Create a User
 router.post('/signup', [
-    body('name', 'Name cannot be Empty').notEmpty(),
+    body('username', 'Name cannot be Empty').notEmpty(),
     body('email', 'Please enter a valid Email').isEmail(),
     body('password', 'Password must be min 8 characters').isLength(8)
 ], async (req, res) => {
@@ -41,7 +41,7 @@ router.post('/signup', [
         let secPass = await bcrypt.hash(req.body.password, salt);
 
         user = await User.create({
-            name: req.body.name,
+            username: req.body.username,
             email: req.body.email,
             password: secPass,
             photo_url: req.body.photo_url,

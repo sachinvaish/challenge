@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { useSelector, useDispatch } from 'react-redux';
+import { createUser } from '../redux/features/userSlice';
 
 export default function Signup(props) {
 
@@ -10,6 +12,8 @@ export default function Signup(props) {
     const [signupOpen, setSignupOpen] = useState(open);
     const { register, reset,  handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     const onClose=()=>{
         setSignupOpen(false);
@@ -18,14 +22,13 @@ export default function Signup(props) {
 
 
     const onSubmit = (data) => {
-       
         const user={
             "email": data.email,
             "username":data.username,
             "password" : data.password
           }
-       
-        console.log(data);
+       dispatch(createUser(user));
+        console.log(user);
         reset({email:'', username:'', password:''});
         // reset({email, username, password});
     }

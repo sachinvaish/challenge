@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import TagsInput from '../../components/TagsInput';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
-import {useDispatch} from 'react-redux';
-import {addSubmission} from '../../redux/actions';
+// import {useDispatch} from 'react-redux';
+// import {addSubmission} from '../../redux/actions';
 
 export default function SubmitDialog(props) {
 
     const { open, onClose } = props;
     const { register, handleSubmit,formState: { errors } } = useForm();
     const [tags, setTags] = useState([]);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
 
     const handleTags = (tags) => {
@@ -21,13 +21,13 @@ export default function SubmitDialog(props) {
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
         const newSubmission={
-            "_id": Math.random(),
+            // "_id": Math.random(),
             "challenge_id": "63748a4dfcc73c0697996999",
             "user_id": "63748a4dfcc73c064d0000010",
-            "photo_url": "https://crowwwn-prod.s3.amazonaws.com/uploads/submission/image/4049/thumb_Vending_Machine_App_-_By_Satish_Naukudkar.png",
+            "photo_url": "https://crowwwn-prod.s3.amazonaws.com/uploads/submission/image/4076/thumb_world_cup_challenge.png",
             "description": data.description
         }
-        dispatch(addSubmission(newSubmission));
+        // dispatch(addSubmission(newSubmission));
         onClose();
     }
 
@@ -45,7 +45,7 @@ export default function SubmitDialog(props) {
                         </Box>
                     </DialogTitle>
                     <DialogContent>
-                        <form onSubmit={handleSubmit(onSubmit)}>
+                        <form onSubmit={()=>{handleSubmit(onSubmit)}}>
                             <Grid container>
                                 <Grid item md={6} sm={12}>
                                     <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
