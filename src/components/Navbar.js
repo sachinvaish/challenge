@@ -2,11 +2,16 @@ import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container } from '
 import React ,{useState} from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../redux/features/userSlice';
 
 export default function Navbar() {
     const [value, setValue] = useState(0);
+    const [user, setUser] = useState({});
     const navigate = useNavigate();
     const location = useLocation().pathname;
+    const dispatch = useDispatch();
+    
 
     useEffect(() => {
         if (location === '/') {
@@ -19,6 +24,12 @@ export default function Navbar() {
             setValue(2);
         }
     },[location]);
+
+    useEffect(()=>{
+        const userData = dispatch(getUser()) ;
+        setUser(userData);
+        console.log(userData);
+    },[]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

@@ -14,7 +14,7 @@ router.get('/getuser', fetchuser, async (req, res) => {
         res.json(user);
      } catch (error) {
         //catching errors 
-        console.error(error);
+        console.log(error);
         res.status(500).json({ "message": "Server Error Occured" });
      }
 })
