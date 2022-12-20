@@ -22,17 +22,32 @@ export const createUser = createAsyncThunk('user/createUser',
 export const getUser = createAsyncThunk('user/getUser',
     async () => {
         console.log('inside getUser');
-        const res = await fetch('http://localhost/users/getuser', {
+        return fetch('http://localhost/users/getuser', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-type': 'application/json',
                 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTBmZjQ0YTU4MzEzNzE5ZWIxMmMzZSIsImlhdCI6MTY3MTQ5NTQ5Mn0.5dKmkrCrInV_OzcWV6_rZCsY0ZDBEDvDcFZJBXqWQmM'
             }
-        })
-        console.log(res);
-        return res;
+        }).then((res) =>
+            console.log(res.json())
+        ).catch((error) => console.log(error))
     })
+
+// export const getUser = createAsyncThunk('user/getUser',
+//     async () => {
+//         console.log('inside getUser');
+//         const res = await fetch('http://localhost/users/getuser', {
+//             method: 'GET',
+//             headers: {
+//                 Accept: 'application/json',
+//                 'Content-type': 'application/json',
+//                 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTBmZjQ0YTU4MzEzNzE5ZWIxMmMzZSIsImlhdCI6MTY3MTQ5NTQ5Mn0.5dKmkrCrInV_OzcWV6_rZCsY0ZDBEDvDcFZJBXqWQmM'
+//             }
+//         })
+//         console.log(res);
+//         return res;
+//     })
 
 const userSlice = createSlice({
     name: 'user',
