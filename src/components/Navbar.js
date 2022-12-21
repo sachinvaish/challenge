@@ -1,17 +1,19 @@
-import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container } from '@mui/material';
-import React ,{useState} from 'react';
+import { AppBar, Typography, Toolbar, Tabs, Tab, Box, Button, Container, Avatar } from '@mui/material';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../redux/features/userSlice';
 
 export default function Navbar() {
     const [value, setValue] = useState(0);
-    const [user, setUser] = useState({});
     const navigate = useNavigate();
     const location = useLocation().pathname;
     const dispatch = useDispatch();
-    
+
+    const { loading, user } = useSelector((state) => ({ ...state.app }));
+    console.log(user[0]);
+
 
     useEffect(() => {
         if (location === '/') {
@@ -23,13 +25,12 @@ export default function Navbar() {
         if (location === '/explore') {
             setValue(2);
         }
-    },[location]);
+    }, [location]);
 
-    useEffect(()=>{
-        const userData = dispatch(getUser()) ;
-        setUser(userData);
-        console.log(userData);
-    },[]);
+    useEffect(() => {
+        if (localStorage.getItem('authToken'))
+            dispatch(getUser(localStorage.getItem('authToken')));
+    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -48,10 +49,29 @@ export default function Navbar() {
                                 <Tab label="Explore" />
                             </Tabs>
                         </Box>
-                        <Box >
-                            <Button variant="outlined" sx={{ m: 1 }} onClick={()=>{navigate("/login")}} >Login</Button>
-                            <Button variant="contained" sx={{ m: 1 }} onClick={()=>{navigate("/signup")}}>Sign up</Button>
-                        </Box>
+                        {(localStorage.getItem('authToken') && user[0]) ? (
+                            <>
+                                <Box sx={{ display: 'flex' }}>
+                                    <Avatar sx={{ marginX: '10px' }}>S</Avatar>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}>
+                                            {(user[0].name) ? (user[0].name) : (user[0].username)}</Typography>
+                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { localStorage.clear(); console.log('user data is:'+ user[0]) }}>
+                                            Logout</Typography>
+                                    </Box>
+                                </Box>
+                            </>) :
+                            (
+                                <>
+                                    <Box >
+                                        <Button variant="outlined" sx={{ m: 1 }} onClick={() => { navigate("/login") }} >Login</Button>
+                                        <Button variant="contained" sx={{ m: 1 }} onClick={() => { navigate("/signup") }}>Sign up</Button>
+                                    </Box>
+                                </>
+                            )
+
+                        }
+
                     </Toolbar>
                 </Container>
             </AppBar>

@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText, FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,29 +8,29 @@ import { createUser } from '../redux/features/userSlice';
 
 export default function Signup(props) {
 
-    const { open} = props;
+    const { open } = props;
     const [signupOpen, setSignupOpen] = useState(open);
-    const { register, reset,  handleSubmit, formState: { errors } } = useForm();
+    const { register, reset, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
 
-    const onClose=()=>{
+    const onClose = () => {
         setSignupOpen(false);
         navigate("/");
     }
 
 
     const onSubmit = (data) => {
-        const user={
+        const user = {
+            "name":data.name,
             "email": data.email,
-            "username":data.username,
-            "password" : data.password
-          }
-       dispatch(createUser(user));
+            "username": data.username,
+            "password": data.password
+        }
+        dispatch(createUser(user));
         console.log(user);
-        reset({email:'', username:'', password:''});
-        // reset({email, username, password});
+        reset({ email: '', username: '', password: '' });
     }
 
     console.log("Inside Signup componetn");
@@ -50,11 +50,14 @@ export default function Signup(props) {
                     </Box>
                     <DialogContentText textAlign='center' mb={2}>Already have an account ?
                         <Button disableRipple
-                        onClick={()=>{setSignupOpen(false); navigate("/login")}}
+                            onClick={() => { setSignupOpen(false); navigate("/login") }}
                         >Log in</Button>
                     </DialogContentText>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction='column' gap={3}>
+                            <Grid item lg>
+                                <TextField fullWidth label='Your Name' type='name' {...register("name")} placeholder="Enter your name here" />
+                            </Grid>
                             <Grid item lg>
                                 <TextField fullWidth label='Email' type='email' {...register("email", {
                                     required: true, pattern: {
@@ -64,14 +67,17 @@ export default function Signup(props) {
                                 })} placeholder="yourname@crowwwn.com" helperText={errors.email && 'Please enter valid Email'} />
                             </Grid>
                             <Grid item lg>
-                                <TextField fullWidth label='username' type='text' {...register("username",{ required: true,
-                                pattern: {
+                                <TextField fullWidth label='username' type='text' {...register("username", {
+                                    required: true,
+                                    pattern: {
                                         value: /^\S+$/i,
                                         message: "No White space allowed"
-                                    } })} placeholder="Username" helperText={errors.username && 'No White Space Allowed'}/>
+                                    }
+                                })} placeholder="Username" helperText={errors.username && 'No White Space Allowed'} />
                             </Grid>
                             <Grid item lg>
-                                <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} placeholder="minimum 8 Character" />
+                                <TextField fullWidth label='Password' type='password' {...register("password", { required: true, minLength:8 })} placeholder="minimum 8 Character"
+                                helperText={errors.password && 'Minimum 8 characters'} />
                             </Grid>
                             <Grid item lg>
                                 <FormControlLabel

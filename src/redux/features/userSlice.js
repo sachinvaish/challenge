@@ -19,35 +19,42 @@ export const createUser = createAsyncThunk('user/createUser',
         ).catch((error) => console.log(error))
     });
 
+export const loginUser = createAsyncThunk('user/loginuser',
+async(creds)=>{
+    console.log('inside login thunk', creds);
+    return fetch('http://localhost/users/login',{
+        method:'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+        },
+        body: JSON.stringify({
+            email : creds.email,
+            password : creds.password
+        })
+    }).then((res)=>{
+        return res.json();
+    }).then((res)=>{
+        if(res.authToken){
+            localStorage.setItem('authToken',res.authToken)
+        }
+    }).catch((error)=>console.log(error))
+})
+
 export const getUser = createAsyncThunk('user/getUser',
-    async () => {
+    async (authtoken) => {
         console.log('inside getUser');
         return fetch('http://localhost/users/getuser', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTBmZjQ0YTU4MzEzNzE5ZWIxMmMzZSIsImlhdCI6MTY3MTQ5NTQ5Mn0.5dKmkrCrInV_OzcWV6_rZCsY0ZDBEDvDcFZJBXqWQmM'
+                'auth-token': authtoken
             }
         }).then((res) =>
-            console.log(res.json())
+            res.json()
         ).catch((error) => console.log(error))
     })
-
-// export const getUser = createAsyncThunk('user/getUser',
-//     async () => {
-//         console.log('inside getUser');
-//         const res = await fetch('http://localhost/users/getuser', {
-//             method: 'GET',
-//             headers: {
-//                 Accept: 'application/json',
-//                 'Content-type': 'application/json',
-//                 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYTBmZjQ0YTU4MzEzNzE5ZWIxMmMzZSIsImlhdCI6MTY3MTQ5NTQ5Mn0.5dKmkrCrInV_OzcWV6_rZCsY0ZDBEDvDcFZJBXqWQmM'
-//             }
-//         })
-//         console.log(res);
-//         return res;
-//     })
 
 const userSlice = createSlice({
     name: 'user',
@@ -73,10 +80,19 @@ const userSlice = createSlice({
         [getUser.fulfilled]: (state, action) => {
             state.loading = false;
             state.user = [action.payload];
-            // console.log('fulFILLED');
-            // console.log(action.payload.body);
         },
         [getUser.rejected]: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
+        [loginUser.pending]: (state, action) => {
+            state.loading = true;
+        },
+        [loginUser.fulfilled]: (state, action) => {
+            state.loading = false;
+            // state.user = [action.payload];
+        },
+        [loginUser.rejected]: (state, action) => {
             state.loading = false;
             state.error = action.payload;
         }

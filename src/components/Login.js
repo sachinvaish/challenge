@@ -3,6 +3,8 @@ import React , {useState} from 'react';
 import { useForm } from 'react-hook-form';
 import {useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
+import { loginUser } from '../redux/features/userSlice';
+import { useDispatch } from 'react-redux';
 
 export default function Login(props) {
 
@@ -10,6 +12,7 @@ export default function Login(props) {
     const [loginOpen, setLoginOpen] = useState(open);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onClose=()=>{
         setLoginOpen(false);
@@ -17,16 +20,12 @@ export default function Login(props) {
     }
 
     const onSubmit = (data) => {
-        // const newSubmission={
-        //     "_id": Math.random(),
-        //     "challenge_id": "63748a4dfcc73c0697996999",
-        //     "user_id": "63748a4dfcc73c064d0000010",
-        //     "photo_url": "https://crowwwn-prod.s3.amazonaws.com/uploads/submission/image/4049/thumb_Vending_Machine_App_-_By_Satish_Naukudkar.png",
-        //     "description": data.description
-        // }
-        // dispatch(addSubmission(newSubmission));
-        // onClose();
-        console.log(data);
+        const creds={
+            email : data.email,
+            password : data.password
+        }
+        const res = dispatch(loginUser(creds));
+        onClose();
     }
 
     return (
