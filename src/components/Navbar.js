@@ -12,7 +12,8 @@ export default function Navbar() {
     const dispatch = useDispatch();
 
     const { loading, user } = useSelector((state) => ({ ...state.app }));
-    console.log(user[0]);
+    console.log(user);
+    console.log('loading :', loading);
 
 
     useEffect(() => {
@@ -49,14 +50,14 @@ export default function Navbar() {
                                 <Tab label="Explore" />
                             </Tabs>
                         </Box>
-                        {(localStorage.getItem('authToken') && user[0]) ? (
+                        {(localStorage.getItem('authToken') && user) ? (
                             <>
                                 <Box sx={{ display: 'flex' }}>
                                     <Avatar sx={{ marginX: '10px' }}>S</Avatar>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}>
-                                            {(user[0].name) ? (user[0].name) : (user[0].username)}</Typography>
-                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { localStorage.clear(); console.log('user data is:'+ user[0]) }}>
+                                            {(user.name) ? (user.name) : (user.username)}</Typography>
+                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { localStorage.clear(); console.log('user data is:'+ user) }}>
                                             Logout</Typography>
                                     </Box>
                                 </Box>

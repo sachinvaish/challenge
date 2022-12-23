@@ -31,6 +31,7 @@ export default function Signup(props) {
         dispatch(createUser(user));
         console.log(user);
         reset({ email: '', username: '', password: '' });
+        onClose();
     }
 
     console.log("Inside Signup componetn");
