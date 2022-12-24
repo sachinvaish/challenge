@@ -1,31 +1,43 @@
-import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText,FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
-import React , {useState} from 'react';
+import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText, FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { loginUser } from '../redux/features/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login(props) {
 
-    const {open} = props;
+    const { open } = props;
     const [loginOpen, setLoginOpen] = useState(open);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {isLoggedIn, error } = useSelector((state) => ({ ...state.app }));    
 
-    const onClose=()=>{
+    const onClose = () => {
         setLoginOpen(false);
         navigate("/");
     }
 
+    useEffect(() => {
+        if(isLoggedIn){
+            onClose();
+        }
+    }, [isLoggedIn]);
+
     const onSubmit = (data) => {
-        const creds={
-            email : data.email,
-            password : data.password
+        const creds = {
+            email: data.email,
+            password: data.password
         }
         const res = dispatch(loginUser(creds));
-        onClose();
+        // localStorage.setItem('authToken',res);
+        if(isLoggedIn){
+            onClose();
+        }else{
+            console.log(error);
+        }
     }
 
     return (
@@ -42,8 +54,8 @@ export default function Login(props) {
                         </IconButton>
                     </Box>
                     <DialogContentText textAlign='center' mb={2}>Don't have any account ?
-                    <Button disableRipple
-                        onClick={()=>{setLoginOpen(false); navigate("/signup")}}
+                        <Button disableRipple
+                            onClick={() => { setLoginOpen(false); navigate("/signup") }}
                         >Sign up</Button>
                     </DialogContentText>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,6 +79,7 @@ export default function Login(props) {
                             </Grid>
                             <Grid item lg>
                                 <Button fullWidth type='submit' variant='contained'>Log in</Button>
+                                { error && <Typography variant='h6' textAlign='center' sx={{color:'#FF3F16', fontWeight:'bold'}}>{error.error}</Typography>}
                             </Grid>
                             <Grid item lg sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button>Forgot Password ?</Button>

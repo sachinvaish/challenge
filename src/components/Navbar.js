@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../redux/features/userSlice';
+import { logout, getUser } from '../redux/features/userSlice';
 
 export default function Navbar() {
     const [value, setValue] = useState(0);
@@ -11,9 +11,7 @@ export default function Navbar() {
     const location = useLocation().pathname;
     const dispatch = useDispatch();
 
-    const { loading, user } = useSelector((state) => ({ ...state.app }));
-    console.log(user);
-    console.log('loading :', loading);
+    const { loading, user, isLoggedIn } = useSelector((state) => ({ ...state.app }));
 
 
     useEffect(() => {
@@ -29,9 +27,11 @@ export default function Navbar() {
     }, [location]);
 
     useEffect(() => {
-        if (localStorage.getItem('authToken'))
+        if (localStorage.getItem('authToken')){
+            console.log('calling from Navbar UseEffect, authToke : ',localStorage.getItem('authToken') );
             dispatch(getUser(localStorage.getItem('authToken')));
-    }, []);
+        }
+    }, [isLoggedIn]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -50,14 +50,14 @@ export default function Navbar() {
                                 <Tab label="Explore" />
                             </Tabs>
                         </Box>
-                        {(localStorage.getItem('authToken') && user) ? (
+                        {(isLoggedIn && user) ? (
                             <>
                                 <Box sx={{ display: 'flex' }}>
-                                    <Avatar sx={{ marginX: '10px' }}>S</Avatar>
+                                    <Avatar sx={{ marginX: '10px' }}> {(user.username).charAt(0).toUpperCase()}</Avatar>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}>
                                             {(user.name) ? (user.name) : (user.username)}</Typography>
-                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { localStorage.clear(); console.log('user data is:'+ user) }}>
+                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { dispatch(logout()) }}>
                                             Logout</Typography>
                                     </Box>
                                 </Box>
