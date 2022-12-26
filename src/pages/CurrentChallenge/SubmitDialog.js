@@ -1,9 +1,11 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, Radio, RadioGroup, TextField, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import TagsInput from '../../components/TagsInput';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
 import { PhotoCamera } from '@mui/icons-material';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 // import {useDispatch} from 'react-redux';
 // import {addSubmission} from '../../redux/actions';
 
@@ -26,13 +28,13 @@ export default function SubmitDialog(props) {
         if (!/^image\//.test(file.type)) {
             alert(`File ${file.name} is not an image.`);
             return false;
-        }else{
+        } else {
             console.log('no errors, setting image')
             setImg(file);
         }
     };
 
-    const handleOnClose=()=>{
+    const handleOnClose = () => {
         onClose();
         setImg(null);
     }
@@ -64,35 +66,33 @@ export default function SubmitDialog(props) {
                     </Box>
                 </DialogTitle>
                 <DialogContent>
-                    <form onSubmit={() => { handleSubmit(onSubmit) }}>
+                    <form onSubmit={() => { handleSubmit(onSubmit) }} encType='multipart/form-data'>
                         <Grid container>
                             <Grid item md={6} sm={12}>
                                 <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                                     {img ? (
                                         <>
-                                            <Box component='img' width='100%' height='430px' sx={{ objectFit:'contain', padding:'8px', borderRadius:'15px'}} src={URL.createObjectURL(img)} />
-                                            <Button size='small' variant='contained' sx={{marginY:'10px'}} color="primary" aria-label="upload picture" component="label">
-                                                <input hidden color='primary' name='photo' accept="image/*" multiple type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
-                                                    <PhotoCamera mx={2} /><Typography mx={2}>Choose other image</Typography>
-                                            </Button>
+                                            <Box component='img' width='100%' height='430px' sx={{ objectFit: 'contain', padding: '8px', borderRadius: '15px' }} src={URL.createObjectURL(img)} />
+                                            <ButtonGroup variant='contained' size='small'  sx={{ marginY: '10px' }} >
+                                                <Button size='small' startIcon={<PhotoCamera />} variant='contained'color="primary" aria-label="upload picture" component="label">
+                                                    <input hidden name='photo' accept="image/*" multiple type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
+                                                    Choose other image
+                                                </Button>
+                                                <Button component="label" color='error' mx={2} startIcon={<DeleteIcon/>} onClick={() => { setImg(null) }}>Delete</Button>
+                                            </ButtonGroup>
                                         </>
                                     ) : (
                                         <>
                                             <Typography variant='h5' sx={{ margin: '20px', fontWeight: 'bold' }} >Upload Design*</Typography>
-                                            <Button size='small' variant='contained' sx={{marginY:'10px'}} color="primary" aria-label="upload picture" component="label">
+                                            <Button size='small' startIcon={<PhotoCamera />} variant='contained' sx={{ marginY: '10px' }} color="primary" aria-label="upload picture" component="label">
                                                 <input hidden color='primary' name='photo' accept="image/*" multiple type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
-                                                    <PhotoCamera mx={2} /><Typography mx={2}>Choose image</Typography>
+                                                Choose image
                                             </Button>
                                             <Typography variant='subtitle2' sx={{ marginTop: '10px' }} >(For best results upload designs with a 4:3 ratio)</Typography>
                                             <Typography variant='subtitle2' sx={{ color: 'red', marginTop: '10px' }} >{errors.photo && 'Please choose an Image'}</Typography>
                                         </>
                                     )}
                                 </Box>
-                                {/* <Box>
-                                        {img &&
-                                        <img src={URL.createObjectURL(img)}/>
-                                        }
-                                    </Box> */}
                             </Grid>
                             <Grid item md={6} sm={12}>
                                 <Box sx={{ marginBottom: '10px' }}>
