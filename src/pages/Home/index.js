@@ -2,7 +2,6 @@ import { Box, Container, Grid } from '@mui/material';
 import React from 'react';
 import Submissions from '../../components/Submissions';
 import Header from './Header';
-import { useGetPostsQuery } from '../../redux/reducers/submissionsService';
 
 
 export default function Home() {

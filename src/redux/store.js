@@ -4,7 +4,7 @@ import UserReducer from './features/userSlice';
 
 export const store = configureStore({
     reducer: {
-        app: UserReducer,
+        UserReducer: UserReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

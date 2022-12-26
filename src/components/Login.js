@@ -13,7 +13,7 @@ export default function Login(props) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {isLoggedIn, error } = useSelector((state) => ({ ...state.app }));    
+    const {isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));    
 
     const onClose = () => {
         setLoginOpen(false);
@@ -32,11 +32,8 @@ export default function Login(props) {
             password: data.password
         }
         const res = dispatch(loginUser(creds));
-        // localStorage.setItem('authToken',res);
         if(isLoggedIn){
             onClose();
-        }else{
-            console.log(error);
         }
     }
 

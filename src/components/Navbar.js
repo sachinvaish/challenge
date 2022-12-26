@@ -11,7 +11,7 @@ export default function Navbar() {
     const location = useLocation().pathname;
     const dispatch = useDispatch();
 
-    const { loading, user, isLoggedIn } = useSelector((state) => ({ ...state.app }));
+    const { loading, user, isLoggedIn } = useSelector((state) => ({ ...state.UserReducer }));
 
 
     useEffect(() => {
@@ -28,7 +28,6 @@ export default function Navbar() {
 
     useEffect(() => {
         if (localStorage.getItem('authToken')){
-            console.log('calling from Navbar UseEffect, authToke : ',localStorage.getItem('authToken') );
             dispatch(getUser(localStorage.getItem('authToken')));
         }
     }, [isLoggedIn]);
@@ -55,7 +54,8 @@ export default function Navbar() {
                                 <Box sx={{ display: 'flex' }}>
                                     <Avatar sx={{ marginX: '10px' }}> {(user.username).charAt(0).toUpperCase()}</Avatar>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                        <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}>
+                                        <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}
+                                        onClick={()=>{navigate("/profile")}}>
                                             {(user.name) ? (user.name) : (user.username)}</Typography>
                                         <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { dispatch(logout()) }}>
                                             Logout</Typography>
