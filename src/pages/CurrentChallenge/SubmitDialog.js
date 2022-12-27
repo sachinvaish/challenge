@@ -41,6 +41,9 @@ export default function SubmitDialog(props) {
 
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
+        console.log(data);
+        data.photo=img;
+        console.log(data);
         const newSubmission = {
             // "_id": Math.random(),
             "challenge_id": "63748a4dfcc73c0697996999",
@@ -66,7 +69,7 @@ export default function SubmitDialog(props) {
                     </Box>
                 </DialogTitle>
                 <DialogContent>
-                    <form onSubmit={() => { handleSubmit(onSubmit) }} encType='multipart/form-data'>
+                    <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
                         <Grid container>
                             <Grid item md={6} sm={12}>
                                 <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
@@ -75,7 +78,7 @@ export default function SubmitDialog(props) {
                                             <Box component='img' width='100%' height='430px' sx={{ objectFit: 'contain', padding: '8px', borderRadius: '15px' }} src={URL.createObjectURL(img)} />
                                             <ButtonGroup variant='contained' size='small'  sx={{ marginY: '10px' }} >
                                                 <Button size='small' startIcon={<PhotoCamera />} variant='contained'color="primary" aria-label="upload picture" component="label">
-                                                    <input hidden name='photo' accept="image/*" multiple type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
+                                                    <input hidden  accept="image/*"  type="file" {...register("newPhoto", {onChange: (e) => { handleImageUpload(e) } })} />
                                                     Choose other image
                                                 </Button>
                                                 <Button component="label" color='error' mx={2} startIcon={<DeleteIcon/>} onClick={() => { setImg(null) }}>Delete</Button>
@@ -85,7 +88,7 @@ export default function SubmitDialog(props) {
                                         <>
                                             <Typography variant='h5' sx={{ margin: '20px', fontWeight: 'bold' }} >Upload Design*</Typography>
                                             <Button size='small' startIcon={<PhotoCamera />} variant='contained' sx={{ marginY: '10px' }} color="primary" aria-label="upload picture" component="label">
-                                                <input hidden color='primary' name='photo' accept="image/*" multiple type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
+                                                <input hidden color='primary' accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
                                                 Choose image
                                             </Button>
                                             <Typography variant='subtitle2' sx={{ marginTop: '10px' }} >(For best results upload designs with a 4:3 ratio)</Typography>
@@ -111,7 +114,7 @@ export default function SubmitDialog(props) {
                                         <FormControlLabel value="no" control={<Radio size="small" />} label="No Thanks" />
                                     </RadioGroup>
                                 </Box>
-                                <Button type='submit' variant='contained' fullWidth>Save changes</Button>
+                                <Button name='submit' type='submit' variant='contained' fullWidth>Save changes</Button>
                             </Grid>
 
                         </Grid>

@@ -31,6 +31,7 @@ export default function Signup(props) {
         dispatch(createUser(user));
         console.log(user);
         reset({ email: '', username: '', password: '' });
+        alert('user created successfully');
         onClose();
     }
 
@@ -57,7 +58,7 @@ export default function Signup(props) {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction='column' gap={3}>
                             <Grid item lg>
-                                <TextField fullWidth label='Your Name' type='name' {...register("name")} placeholder="Enter your name here" />
+                                <TextField fullWidth label='Your Name' type='text' {...register("name")} placeholder="Enter your name here" />
                             </Grid>
                             <Grid item lg>
                                 <TextField fullWidth label='Email' type='email' {...register("email", {
