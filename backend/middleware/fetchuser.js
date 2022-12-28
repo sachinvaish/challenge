@@ -10,7 +10,6 @@ const fetchuser = async (req, res, next) => {
     try {
         data = await jwt.verify(token, secretKey);
         req.user = data;
-        console.log('fetchuser called');
         next();
     } catch (error) {
         res.status(401).send({ "error": "Please provide a valid auth-token" });

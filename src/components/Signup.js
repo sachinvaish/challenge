@@ -11,6 +11,7 @@ export default function Signup(props) {
     const { open } = props;
     const [signupOpen, setSignupOpen] = useState(open);
     const { register, reset, handleSubmit, formState: { errors } } = useForm();
+    const {isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer })); 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -29,10 +30,10 @@ export default function Signup(props) {
             "password": data.password
         }
         dispatch(createUser(user));
-        console.log(user);
-        reset({ email: '', username: '', password: '' });
-        alert('user created successfully');
-        onClose();
+        if(isLoggedIn){
+            reset({ email: '', username: '', password: '' });
+            onClose();
+        }
     }
 
     console.log("Inside Signup componetn");
@@ -89,6 +90,7 @@ export default function Signup(props) {
                             </Grid>
                             <Grid item lg>
                                 <Button fullWidth type='submit' variant='contained'>Sign up</Button>
+                                { error && <Typography variant='h6' textAlign='center' sx={{color:'#FF3F16', fontWeight:'bold'}}>{error.error}</Typography>}
                             </Grid>
                         </Grid>
                     </form>

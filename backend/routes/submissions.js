@@ -44,7 +44,8 @@ router.post('/',[upload,fetchuser], [
             challenge_id : "63748a4dfcc73c064df4c744",
             user_id : req.user.id,
             photo_url : req.file.filename,
-            description : req.body.description
+            description : req.body.description,
+            feedback : req.body.feedback
         });
 
         res.json({ submission });

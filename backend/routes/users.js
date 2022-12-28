@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 
 // GET : Get a User
-router.get('/getuser', fetchuser, async (req, res) => {
+router.get('/', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
         const user = await User.findById(userID).select("-password");

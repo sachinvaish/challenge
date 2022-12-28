@@ -5,14 +5,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
 import { PhotoCamera } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-// import {useDispatch} from 'react-redux';
-// import {addSubmission} from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSubmission } from '../../redux/features/submissionSlice';
 
 export default function SubmitDialog(props) {
 
     const { open, onClose } = props;
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, reset, handleSubmit, formState: { errors } } = useForm();
+    const dispatch = useDispatch();
+    const { submission, error, loading } = useSelector((state) => ({ ...state.submissionReducer }));
     const [tags, setTags] = useState([]);
     const [img, setImg] = useState(null);
     // const dispatch = useDispatch();
@@ -35,8 +36,9 @@ export default function SubmitDialog(props) {
     };
 
     const handleOnClose = () => {
-        onClose();
+        reset({ photo: null, description: null, tags: null, feedback: null });
         setImg(null);
+        onClose();
     }
 
     // "photo_url": data.photo[0].name,
@@ -46,11 +48,13 @@ export default function SubmitDialog(props) {
             // "_id": Math.random(),
             "challenge_id": "63748a4dfcc73c0697996999",
             "user_id": "63748a4dfcc73c064d0000010",
-            "photo_url": "https://crowwwn-prod.s3.amazonaws.com/uploads/submission/image/4076/thumb_world_cup_challenge.png",
-            "description": data.description
+            "photo": data.photo,
+            "description": data.description,
+            "feedback": data.feedback
         }
-        // dispatch(addSubmission(newSubmission));
-        onClose();
+        const authToken =  localStorage.getItem('authToken');
+        dispatch(createSubmission({newSubmission, authToken}));
+        // handleOnClose();
     }
 
     return (
@@ -75,7 +79,7 @@ export default function SubmitDialog(props) {
                                     {!img && <Typography variant='h5' sx={{ margin: '10px', fontWeight: 'bold' }} >Upload Design*</Typography>}
                                     <ButtonGroup variant='contained' size='small' sx={{ marginY: '10px' }} >
                                         <Button size='small' startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
-                                            <input hidden accept="image/*" type="file" {...register("photo", { onChange: (e) => { handleImageUpload(e) } })} />
+                                            <input hidden accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
                                             {img ? 'Choose other Image' : 'Choose Image'}
                                         </Button>
                                         {img &&
@@ -83,6 +87,7 @@ export default function SubmitDialog(props) {
                                         }
                                     </ButtonGroup>
                                     {!img && <Typography variant='subtitle2' sx={{ marginTop: '10px' }} >(For best results upload designs with a 4:3 ratio)</Typography>}
+                                    {errors.photo && <Typography sx={{ color: 'red', fontWeight: 'bold' }}>Please choose a file</Typography>}
                                 </Box>
                             </Grid>
                             <Grid item md={6} sm={12}>

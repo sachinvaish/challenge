@@ -14,10 +14,11 @@ export const createUser = createAsyncThunk('user/createUser',
                 email: values.email,
                 password: values.password
             })
-        }).then((res) => {
-            // console.log(res.json());
-            // console.log('user Added');
-        }).catch((error) => console.log(error))
+        }).then((res) => res.json()
+        ).then((res)=>{
+            // console.log(res);
+            return res;
+        }).catch((error) => console.log({error}))
     });
 
 export const loginUser = createAsyncThunk('user/loginUser',
@@ -44,9 +45,9 @@ export const loginUser = createAsyncThunk('user/loginUser',
     })
 
 export const getUser = createAsyncThunk('user/getUser',
-    async (authToken, {getState}) => {
+    async (authToken) => {
         // console.log('inside getUser');
-        return fetch('http://localhost/users/getuser', {
+        return fetch('http://localhost/users', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -83,6 +84,23 @@ const userSlice = createSlice({
     },
     extraReducers:
         (builder) => {
+            builder.addCase(createUser.fulfilled, (state, action)=>{
+                if(action.payload.authToken){
+                    localStorage.setItem('authToken',action.payload.authToken);
+                    state.isLoggedIn = true;
+                    state.error = null;
+                }
+                else{
+                    state.error=action.payload;
+                }
+            });
+            builder.addCase(createUser.rejected, (state, action)=>{
+                // console.log('Rejected login');
+                state.error=action.payload;
+                state.isLoggedIn = false;
+                // console.log(action.payload);
+                // return action.payload;
+            });
             builder.addCase(getUser.fulfilled, (state, action) => {
                 // console.log('inside BUILDER addCase');
                 // console.log('getuser actionpayload', action.payload);
