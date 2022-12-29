@@ -10,14 +10,12 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
         return fetch('http://localhost/submissions/', {
             method: 'POST',
             headers: {
-                Accept: 'multipart/form-data',
-                'Content-type': 'multipart/form-data',
                 'auth-token': authToken
             },
             body: data
         }).then(
             (res) => res.json()
-        ).then((res) => res
+        ).then((res) => res.message
         ).catch((error) => console.log(error));
     })
 

@@ -47,7 +47,6 @@ export default function SubmitDialog(props) {
         const submission = {
             // "_id": Math.random(),
             "challenge_id": "63748a4dfcc73c0697996999",
-            "user_id": "63748a4dfcc73c064d0000010",
             "photo": data.photo[0],
             "description": data.description,
             "feedback": data.feedback
@@ -55,7 +54,7 @@ export default function SubmitDialog(props) {
         const authToken =  localStorage.getItem('authToken');
         console.log(submission, authToken);
         dispatch(createSubmission({submission, authToken}));
-        // handleOnClose();
+        handleOnClose();
     }
 
     return (

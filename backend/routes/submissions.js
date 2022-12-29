@@ -38,7 +38,7 @@ router.post('/',[upload,fetchuser], [
         if (!user) {
             return res.status(404).send({"error":"Login required"});
         }
-        console.log(req.file);
+        // console.log(req.file);
         
         let submission = await Submission.create({
             challenge_id : "63748a4dfcc73c064df4c744",
@@ -48,7 +48,7 @@ router.post('/',[upload,fetchuser], [
             feedback : req.body.feedback
         });
 
-        res.json({ submission });
+        res.json({ submission, message:'Thanks for participation, Your Design has been submitted successfully' });
     } catch (error) {
         res.json({ error });
     }
