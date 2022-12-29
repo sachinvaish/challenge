@@ -44,16 +44,17 @@ export default function SubmitDialog(props) {
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
         console.log(data);
-        const newSubmission = {
+        const submission = {
             // "_id": Math.random(),
             "challenge_id": "63748a4dfcc73c0697996999",
             "user_id": "63748a4dfcc73c064d0000010",
-            "photo": data.photo,
+            "photo": data.photo[0],
             "description": data.description,
             "feedback": data.feedback
         }
         const authToken =  localStorage.getItem('authToken');
-        dispatch(createSubmission({newSubmission, authToken}));
+        console.log(submission, authToken);
+        dispatch(createSubmission({submission, authToken}));
         // handleOnClose();
     }
 

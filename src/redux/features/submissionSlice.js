@@ -3,6 +3,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const createSubmission = createAsyncThunk('submission/createSubmission',
     async ({ submission, authToken }) => {
         console.log('inside create Submission', submission, authToken);
+        const data = new FormData();
+        data.append('description',submission.description);
+        data.append('feedback', submission.feedback);
+        data.append('image', submission.photo)
         return fetch('http://localhost/submissions/', {
             method: 'POST',
             headers: {
@@ -10,18 +14,11 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
                 'Content-type': 'multipart/form-data',
                 'auth-token': authToken
             },
-            body: JSON.stringify({
-                description: submission.description,
-                feedback: submission.feedback
-            }),
-            file: {
-                image: submission.photo
-            }
+            body: data
         }).then(
             (res) => res.json()
-        ).then((res) => {
-            console.log(res);
-        }).catch((error) => console.log(error));
+        ).then((res) => res
+        ).catch((error) => console.log(error));
     })
 
 const submissionSlice = createSlice({
@@ -37,13 +34,13 @@ const submissionSlice = createSlice({
         (builder) => {
             builder.addCase(createSubmission.fulfilled,(state,action)=>{
                 console.log('SUBMISSION fulfilled');
-                console.log(action.payload);
                 state.message = action.payload
+                console.log(action.payload);
             });
             builder.addCase(createSubmission.rejected,(state,action)=>{
                 console.log('SUBMISSION REJECTED');
-                console.log(action.payload);
                 state.error = action.payload;
+                console.log(action.payload);
             });
         }
 })
