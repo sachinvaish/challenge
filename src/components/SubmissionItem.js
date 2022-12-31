@@ -2,6 +2,8 @@ import { Link, Card, CardMedia, Typography, CardHeader, CardActions, Avatar, Box
 import React, { useState, useEffect } from 'react';
 import Like from './Like';
 import { useNavigate } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
+// import {getSubmissionByID} from '../redux/features/submissionSlice';
 
 export default function SubmissionItem(props) {
 
@@ -11,6 +13,7 @@ export default function SubmissionItem(props) {
     const [user, setUser] = useState({});
     const [upvotes, setUpvotes] = useState(5);
     const navigate = useNavigate();
+    // const dispatch = useDispatch();
 
     useEffect(() => {
         return () => {
@@ -45,12 +48,15 @@ export default function SubmissionItem(props) {
     return (
         <Card sx={{minWidth:'340px', width: 'auto', height: 'auto', color: 'black', margin: 1.5 }} >
             <CardMedia
-                onClick={() => { navigate('/submission') }}
-                sx={{cursor:'pointer'}}
+                onClick={() => { 
+                    // dispatch(getSubmissionByID(_id));
+                    navigate(`/submission/${_id}`); 
+                }}
+                sx={{cursor:'pointer', objectFit:'cover', aspectRatio: '4/3'}}
                 component="img"
                 height="auto"
                 width='auto'
-                image={photo_url}
+                image={`http://localhost:5000/uploads/submissions/${photo_url}`}
                 alt="submission"
             />
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>

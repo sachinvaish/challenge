@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors')
 const app = express();
 const connectToMongo = require('./db');
+const path = require('path');
+
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +21,6 @@ app.use('/submissions',require('./routes/submissions'));
 app.use('/votes',require('./routes/votes'));
 app.use('/feedbacks',require('./routes/feedbacks'));
 
-app.listen(80,()=>{
-    console.log("listening on port 80");
+app.listen(5000,()=>{
+    console.log("listening on port 5000");
 })

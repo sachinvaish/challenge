@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const createSubmission = createAsyncThunk('submission/createSubmission',
-    async ({ submission, authToken },{ rejectWithValue }) => {
-        console.log('inside create Submission', submission, authToken);
+    async ({ submission, authToken }, { rejectWithValue }) => {
+        // console.log('inside create Submission', submission, authToken);
         const data = new FormData();
-        data.append('description',submission.description);
+        data.append('description', submission.description);
         data.append('feedback', submission.feedback);
         data.append('image', submission.photo)
-        return fetch('http://localhost/submissions/', {
+        return fetch('http://localhost:5000/submissions/', {
             method: 'POST',
             headers: {
                 'auth-token': authToken
@@ -21,50 +21,63 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
         });
     })
 
-export const getSubmissions= createAsyncThunk('submission/getSubmissions',
-    async(id)=>{
-        console.log('inside getSubmissions');
-        return fetch(`http://localhost/submissions/${id}`,{
-            method:'GET',
-            headers:{
-                Accept : 'application/json',
-                'Content-type' : 'application/json'
+export const getSubmissions = createAsyncThunk('submission/getSubmissions',
+    async (challenge_id) => {
+        // console.log('inside getSubmissions');
+        return fetch(`http://localhost:5000/submissions/contest/${challenge_id}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-type': 'application/json'
             }
-        }).then((res)=>res.json()
-        ).then((res)=>res
-        ).catch((error)=>error)
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((error) => error)
+    })
+
+export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID',
+    async (id) => {
+        // console.log('inside getSubmissions');
+        return fetch(`http://localhost:5000/submissions/${id}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-type': 'application/json'
+            }
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((error) => error)
     })
 
 const submissionSlice = createSlice({
     name: 'submission',
     initialState: {
         submissions: null,
+        singleSubmission : null,
         loading: false,
         error: null,
-        message : null
+        message: null
     },
     reducers: {},
     extraReducers:
         (builder) => {
-            builder.addCase(createSubmission.fulfilled,(state,action)=>{
-                console.log('SUBMISSION fulfilled');
+            builder.addCase(createSubmission.fulfilled, (state, action) => {
                 state.message = action.payload
-                console.log(action.payload);
             });
-            builder.addCase(createSubmission.rejected,(state,action)=>{
-                console.log('SUBMISSION REJECTED');
+            builder.addCase(createSubmission.rejected, (state, action) => {
                 state.error = action.payload;
-                console.log(action.payload);
             });
-            builder.addCase(getSubmissions.fulfilled,(state,action)=>{
-                console.log('SUBMISSION fulfilled');
+            builder.addCase(getSubmissions.fulfilled, (state, action) => {
                 state.submissions = action.payload
-                console.log(action.payload);
             });
-            builder.addCase(getSubmissions.rejected,(state,action)=>{
-                console.log('SUBMISSION REJECTED');
+            builder.addCase(getSubmissions.rejected, (state, action) => {
                 state.error = action.payload;
-                console.log(action.payload);
+            });
+            builder.addCase(getSubmissionByID.fulfilled, (state, action) => {
+                state.singleSubmission = action.payload
+            });
+            builder.addCase(getSubmissionByID.rejected, (state, action) => {
+                state.error = action.payload;
             });
         }
 })

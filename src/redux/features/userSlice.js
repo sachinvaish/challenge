@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const createUser = createAsyncThunk('user/createUser',
     async (values) => {
         // console.log('inside async thunk', values);
-        return fetch('http://localhost/users/signup', {
+        return fetch('http://localhost:5000/users/signup', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -24,7 +24,7 @@ export const createUser = createAsyncThunk('user/createUser',
 export const loginUser = createAsyncThunk('user/loginUser',
     async (creds,{getState}) => {
         // console.log('inside login thunk', creds);
-        return fetch('http://localhost/users/login', {
+        return fetch('http://localhost:5000/users/login', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -47,7 +47,7 @@ export const loginUser = createAsyncThunk('user/loginUser',
 export const getUser = createAsyncThunk('user/getUser',
     async (authToken) => {
         // console.log('inside getUser');
-        return fetch('http://localhost/users', {
+        return fetch('http://localhost:5000/users', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

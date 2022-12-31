@@ -53,7 +53,7 @@ function App() {
           <Route path="/login" element={<Login open={true} />} />
           <Route path="/signup" element={<Signup open={true} />} />
         </Route>
-        <Route exact path="/submission" element={<SubmissionView />} />
+        <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/*" element={<h3>404 Not Found</h3>} />

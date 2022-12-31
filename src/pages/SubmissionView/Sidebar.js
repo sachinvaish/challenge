@@ -5,7 +5,10 @@ import Feedback from '../../components/Feedback';
 import { useSelector, useDispatch } from 'react-redux';
 import { addFeedback } from '../../redux/actions';
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+
+    const submission = props;
+    const {description,user_id} = props.submission;
 
     const feedbacks = [
         {
@@ -14,56 +17,27 @@ export default function Sidebar() {
             "feedback": "This is nice DESIGN",
             "_id": "642f38b90378df8748e1",
             "date": "2022-12-10T02:27:31.674Z"
-        },
-        {
-            "submission_id": "63749eca6057278e2f24b74a",
-            "user_id": "637473c9b93c78059660ccdc",
-            "feedback": "This is nice submission feedback",
-            "_id": "639442f378b90352d8e1",
-            "date": "2022-12-10T03:27:31.674Z"
-        },
-        {
-            "submission_id": "63749ecr6057278e2f24b74a",
-            "user_id": "637473c9b93c78059660ccdc",
-            "feedback": "Amazing Design",
-            "_id": "63442f378352df8748e1",
-            "date": "2022-12-10T01:27:31.674Z"
-        },
-        {
-            "submission_id": "63449ecr6057278e2f24b74a",
-            "user_id": "637473c9b93c78059660ccdc",
-            "feedback": "This is 4th Feedback",
-            "_id": "639442f378b903f874e1",
-            "date": "2022-12-10T11:27:31.674Z"
         }
     ];
     const dispatch = useDispatch();
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState(null);
     const [upvotes, setUpvotes] = useState(5);
     const [newFeedback, setNewFeedback] = useState([]);
 
     useEffect(() => {
-        return () => {
             getUser();
-        };
     }, []);
 
     const getUser = async () => {
-        //API CALL to get user detail by id "user_id"
-        const user = {
-            "_id": "638571ffeb46180810f71b8c",
-            "name": "Sachin Tichkule",
-            "email": "ayushiS@gmail.com",
-            "photo_url": "https://cdn.dribbble.com/users/2991839/avatars/normal/75401ee4f1064e57338608b2b4dcca74.jpeg?1546345177",
-            "portfolio_url": "https://behance.net/sachinvaish",
-            "instagram_url": "sachin_vaish",
-            "date": "2022-11-29T02:44:15.465Z",
-            "__v": 0
+        try {
+            const user = await fetch(`http://localhost:5000/users/${user_id}`);
+            const res = await user.json();
+            console.log('Got user detail :',res);
+            setUser(res);
+        } catch (error) {
+            console.log(error);
         }
-        // const parsedData = await JSON.parse(user);
-        // console.log('parsed data');
-        // console.log(parsedData);
-        setUser(user);
+        
     }
 
     const getFeedbacks = () => {
@@ -92,12 +66,14 @@ export default function Sidebar() {
 
     return (
         <Card >
+            {(user) ? (<>
             <Box id='card' sx={{ maxHeight: '60vh', overflow: 'auto' }}>
                 <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                     <CardHeader
                         avatar={
-                            <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url} aria-label="recipe">
-
+                            <Avatar sx={{ bgcolor: 'primary' }} 
+                            // src={user.photo_url} 
+                            aria-label="recipe">
                             </Avatar>
                         }
                         title={
@@ -114,7 +90,7 @@ export default function Sidebar() {
                 </Box>
                 <Box sx={{ marginX: 2, textAlign: 'justify' }}>
                     <Typography variant='body1'>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore similique magnam asperiores eius nobis illum aliquam quis, porro repellendus in cum adipisci ipsum velit? Autem obcaecati vel velit aliquid, earum porro quidem iste hic repellat rerum exercitationem, rem ab commodi corporis corrupti voluptatum illo laborum!
+                        {description}
                     </Typography>
                     <Divider sx={{ marginY: 1 }} />
                     <Box>
@@ -142,6 +118,7 @@ export default function Sidebar() {
                     <Button onClick={handleFeedback} variant='contained'>Post</Button>
                 </Box>
             </Box>
+            </>):'Please wait'}
         </Card>
     )
 }

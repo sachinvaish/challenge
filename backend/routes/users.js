@@ -19,6 +19,18 @@ router.get('/', fetchuser, async (req, res) => {
      }
 })
 
+// GET : Get a User by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).select("-password");
+        res.json(user);
+     } catch (error) {
+        //catching errors 
+        console.log(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+     }
+})
+
 // POST : Create a User
 router.post('/signup', [
     body('username', 'Name cannot be Empty').notEmpty(),
