@@ -59,7 +59,7 @@ export default function Signup(props) {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container direction='column' gap={3}>
                             <Grid item lg>
-                                <TextField fullWidth label='Your Name' type='text' {...register("name")} placeholder="Enter your name here" />
+                                <TextField fullWidth label='Your Name' type='text' {...register("name", { required: true})} placeholder="Enter your name here" helperText={errors.name && 'Name is required'} />
                             </Grid>
                             <Grid item lg>
                                 <TextField fullWidth label='Email' type='email' {...register("email", {

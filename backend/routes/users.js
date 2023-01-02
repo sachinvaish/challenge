@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 
-// GET : Get a User
+// GET : Get a User by authToken
 router.get('/', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;

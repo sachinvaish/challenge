@@ -16,28 +16,20 @@ export default function SubmissionItem(props) {
     // const dispatch = useDispatch();
 
     useEffect(() => {
-        return () => {
-            getUser();
-        };
-    }, []);
+        getUser();
+}, []);
 
-    const getUser = async () => {
-        //API CALL to get user detail by id "user_id"
-        const user = {
-            "_id": "638571ffeb46180810f71b8c",
-            "name": "Sachin Tichkule",
-            "email": "ayushiS@gmail.com",
-            "photo_url": "https://cdn.dribbble.com/users/2991839/avatars/normal/75401ee4f1064e57338608b2b4dcca74.jpeg?1546345177",
-            "portfolio_url": "https://behance.net/sachinvaish",
-            "instagram_url": "sachin_vaish",
-            "date": "2022-11-29T02:44:15.465Z",
-            "__v": 0
-        }
-        // const parsedData = await JSON.parse(user);
-        // console.log('parsed data');
-        // console.log(parsedData);
-        setUser(user);
+const getUser = async () => {
+    try {
+        const user = await fetch(`http://localhost:5000/users/${user_id}`);
+        const res = await user.json();
+        console.log('Got user detail :',res);
+        setUser(res);
+    } catch (error) {
+        console.log(error);
     }
+    
+}
 
     const getFeedbacks = () => {
         //API CALL to get feedbacks on particular submission id
@@ -68,7 +60,7 @@ export default function SubmissionItem(props) {
                     }
                     title={
                         <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
-                            {user.name}
+                            {user.name?user.name:user.username}
                         </Link>
                     }
                     subheader={`${feedbackCount} Feedbacks`}

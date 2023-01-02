@@ -78,7 +78,7 @@ export default function Sidebar(props) {
                         }
                         title={
                             <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
-                                {user.name}
+                                {user.name?user.name:user.username}
                             </Link>
                         }
                         subheader={`${upvotes} Upvotes`}
@@ -115,7 +115,7 @@ export default function Sidebar(props) {
                     style={{ width: '100%', position: 'sticky', marginBottom: '0' }}
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 1 }}>
-                    <Button onClick={handleFeedback} variant='contained'>Post</Button>
+                    <Button {...newFeedback.length < 1 ?'disabled':''} onClick={handleFeedback} variant='contained'>Post</Button>
                 </Box>
             </Box>
             </>):'Please wait'}
