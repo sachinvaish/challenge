@@ -18,7 +18,7 @@ export const createUser = createAsyncThunk('user/createUser',
         ).then((res)=>{
             // console.log(res);
             return res;
-        }).catch((error) => console.log({error}))
+        }).catch((error) => ({error}))
     });
 
 export const loginUser = createAsyncThunk('user/loginUser',

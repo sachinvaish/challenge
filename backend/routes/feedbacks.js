@@ -31,5 +31,15 @@ router.post('/',fetchuser,[
     }
 })
 
+//Get List of submissions by Challenge ID
+router.get('/:submission_id', async (req, res) => {
+    try {
+        let feedbacks = await Feedback.find({ submission_id: req.params.submission_id });
+        res.send(feedbacks);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 
 module.exports = router;

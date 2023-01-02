@@ -9,10 +9,10 @@ export default function SubmissionView(props) {
 
     const dispatch = useDispatch();
     const {id} = useParams();
-    console.log('inside Submission VIEW');
-    console.log('id is :',id);
+    // console.log('inside Submission VIEW');
+    // console.log('id is :',id);
     const {singleSubmission} = useSelector((state)=>({...state.SubmissionReducer}));
-    console.log(singleSubmission);
+    // console.log(singleSubmission);
 
     useEffect(() => {
         dispatch(getSubmissionByID(id));
