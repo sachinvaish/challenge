@@ -37,7 +37,7 @@ export const getSubmissions = createAsyncThunk('submission/getSubmissions',
 
 export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID',
     async (id) => {
-        // console.log('inside getSubmissions');
+        console.log('inside getSubmission by ID');
         return fetch(`http://localhost:5000/submissions/${id}`, {
             method: 'GET',
             headers: {
@@ -45,8 +45,10 @@ export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID'
                 'Content-type': 'application/json'
             }
         }).then((res) => res.json()
-        ).then((res) => res
-        ).catch((error) => error)
+        ).then((res) => {
+            console.log(res);
+            return res;   
+        }).catch((error) => error)
     })
 
 const submissionSlice = createSlice({

@@ -20,7 +20,7 @@ router.post('/',fetchuser,[
             return res.status(404).send({"error":"Login required"});
         }
         let feedback = await Feedback.create({
-            submission_id : "63749eca6057278e2f24b74a",
+            submission_id : req.body.submission_id,
             user_id : req.user.id,
             feedback : req.body.feedback
         });
@@ -31,10 +31,12 @@ router.post('/',fetchuser,[
     }
 })
 
-//Get List of submissions by Challenge ID
+//Get List of feedbacks by submission ID
 router.get('/:submission_id', async (req, res) => {
+    // console.log('submission id', req.params.submission_id);
     try {
         let feedbacks = await Feedback.find({ submission_id: req.params.submission_id });
+        // console.log('got feedacks', feedbacks)
         res.send(feedbacks);
     } catch (error) {
         console.log(error);

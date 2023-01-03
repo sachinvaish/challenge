@@ -6,12 +6,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createFeedback, FeedbackReducer, getFeedbacks } from '../../redux/features/feedbackSlice';
 
 export default function Sidebar(props) {
+    const submission = props.submission;
+    const { description, user_id } = props.submission;
 
-    const submission = props;
-    console.log('sidebar submission prop', submission);
-    const {description,user_id} = props.submission;
-
-    const {feedbacks} = useSelector((state)=>({...state.FeedbackReducer}));
+    const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
 
     const dispatch = useDispatch();
     const [user, setUser] = useState(null);
@@ -19,12 +17,9 @@ export default function Sidebar(props) {
     const [newFeedback, setNewFeedback] = useState('');
 
     useEffect(() => {
-            getUser();
-    },[]);
-
-    useEffect(()=>{
+        getUser();
         getAllFeedbacks();
-    },[feedbacks])
+    }, [submission])
 
     const getUser = async () => {
         try {
@@ -35,98 +30,99 @@ export default function Sidebar(props) {
         } catch (error) {
             console.log(error);
         }
-        
+
     }
 
     const getAllFeedbacks = () => {
         //API call to fetch feedbacks
-        if(submission){
-            console.log('calling from sidebar',submission.submission._id);
-            dispatch(getFeedbacks(submission.submission._id));
+        if (submission) {
+            console.log('calling from sidebar', submission._id);
+            dispatch(getFeedbacks(submission._id));
         }
     }
 
 
 
     const handleFeedback = (e) => {
-        console.log('handle feedback called')
+        console.log('handle feedback called', submission._id)
         const feedback = {
             "submission_id": submission._id,
             "feedback": newFeedback
         }
-        if(localStorage.getItem('authToken')){
+        if (localStorage.getItem('authToken')) {
             const authToken = localStorage.getItem('authToken');
-            dispatch(createFeedback({feedback,authToken }));
+            dispatch(createFeedback({ feedback, authToken }));
             setNewFeedback("");
-        }else {
+            getAllFeedbacks();
+        } else {
             alert('please login');
         }
     }
 
     const onChange = (e) => {
-        if(localStorage.getItem('authToken')){
+        if (localStorage.getItem('authToken')) {
             setNewFeedback(e.target.value);
-        }else {
+        } else {
             alert('please login');
         }
-        
+
     }
 
     return (
         <Card >
-            {(user) ? (<>
-            <Box id='card' sx={{ maxHeight: '60vh', overflow: 'auto' }}>
-                <Box sx={{ display: 'flex' }} justifyContent='space-between'>
-                    <CardHeader
-                        avatar={
-                            <Avatar sx={{ bgcolor: 'primary' }} 
-                            src={user.photo_url} 
-                            aria-label="recipe">
-                            </Avatar>
-                        }
-                        title={
-                            <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
-                                {user.name?user.name:user.username}
-                            </Link>
-                        }
-                        subheader={`${upvotes} Upvotes`}
-                    />
-                    <CardActions>
-                        <Typography variant='h6'>{upvotes}</Typography>
-                        <Like value={upvotes} method={setUpvotes} />
-                    </CardActions>
-                </Box>
-                <Box sx={{ marginX: 2, textAlign: 'justify' }}>
-                    <Typography variant='body1'>
-                        {description}
-                    </Typography>
-                    <Divider sx={{ marginY: 1 }} />
-                    <Box>
-                        <Typography variant='h6'>Feedbacks ({feedbacks.length})</Typography>
-                        {feedbacks.map((x) => {
-                            return (
-                                <Feedback key={x._id} feedback={x.feedback} date={x.date} />
-                            )
-                        })}
+            {(user && feedbacks) ? (<>
+                <Box id='card' sx={{ maxHeight: '60vh', overflow: 'auto' }}>
+                    <Box sx={{ display: 'flex' }} justifyContent='space-between'>
+                        <CardHeader
+                            avatar={
+                                <Avatar sx={{ bgcolor: 'primary' }}
+                                    src={user.photo_url}
+                                    aria-label="recipe">
+                                </Avatar>
+                            }
+                            title={
+                                <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                                    {user.name ? user.name : user.username}
+                                </Link>
+                            }
+                            subheader={`${upvotes} Upvotes`}
+                        />
+                        <CardActions>
+                            <Typography variant='h6'>{upvotes}</Typography>
+                            <Like value={upvotes} method={setUpvotes} />
+                        </CardActions>
+                    </Box>
+                    <Box sx={{ marginX: 2, textAlign: 'justify' }}>
+                        <Typography variant='body1'>
+                            {description}
+                        </Typography>
+                        <Divider sx={{ marginY: 1 }} />
+                        <Box>
+                            <Typography variant='h6'>Feedbacks ({feedbacks.length})</Typography>
+                            {feedbacks.map((feedback) => {
+                                return (
+                                    <Feedback key={feedback._id} feedback={feedback} />
+                                )
+                            })}
+                        </Box>
                     </Box>
                 </Box>
-            </Box>
-            <Box sx={{ margin: 2, position: 'sticky', index: '-1' }}>
-                <TextField
-                    multiline
-                    name='feedback'
-                    value={newFeedback}
-                    onChange={onChange}
-                    rows={4}
-                    aria-label="maximum height"
-                    placeholder="Start typing to leave feedback"
-                    style={{ width: '100%', position: 'sticky', marginBottom: '0' }}
-                />
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 1 }}>
-                    <Button disabled={ newFeedback === ''} onClick={handleFeedback} variant='contained'>Post</Button>
+                <Box sx={{ margin: 2, position: 'sticky', index: '-1' }}>
+                    <TextField
+                        multiline
+                        name='feedback'
+                        value={newFeedback}
+                        onChange={onChange}
+                        rows={4}
+                        aria-label="maximum height"
+                        placeholder="Start typing to leave feedback"
+                        style={{ width: '100%', position: 'sticky', marginBottom: '0' }}
+                    />
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 1 }}>
+                        <Button disabled={newFeedback === ''} onClick={handleFeedback} variant='contained'>Post</Button>
+                    </Box>
                 </Box>
-            </Box>
-            </>):'Please wait'}
+            </>) : 'Please wait'}
         </Card>
     )
 }
