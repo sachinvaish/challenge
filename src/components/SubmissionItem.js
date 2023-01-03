@@ -67,8 +67,8 @@ const getUser = async () => {
                     
                 />
                 <CardActions>
-                    <Typography variant='h6'>{upvotes}</Typography>
-                    <Like value={upvotes} method={setUpvotes} />
+                    {/* <Typography variant='h6'>{upvotes}</Typography> */}
+                    <Like value={upvotes} method={setUpvotes} submission_id={_id} />
                 </CardActions>
             </Box>
         </Card>

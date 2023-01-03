@@ -27,5 +27,24 @@ router.post('/', fetchuser, async(req, res) => {
 })
 
 
+router.get('/:submission_id', async(req,res)=>{
+    try {
+        let votes = await Vote.find({submission_id : req.params.submission_id});
+        let upvote = await Vote.find({user_id : req.body.user_id});
+        console.log(upvote);
+        let isLiked = false;
+        if(upvote.length > 0){
+            isLiked = true;
+        }
+        let votesCount = votes.length;
+        // console.log(votes);
+        res.send({votesCount,isLiked});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({"error":"Internal Server Error"});
+    }
+})
+
+
 
 module.exports = router;
