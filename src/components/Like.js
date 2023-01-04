@@ -15,9 +15,13 @@ export default function Like(props) {
     
     const handleVote = () => {
         if (localStorage.getItem('authToken')) {
+            if(like){
+                setLike(false);
+            }else { setLike(true);}
             const authToken = localStorage.getItem('authToken');
             dispatch(toggleVote({ submission_id, authToken }));
             getVotes(submission_id);
+            getIsLiked(submission_id, user._id);
         } else {
             alert('please login');
         }
@@ -27,32 +31,40 @@ export default function Like(props) {
         let votes = await fetch(`http://localhost:5000/votes/${submission_id}`,{
             method:'GET',
             headers : {
-                'Content-type':'application/json',
-                'user_id' : user._id
+                'Content-type':'application/json'
             }
         });
         votes = await votes.json();
-        console.log(votes);
+        // console.log(votes);
         setVotesCount(votes.votesCount);
+    }
+
+    const getIsLiked = async(submission_id,user_id)=>{
+        let isLiked = await fetch(`http://localhost:5000/votes/isliked/${submission_id}/${user_id}`,{
+            method:'GET',
+            headers : {'Content-type':'application/json'}
+        });
+        isLiked = await isLiked.json();
+        isLiked = isLiked.isLiked;
+        if(isLiked)
+            setLike(true);
+        else
+            setLike(false);
+
     }
 
     useEffect(() => {
         getVotes(submission_id);
+        if(user)
+        getIsLiked(submission_id, user._id);
     }, [])
-
-    const onChange = () => {
-        if (like) {
-            setLike(false);
-        } else {
-            setLike(true);
-        }
-    }
 
     return (
         <>
         <Typography variant='h6'>{votesCount}</Typography>
         
             <Checkbox
+                checked = {like}
                 icon={<ThumbUpAltOutlinedIcon />}
                 checkedIcon={<ThumbUpIcon />}
                 onChange={handleVote}

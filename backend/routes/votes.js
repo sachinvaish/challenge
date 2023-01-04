@@ -30,15 +30,23 @@ router.post('/', fetchuser, async(req, res) => {
 router.get('/:submission_id', async(req,res)=>{
     try {
         let votes = await Vote.find({submission_id : req.params.submission_id});
-        let upvote = await Vote.find({user_id : req.body.user_id});
-        console.log(upvote);
+        let votesCount = votes.length;
+        // console.log(votes);
+        res.send({votesCount});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({"error":"Internal Server Error"});
+    }
+})
+
+router.get('/isliked/:submission_id/:user_id',async (req,res)=>{
+    try {
+        let upvote = await Vote.find({submission_id : req.params.submission_id,user_id : req.params.user_id});
         let isLiked = false;
         if(upvote.length > 0){
             isLiked = true;
         }
-        let votesCount = votes.length;
-        // console.log(votes);
-        res.send({votesCount,isLiked});
+        res.send({isLiked});
     } catch (error) {
         console.log(error);
         res.status(500).send({"error":"Internal Server Error"});

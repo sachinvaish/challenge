@@ -57,7 +57,7 @@ export default function Navbar() {
                                         <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}
                                         onClick={()=>{navigate("/profile")}}>
                                             {(user.name) ? (user.name) : (user.username)}</Typography>
-                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { dispatch(logout()) }}>
+                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { dispatch(logout());  }}>
                                             Logout</Typography>
                                     </Box>
                                 </Box>
