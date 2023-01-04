@@ -13,7 +13,7 @@ export default function Header() {
             <Grid container spacing={2} >
                 <Grid item md={9}>
                     <Typography variant='h6'>Last week's challenge</Typography>
-                    <Typography variant='h4' fontWeight="bold">AR Firework Challenge</Typography>
+                    <Typography variant='h4' fontWeight="bold">Social Media Post Challenge</Typography>
                     <Typography variant='p'>
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, iste iusto quam distinctio nulla ipsa. Vitae aut minus neque non deleniti. Recusandae autem necessitatibus laboriosam tempore quaerat provident dicta voluptas. Reprehenderit dolore fugiat cupiditate!
                     </Typography>
@@ -33,12 +33,12 @@ export default function Header() {
                         <Grid item md={4.5} xs={12}>
                             <Grid container >
                                 <Grid item md={4} >
-                                    <Box component='img' src='https://crowwwn-prod.s3.amazonaws.com/uploads/judge/photo/2/Me_Crowwwn.png' height='80px' borderRadius='12px' />
+                                    <Box component='img' src='https://avatars.githubusercontent.com/u/25712570?v=4' height='80px' borderRadius='12px' />
                                 </Grid>
                                 <Grid item md={8} >
                                     <Typography fontSize={15}>JUDGE</Typography>
-                                    <Typography fontSize={22} fontWeight='bold'>Alex barker</Typography>
-                                    <Typography fontSize={15}>Co-Founder Crowwwn</Typography>
+                                    <Typography fontSize={22} fontWeight='bold'>Sachin Vaish</Typography>
+                                    <Typography fontSize={15}>MERN Stack Developer</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -48,7 +48,7 @@ export default function Header() {
                     <Card sx={{ color: 'text.secondary', textAlign: 'center' }}>
                         <CardContent>
                             <h4>Winner Announced in</h4>
-                            <Timer countDownDate='2022-12-30 19:43:00' />
+                            <Timer countDownDate='2023-01-10' />
                             <h4>Want to participate ?</h4>
                             <Button variant="contained" onClick={() => { navigate("/contest") }}>View this week's challenge</Button>
                         </CardContent>

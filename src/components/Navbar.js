@@ -70,9 +70,7 @@ export default function Navbar() {
                                     </Box>
                                 </>
                             )
-
                         }
-
                     </Toolbar>
                 </Container>
             </AppBar>

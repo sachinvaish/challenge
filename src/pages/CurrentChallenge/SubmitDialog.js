@@ -46,7 +46,7 @@ export default function SubmitDialog(props) {
         console.log(data);
         const submission = {
             // "_id": Math.random(),
-            "challenge_id": "63748a4dfcc73c0697996999",
+            "challenge_id": "0123456789",
             "photo": data.photo[0],
             "description": data.description,
             "feedback": data.feedback

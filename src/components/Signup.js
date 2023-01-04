@@ -35,6 +35,7 @@ export default function Signup(props) {
             onClose();
         }
     }
+    
 
     console.log("Inside Signup componetn");
 

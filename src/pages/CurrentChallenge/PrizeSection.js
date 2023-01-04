@@ -10,10 +10,10 @@ export default function PrizeSection() {
             <Grid container margin='auto' width={700} height='100%' >
                 <Grid item md={6} >
                     <Paper sx={{ padding:'70px', height: '100%', marginX:'10px' }}>
-                        <Box component='img' src='https://crowwwn-prod.s3.amazonaws.com/uploads/judge/photo/2/Me_Crowwwn.png' height='150px' borderRadius='12px' />
+                        <Box component='img' src='https://avatars.githubusercontent.com/u/25712570?v=4' height='150px' borderRadius='12px' />
                         <Typography fontSize={15}>JUDGE</Typography>
-                        <Typography fontSize={22} fontWeight='bold'>Alex barker</Typography>
-                        <Typography fontSize={15}>Co-Founder Crowwwn</Typography>
+                        <Typography fontSize={22} fontWeight='bold'>Sachin Vaish</Typography>
+                        <Typography fontSize={15}>MERN Stack Developer</Typography>
                     </Paper>
                 </Grid>
                 <Grid item md={6} sx={{display:'flex', flexDirection:'column'}}>

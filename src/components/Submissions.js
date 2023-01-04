@@ -1,4 +1,4 @@
-import { Container, Grid, Box } from '@mui/material';
+import { Container, Grid, Box, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,14 +6,8 @@ import SubmissionItem from './SubmissionItem';
 import {getSubmissions, SubmissionReducer} from '../redux/features/submissionSlice';
 
 export default function Submissions(props) {
-    const dispatch = useDispatch();
-    const {xs, sm, md, lg} = props;
-    const challenge_id = '63748a4dfcc73c064df4c744';
-    const {submissions} = useSelector((state)=>({...state.SubmissionReducer}))
-
-    useEffect(() => {
-      dispatch(getSubmissions(challenge_id));
-    }, []);
+    const {xs, sm, md, lg, challenge_id, submissions} = props;
+    // const {submissions} = useSelector((state)=>({...state.SubmissionReducer}))
 
     return (
         <Grid sx={{ display: 'flex', flexWrap: 'wrap' }} >

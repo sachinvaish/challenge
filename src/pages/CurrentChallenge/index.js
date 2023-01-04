@@ -11,7 +11,7 @@ export default function CurrentChallenge() {
       <ChallengeHeader />
       <Typography variant='body1' textAlign='center'>Submission Deadline</Typography>
       <Box paddingX='auto' alignItems='center' marginX='30vw' >
-        <Timer countDownDate="15-DEC-2022" />
+        <Timer countDownDate="15-JAN-2023" />
       </Box>
       <PrizeSection />
       <Typography variant='body1' textAlign='center'>Deliverables , Rules & Regulations</Typography>

@@ -13,6 +13,7 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Profile from "./pages/Profile";
 
+
 function App() {
 
   const theme = createTheme({
@@ -50,8 +51,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />}>
+          {!(localStorage.getItem('authToken')) && (<>
           <Route path="/login" element={<Login open={true} />} />
           <Route path="/signup" element={<Signup open={true} />} />
+          </>)}
         </Route>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
