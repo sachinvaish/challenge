@@ -11,6 +11,7 @@ export const createUser = createAsyncThunk('user/createUser',
             },
             body: JSON.stringify({
                 username: values.username,
+                name : values.name,
                 email: values.email,
                 password: values.password
             })

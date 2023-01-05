@@ -7,7 +7,7 @@ import { createFeedback, FeedbackReducer, getFeedbacks } from '../../redux/featu
 
 export default function Sidebar(props) {
     const submission = props.submission;
-    const { description, user_id } = props.submission;
+    const { description, user_id , _id} = props.submission;
 
     const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
 
@@ -85,11 +85,10 @@ export default function Sidebar(props) {
                                     {user.name ? user.name : user.username}
                                 </Link>
                             }
-                            subheader={`${upvotes} Upvotes`}
+                            subheader={`@${user.username}`}
                         />
                         <CardActions>
-                            <Typography variant='h6'>{upvotes}</Typography>
-                            <Like value={upvotes} method={setUpvotes} />
+                            <Like submission_id={_id} />
                         </CardActions>
                     </Box>
                     <Box sx={{ marginX: 2, textAlign: 'justify' }}>

@@ -9,7 +9,7 @@ export default function SubmissionItem(props) {
 
     const { _id, challenge_id, user_id, photo_url, description } = props.submission;
     // console.log(_id, challenge_id, user_id, photo_url, description)
-    const [feedbackCount, setFeedbackCount] = useState(5);
+    const [feedbackCount, setFeedbackCount] = useState(0);
     const [user, setUser] = useState({});
     const [upvotes, setUpvotes] = useState(5);
     const navigate = useNavigate();
@@ -17,6 +17,7 @@ export default function SubmissionItem(props) {
 
     useEffect(() => {
         getUser();
+        getFeedbacks();
 }, []);
 
 const getUser = async () => {
@@ -31,9 +32,16 @@ const getUser = async () => {
     
 }
 
-    const getFeedbacks = () => {
-        //API CALL to get feedbacks on particular submission id
-        setFeedbackCount(4);
+    const getFeedbacks = async() => {
+        //API CALL to get feedbacks on particular submission id /getfeedbackscount/id
+        let count = await fetch(`http://localhost:5000/feedbacks/getfeedbackscount/${_id}`,{
+            method:'GET',
+            headers : {
+                'Content-type':'application/json'
+            }
+        });
+        count = await count.json();
+        setFeedbackCount(count.count);
     }
 
 
@@ -67,8 +75,7 @@ const getUser = async () => {
                     
                 />
                 <CardActions>
-                    {/* <Typography variant='h6'>{upvotes}</Typography> */}
-                    <Like value={upvotes} method={setUpvotes} submission_id={_id} />
+                    <Like submission_id={_id} />
                 </CardActions>
             </Box>
         </Card>

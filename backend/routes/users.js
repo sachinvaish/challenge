@@ -54,6 +54,7 @@ router.post('/signup', [
 
         user = await User.create({
             username: req.body.username,
+            name : req.body.name,
             email: req.body.email,
             password: secPass,
             photo_url: req.body.photo_url,

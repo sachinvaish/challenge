@@ -43,5 +43,17 @@ router.get('/:submission_id', async (req, res) => {
     }
 })
 
+//Get feedbacksCount by submission ID
+router.get('/getfeedbackscount/:submission_id', async (req, res) => {
+    // console.log('submission id', req.params.submission_id);
+    try {
+        let feedbacks = await Feedback.find({ submission_id: req.params.submission_id });
+        // console.log('got feedacks', feedbacks)
+        let count = feedbacks.length
+        res.send({count});
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 module.exports = router;

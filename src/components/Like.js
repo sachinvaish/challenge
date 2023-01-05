@@ -7,7 +7,7 @@ import { toggleVote, VoteReducer } from '../redux/features/voteSlice';
 import { useEffect } from 'react';
 
 export default function Like(props) {
-    const { value, submission_id } = props;
+    const {submission_id } = props;
     const [like, setLike] = useState(false);
     const [votesCount, setVotesCount] = useState(0);
     const dispatch = useDispatch();

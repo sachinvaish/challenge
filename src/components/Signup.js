@@ -37,7 +37,7 @@ export default function Signup(props) {
         }
         dispatch(createUser(user));
         if(isLoggedIn){
-            reset({ email: '', username: '', password: '' });
+            reset({ email: '', username: '', password: '', name:'' });
             onClose();
             navigate('/');
         }

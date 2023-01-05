@@ -35,6 +35,7 @@ const feedbackSlice = createSlice({
     name: 'feedback',
     initialState: {
         feedbacks: null,
+        feedbacksCount : 0,
         loading: false,
         error: null,
         message: null
@@ -50,7 +51,7 @@ const feedbackSlice = createSlice({
             });
             builder.addCase(getFeedbacks.fulfilled, (state, action) => {
                 state.feedbacks = action.payload;
-                // console.log('getFeedbacks fulfilled');
+                state.feedbacksCount = action.payload.length;
             });
             builder.addCase(getFeedbacks.rejected, (state, action) => {
                 console.log('getfeedbacks rejected', action.payload);
