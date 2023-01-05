@@ -27,7 +27,12 @@ const UserSchema = new Schema({
   },
   photo_url : String,
   portfolio_url : String,
-  instagram_url : String
+  facebook_url : String,
+  instagram_url : String,
+  about : String,
+  designation : String,
+  organization : String,
+  location : String
 });
 
 module.exports = mongoose.model('user',UserSchema);

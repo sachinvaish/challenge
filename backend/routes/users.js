@@ -56,10 +56,7 @@ router.post('/signup', [
             username: req.body.username,
             name : req.body.name,
             email: req.body.email,
-            password: secPass,
-            photo_url: req.body.photo_url,
-            portfolio_url: req.body.portfolio_url,
-            instagram_url: req.body.instagram_url
+            password: secPass
         });
 
         const payload = {

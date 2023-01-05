@@ -55,7 +55,7 @@ export default function Navbar() {
                                     <Avatar sx={{ marginX: '10px' }}> {(user.username).charAt(0).toUpperCase()}</Avatar>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}
-                                        onClick={()=>{navigate("/profile")}}>
+                                        onClick={()=>{navigate(`/profile/${user._id}`)}}>
                                             {(user.name) ? (user.name) : (user.username)}</Typography>
                                         <Typography variant='subtitle2' sx={{ cursor: 'pointer', color: 'black' }} onClick={() => { dispatch(logout());  }}>
                                             Logout</Typography>
