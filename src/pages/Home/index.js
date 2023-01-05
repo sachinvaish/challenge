@@ -19,14 +19,14 @@ export default function Home() {
     return (
         <Container >
             <Header />
-            {submissions && (<>
+            {(submissions && submissions.length > 0) && (<>
             <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                 <Grid container>
                     <Submissions sm={12} md={6} lg={4} challenge_id={challenge_id} submissions={submissions} />
                 </Grid>
             </Box>
             </>)}
-            {!submissions && <Typography textAlign='center' p={10} variant='h5'>No Submissions to Display</Typography>}
+            {(submissions && submissions.length < 1) && <Typography textAlign='center' p={10} variant='h5'>No Submissions to Display</Typography>}
         </Container>
     );
 }

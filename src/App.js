@@ -4,7 +4,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home/index.js';
 import {
-  Routes, Route
+  Routes, Route, useNavigate
 } from 'react-router-dom';
 import SubmissionView from "./pages/SubmissionView";
 import Footer from "./components/Footer";
@@ -12,9 +12,15 @@ import CurrentChallenge from "./pages/CurrentChallenge/index.js";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Profile from "./pages/Profile";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "./redux/features/userSlice";
 
 
 function App() {
+  
+  const {isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const theme = createTheme({
     typography: {
@@ -51,10 +57,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />}>
-          {!(localStorage.getItem('authToken')) && (<>
+          {/* {!(localStorage.getItem('authToken')) ? (<> */}
           <Route path="/login" element={<Login open={true} />} />
           <Route path="/signup" element={<Signup open={true} />} />
-          </>)}
+          {/* </>) : handleLoggedin() } */}
         </Route>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />

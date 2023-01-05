@@ -23,6 +23,7 @@ export default function Login(props) {
     useEffect(() => {
         if(isLoggedIn){
             onClose();
+            navigate('/');
         }
     }, [isLoggedIn]);
 

@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Dialog, DialogContent, DialogContentText, FormControlLabel, Grid, IconButton, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
@@ -21,6 +21,12 @@ export default function Signup(props) {
         navigate("/");
     }
 
+    useEffect(() => {
+        if(isLoggedIn){
+            onClose();
+            navigate('/');
+        }
+    }, [isLoggedIn]);
 
     const onSubmit = (data) => {
         const user = {
@@ -33,6 +39,7 @@ export default function Signup(props) {
         if(isLoggedIn){
             reset({ email: '', username: '', password: '' });
             onClose();
+            navigate('/');
         }
     }
     
