@@ -1,13 +1,16 @@
-import { Avatar, Box, Button, Divider, Paper, Typography } from '@mui/material'
-import React from 'react';
+import { Avatar, Box, Button, Divider, Paper, Badge, Typography } from '@mui/material'
+import React, { useState } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import { useSelector } from 'react-redux';
+import EditProfile from './EditProfile';
+import styled from '@emotion/styled';
+import { PhotoCamera } from '@mui/icons-material';
 
 export default function UserInfo(props) {
 
-    console.log(props);
-    const {_id, name, username,
+    const { _id, name, username,
         email, photo_url,
         portfolio_url,
         facebook_url,
@@ -15,19 +18,50 @@ export default function UserInfo(props) {
         about,
         designation,
         organization,
-        location} = props.user;
+        location } = props.user;
+
+    const { isLoggedIn, user } = useSelector((state) => ({ ...state.UserReducer }));
+
+    const [open, setOpen] = useState(false);
+    const onClose = () => {
+        setOpen(false);
+    }
+
+    const handleClick = () => {
+        if (localStorage.getItem('authToken'))
+            setOpen(true);
+        else
+            alert('please login');
+    }
 
     return (
         <Paper sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
+            <EditProfile open={open} onClose={onClose} />
 
-            <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg" />
+            {(isLoggedIn && (user._id === _id)) ?
+                <Badge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                    badgeContent={
+                        <PhotoCamera color='primary'/>
+                    }
+                >
+                    <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg" />
+                </Badge>
+             : (
+                <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg" />
+                )}
+
+
             <Box my={1} sx={{ width: '100%' }} textAlign='center'>
                 <Typography variant='h5' fontWeight='bold'>{name}</Typography>
                 <Typography variant='subtitle2'>{`@${username}`}</Typography>
                 <Typography variant='subtitle1'>UI/UX Designer</Typography>
                 <Typography variant='subtitle2'>Ambala, Haryana, India</Typography>
             </Box>
-            <Button variant='contained' size='small'>Edit Profile</Button>
+            {(isLoggedIn && ((user._id === _id) &&
+                <Button variant='contained' size='small' onClick={handleClick}>Edit Profile</Button>
+            ))}
 
             <Box my={1} sx={{ width: '100%' }} textAlign='center'>
                 <Typography variant='h6' fontWeight='bold'>Awards</Typography>

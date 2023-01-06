@@ -64,7 +64,7 @@ function App() {
         </Route>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
-        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/profile/:id" element={<Profile />} />
         <Route exact path="/*" element={<h3>404 Not Found</h3>} />
       </Routes>
       <Footer />

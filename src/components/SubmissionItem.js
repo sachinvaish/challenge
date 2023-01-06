@@ -16,11 +16,11 @@ export default function SubmissionItem(props) {
     // const dispatch = useDispatch();
 
     useEffect(() => {
-        getUser();
-        getFeedbacks();
+        getUserByID();
+        getFeedbacksBySubmissionID();
 }, []);
 
-const getUser = async () => {
+const getUserByID = async () => {
     try {
         const user = await fetch(`http://localhost:5000/users/${user_id}`);
         const res = await user.json();
@@ -32,7 +32,7 @@ const getUser = async () => {
     
 }
 
-    const getFeedbacks = async() => {
+    const getFeedbacksBySubmissionID = async() => {
         //API CALL to get feedbacks on particular submission id /getfeedbackscount/id
         let count = await fetch(`http://localhost:5000/feedbacks/getfeedbackscount/${_id}`,{
             method:'GET',
@@ -67,7 +67,7 @@ const getUser = async () => {
                         </Avatar>
                     }
                     title={
-                        <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                        <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                             {user.name?user.name:user.username}
                         </Link>
                     }

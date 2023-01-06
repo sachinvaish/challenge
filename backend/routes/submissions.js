@@ -78,4 +78,14 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+//Get List of submissions by user ID
+router.get('/user/:user_id', async (req, res) => {
+    try {
+        let submissions = await Submission.find({ user_id: req.params.user_id });
+        res.send(submissions);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 module.exports = router;

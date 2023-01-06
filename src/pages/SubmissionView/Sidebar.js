@@ -4,6 +4,7 @@ import { Link, Box, Card, CardHeader, CardActions, Avatar, Typography, Divider, 
 import Feedback from '../../components/Feedback';
 import { useSelector, useDispatch } from 'react-redux';
 import { createFeedback, FeedbackReducer, getFeedbacks } from '../../redux/features/feedbackSlice';
+import { useNavigate } from 'react-router';
 
 export default function Sidebar(props) {
     const submission = props.submission;
@@ -12,16 +13,16 @@ export default function Sidebar(props) {
     const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [upvotes, setUpvotes] = useState(5);
     const [newFeedback, setNewFeedback] = useState('');
 
     useEffect(() => {
-        getUser();
+        getUserByID(user_id);
         getAllFeedbacks();
     }, [submission])
 
-    const getUser = async () => {
+    const getUserByID = async (user_id) => {
         try {
             const user = await fetch(`http://localhost:5000/users/${user_id}`);
             const res = await user.json();
@@ -81,7 +82,7 @@ export default function Sidebar(props) {
                                 </Avatar>
                             }
                             title={
-                                <Link variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                                <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                                     {user.name ? user.name : user.username}
                                 </Link>
                             }
