@@ -1,5 +1,5 @@
 import { Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
 import { PhotoCamera } from '@mui/icons-material';
@@ -40,7 +40,7 @@ export default function EditProfile(props) {
             "description": data.description,
             "feedback": data.feedback
         }
-        const authToken =  localStorage.getItem('authToken');
+        const authToken = localStorage.getItem('authToken');
         console.log(submission, authToken);
         // dispatch(createSubmission({submission, authToken}));
         handleOnClose();
@@ -62,7 +62,7 @@ export default function EditProfile(props) {
                 <DialogContent>
                     <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
                         <Grid container>
-                            <Grid item md={6} sm={12}>
+                            <Grid item md={3} sm={12}>
                                 <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                                     {img && <Box component='img' width='100%' height='430px' sx={{ objectFit: 'contain', padding: '8px', borderRadius: '15px' }} src={URL.createObjectURL(img)} />}
                                     {!img && <Typography variant='h5' sx={{ margin: '10px', fontWeight: 'bold' }} >Upload Design*</Typography>}
@@ -79,23 +79,26 @@ export default function EditProfile(props) {
                                     {errors.photo && <Typography sx={{ color: 'red', fontWeight: 'bold' }}>Please choose a file</Typography>}
                                 </Box>
                             </Grid>
-                            <Grid item md={6} sm={12}>
-                                <Box sx={{ marginBottom: '10px' }}>
-                                    <Typography variant='body2' sx={{ marginBottom: '6px', fontWeight: 'bold' }}>How did you solve this challenge ?</Typography>
-                                    <TextField {...register("description", { required: true })} fullWidth variant='outlined' multiline rows={4} placeholder='I did research and solved the challenge' helperText={errors.description && 'This field is required'} />
-                                </Box>
-                                
-                                <Box sx={{ marginY: '20px' }}>
-                                    <Typography variant='body2' sx={{ fontWeight: 'bold' }}  >Would you like feedback from the Crowwwn community?*</Typography>
-                                    <RadioGroup row {...register("feedback")}>
-                                        <FormControlLabel value="yes" control={<Radio size="small" />} label="Yes" />
-                                        <FormControlLabel value="no" control={<Radio size="small" />} label="No Thanks" />
-                                    </RadioGroup>
-                                </Box>
-                                <Button name='submit' type='submit' variant='contained' fullWidth>Save changes</Button>
-                            </Grid>
+                            <Grid item md={9} sm={12}>
+                                <Grid container mt={1}>
+                                    <Grid item md={6} sm={12} px={1}>
+                                        <Grid container gap={2}>
+                                            <TextField {...register("name", { required: true })} size='small' label='Name' fullWidth variant='outlined' />
+                                            <TextField {...register("username", { required: true })} size='small' label='Username' fullWidth variant='outlined' />
+                                            <TextField {...register("designation", { required: true })} size='small' label='Designation' fullWidth variant='outlined' />
+                                            <TextField {...register("location", { required: true })} size='small' label='Location' fullWidth variant='outlined' />
+                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself'/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item md={6} sm={12} pl={1}>
 
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
+                        <Box sx={{ display: 'flex', justifyContent: 'right' }}>
+                            <Button name='submit' type='submit' variant='contained'>Save changes</Button>
+                        </Box>
                     </form>
                 </DialogContent>
             </Dialog>
