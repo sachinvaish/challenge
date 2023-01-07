@@ -1,17 +1,29 @@
-import { Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Avatar, Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, InputAdornment, InputBase, Radio, RadioGroup, Slider, TextField, Typography } from '@mui/material';
+import React, { useRef, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
 import { PhotoCamera } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
+import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import AvatarEditor from 'react-avatar-editor'
+import { useEffect } from 'react';
 
 export default function EditProfile(props) {
 
     const { open, onClose } = props;
     const { register, reset, handleSubmit, formState: { errors } } = useForm();
     const [img, setImg] = useState(null);
+    const [profilePhoto, setProfilePhoto] = useState(null);
+    const [scale, setScale] = useState(1);
+    const [enableAvatar, setEnableAvatar] = useState(false);
     const dispatch = useDispatch();
+    const editor = useRef(null);
+
 
     const handleOnClose = () => {
         reset({ photo: null, description: null, tags: null, feedback: null });
@@ -28,8 +40,16 @@ export default function EditProfile(props) {
         } else {
             console.log('no errors, setting image')
             setImg(file);
+            setEnableAvatar(true);
         }
     };
+
+    useEffect(()=>{
+        if(editor.current){
+            console.log(editor.current);
+            console.log(editor.current.getImageScaledToCanvas())
+        }
+    },[editor.current])
 
     const onSubmit = (data) => {
         console.log(data);
@@ -62,42 +82,120 @@ export default function EditProfile(props) {
                 <DialogContent>
                     <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
                         <Grid container>
-                            <Grid item md={3} sm={12}>
-                                <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
-                                    {img && <Box component='img' width='100%' height='430px' sx={{ objectFit: 'contain', padding: '8px', borderRadius: '15px' }} src={URL.createObjectURL(img)} />}
-                                    {!img && <Typography variant='h5' sx={{ margin: '10px', fontWeight: 'bold' }} >Upload Design*</Typography>}
-                                    <ButtonGroup variant='contained' size='small' sx={{ marginY: '10px' }} >
-                                        <Button size='small' startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
-                                            <input hidden accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
-                                            {img ? 'Choose other Image' : 'Choose Image'}
-                                        </Button>
-                                        {img &&
-                                            <Button component="label" color='error' mx={2} startIcon={<DeleteIcon />} onClick={() => { setImg(null) }}>Delete</Button>
+                            <Grid item md={3} sm={12} pr={1} >
+                                <Typography mb={1}>Profile Image</Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+                                        {(!enableAvatar && profilePhoto) && <Box component='img' width={230} height={230} sx={{ objectFit: 'cover', padding: '8px', borderRadius: '200px' }} src={URL.createObjectURL(profilePhoto)} />}
+                                        {(!profilePhoto && !enableAvatar) &&
+                                            <Avatar sx={{ width: 200, height: 200, marginBottom:'30px' }}>
+                                                <AddAPhotoIcon />
+                                            </Avatar>
                                         }
-                                    </ButtonGroup>
-                                    {!img && <Typography variant='subtitle2' sx={{ marginTop: '10px' }} >(For best results upload designs with a 4:3 ratio)</Typography>}
-                                    {errors.photo && <Typography sx={{ color: 'red', fontWeight: 'bold' }}>Please choose a file</Typography>}
+                                        {enableAvatar &&
+                                            <AvatarEditor
+                                                ref={editor}
+                                                image={img && URL.createObjectURL(img)}
+                                                width={250}
+                                                height={250}
+                                                border={20}
+                                                borderRadius={200}
+                                                color={[255, 255, 255, 0.6]} // RGBA
+                                                scale={scale}
+                                                rotate={0}
+                                                style={{
+                                                    width: "100%",
+                                                    height: "auto"
+                                                }}
+                                            />}
+                                    </Box>
+                                    {enableAvatar && <Slider onChange={(e) => setScale(e.target.value)} min={1} max={10} />}
+                                    <Box gap={1} sx={{ display: 'flex', flexDirection: 'row' }}>
+                                        {!enableAvatar && <Button size='small' fullWidth startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
+                                            <input hidden accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e); } })} />
+                                            {profilePhoto ? 'Change' : 'Choose'}
+                                        </Button>}
+
+                                        {profilePhoto && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setProfilePhoto(null); }}>Delete</Button>}
+
+                                        {img && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
+
+                                        {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={() => {setProfilePhoto(img); setEnableAvatar(false); setImg(null)}}>Crop</Button>}
+                                    </Box>
                                 </Box>
                             </Grid>
                             <Grid item md={9} sm={12}>
-                                <Grid container mt={1}>
+                                <Grid container>
                                     <Grid item md={6} sm={12} px={1}>
+                                        <Typography mb={1}>Personal Info</Typography>
                                         <Grid container gap={2}>
                                             <TextField {...register("name", { required: true })} size='small' label='Name' fullWidth variant='outlined' />
                                             <TextField {...register("username", { required: true })} size='small' label='Username' fullWidth variant='outlined' />
                                             <TextField {...register("designation", { required: true })} size='small' label='Designation' fullWidth variant='outlined' />
                                             <TextField {...register("location", { required: true })} size='small' label='Location' fullWidth variant='outlined' />
-                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself'/>
+                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself' />
                                         </Grid>
                                     </Grid>
                                     <Grid item md={6} sm={12} pl={1}>
-
+                                        <Typography mb={1}>Social Profiles</Typography>
+                                        <Grid container gap={2}>
+                                            <Input
+                                                id="input-with-icon-adornment"
+                                                {...register("facebook_url")}
+                                                startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <FacebookRoundedIcon />
+                                                    </InputAdornment>
+                                                }
+                                                placeholder='www.facebook.com/username'
+                                                fullWidth
+                                            />
+                                            <Input
+                                                id="input-with-icon-adornment"
+                                                {...register("instagram_url")}
+                                                startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <InstagramIcon />
+                                                    </InputAdornment>
+                                                }
+                                                placeholder='www.instagram.com/username'
+                                                fullWidth
+                                            />
+                                            <Input
+                                                id="input-with-icon-adornment"
+                                                {...register("twitter_url")}
+                                                startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <TwitterIcon />
+                                                    </InputAdornment>
+                                                }
+                                                placeholder='www.twitter.com/username'
+                                                fullWidth
+                                            />
+                                            <Input
+                                                id="input-with-icon-adornment"
+                                                {...register("linkedin_url")}
+                                                startAdornment={
+                                                    <InputAdornment position="start">
+                                                        <LinkedInIcon />
+                                                    </InputAdornment>
+                                                }
+                                                placeholder='in.linkedin.com/in/username'
+                                                fullWidth
+                                            />
+                                            <Input
+                                                id="input-with-icon-adornment"
+                                                {...register("portfolio_url")}
+                                                placeholder='Other portfolio URL'
+                                                fullWidth
+                                            />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Box sx={{ display: 'flex', justifyContent: 'right' }}>
-                            <Button name='submit' type='submit' variant='contained'>Save changes</Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'right' }} mt={2}>
+                            <Button name='submit' color='success' type='submit' variant='contained'>Save changes</Button>
                         </Box>
                     </form>
                 </DialogContent>
