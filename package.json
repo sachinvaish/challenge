@@ -12,7 +12,11 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
+<<<<<<< HEAD
     "react-avatar-edit": "^1.2.0",
+=======
+    "react-avatar-editor": "^13.0.0",
+>>>>>>> d336e346e84bf6bcd1619b2899477097a68784d3
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.40.0",
     "react-redux": "^8.0.5",
