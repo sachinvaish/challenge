@@ -5,17 +5,19 @@ import { useForm } from "react-hook-form";
 import { PhotoCamera } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
+import Avatar from 'react-avatar-edit';
 
 export default function EditProfile(props) {
 
     const { open, onClose } = props;
     const { register, reset, handleSubmit, formState: { errors } } = useForm();
-    const [img, setImg] = useState(null);
+    const [src, setSrc] = useState(null);
+    const [preview, setPreview] = useState(null);
     const dispatch = useDispatch();
 
     const handleOnClose = () => {
         reset({ photo: null, description: null, tags: null, feedback: null });
-        setImg(null);
+        // setImg(null);
         onClose();
     }
 
@@ -27,9 +29,25 @@ export default function EditProfile(props) {
             return false;
         } else {
             console.log('no errors, setting image')
-            setImg(file);
+            setPreview(file);
+            console.log(file);
         }
+
+        // if (file.size > 716800) {
+        //     alert("File is too big!");
+        //     e.target.value = "";
+        // };
     };
+
+    const onImgClose = () => {
+        console.log('onImgClose called');
+        setPreview(null);
+    }
+
+    const onCrop = view => {
+        console.log(view);
+        setPreview(view);
+    }
 
     const onSubmit = (data) => {
         console.log(data);
@@ -63,13 +81,25 @@ export default function EditProfile(props) {
                     <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
                         <Grid container>
                             <Grid item md={3} sm={12}>
-                                <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
+                                <Typography mb={1}>Profile Image</Typography>
+                                <Box>
+                                    <Avatar
+                                        width='400px'
+                                        height='400px'
+                                        onCrop={onCrop}
+                                        onClose={onImgClose}
+                                        // onBeforeFileLoad={handleImageUpload}
+                                        src={src}
+                                    />
+                                    {preview && <img src={preview} height='50px' width='50px' alt="Preview" />}
+                                </Box>
+
+                                {/* <Box sx={{ marginRight: '10px', height: '100%', border: '1px solid #c7c7c7', borderStyle: 'dashed', borderRadius: '10px', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
                                     {img && <Box component='img' width='100%' height='430px' sx={{ objectFit: 'contain', padding: '8px', borderRadius: '15px' }} src={URL.createObjectURL(img)} />}
                                     {!img && <Typography variant='h5' sx={{ margin: '10px', fontWeight: 'bold' }} >Upload Design*</Typography>}
                                     <ButtonGroup variant='contained' size='small' sx={{ marginY: '10px' }} >
                                         <Button size='small' startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
                                             <input hidden accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e) } })} />
-                                            {img ? 'Choose other Image' : 'Choose Image'}
                                         </Button>
                                         {img &&
                                             <Button component="label" color='error' mx={2} startIcon={<DeleteIcon />} onClick={() => { setImg(null) }}>Delete</Button>
@@ -77,26 +107,34 @@ export default function EditProfile(props) {
                                     </ButtonGroup>
                                     {!img && <Typography variant='subtitle2' sx={{ marginTop: '10px' }} >(For best results upload designs with a 4:3 ratio)</Typography>}
                                     {errors.photo && <Typography sx={{ color: 'red', fontWeight: 'bold' }}>Please choose a file</Typography>}
-                                </Box>
+                                </Box> */}
                             </Grid>
-                            <Grid item md={9} sm={12}>
-                                <Grid container mt={1}>
+                            {/* <Grid item md={9} sm={12}>
+                                <Grid container>
                                     <Grid item md={6} sm={12} px={1}>
+                                        <Typography mb={1}>Personal Info</Typography>
                                         <Grid container gap={2}>
                                             <TextField {...register("name", { required: true })} size='small' label='Name' fullWidth variant='outlined' />
                                             <TextField {...register("username", { required: true })} size='small' label='Username' fullWidth variant='outlined' />
                                             <TextField {...register("designation", { required: true })} size='small' label='Designation' fullWidth variant='outlined' />
                                             <TextField {...register("location", { required: true })} size='small' label='Location' fullWidth variant='outlined' />
-                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself'/>
+                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself' />
                                         </Grid>
                                     </Grid>
                                     <Grid item md={6} sm={12} pl={1}>
-
+                                        <Typography mb={1}>Social Links</Typography>
+                                        <Grid container gap={2}>
+                                            <TextField {...register("name", { required: true })} size='small' label='Name' fullWidth variant='outlined' />
+                                            <TextField {...register("username", { required: true })} size='small' label='Username' fullWidth variant='outlined' />
+                                            <TextField {...register("designation", { required: true })} size='small' label='Designation' fullWidth variant='outlined' />
+                                            <TextField {...register("location", { required: true })} size='small' label='Location' fullWidth variant='outlined' />
+                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself' />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
-                        <Box sx={{ display: 'flex', justifyContent: 'right' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'right' }} mt={2}>
                             <Button name='submit' type='submit' variant='contained'>Save changes</Button>
                         </Box>
                     </form>

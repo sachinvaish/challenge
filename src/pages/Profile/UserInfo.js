@@ -5,7 +5,6 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { useSelector } from 'react-redux';
 import EditProfile from './EditProfile';
-import styled from '@emotion/styled';
 import { PhotoCamera } from '@mui/icons-material';
 
 export default function UserInfo(props) {
