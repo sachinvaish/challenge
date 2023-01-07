@@ -27,7 +27,8 @@ export default function EditProfile(props) {
 
     const handleOnClose = () => {
         reset({ photo: null, description: null, tags: null, feedback: null });
-        // setImg(null);
+        setImg(null);
+        setProfilePhoto(null);
         onClose();
     }
 
@@ -49,24 +50,32 @@ export default function EditProfile(props) {
         // };
     };
 
-    useEffect(()=>{
-        if(editor.current){
-            console.log(editor.current);
-            console.log(editor.current.getImageScaledToCanvas())
-        }
-    },[editor.current])
+    const handleCrop = () => {
+        const canvas = editor.current.getImageScaledToCanvas().toDataURL();
+        setProfilePhoto(canvas);
+        setEnableAvatar(false);
+        setImg(null)
+    }
 
     const onSubmit = (data) => {
         console.log(data);
-        const submission = {
-            // "_id": Math.random(),
-            "challenge_id": "0123456789",
-            "photo": data.photo[0],
+        const updatedUser = {
+            "username": data.username,
+            "name": data.name,
+            "designation": data.designation,
+            "location": data.location,
+            "about": data.about,
+            "facebook_url": data.facebook_url,
+            "instagram_url": data.instagram_url,
+            "twitter_url": data.twitter_url,
+            "linkedin_url": data.linkedin_url,
+            "portfolio_url": data.portfolio_url,
+            "photo": profilePhoto,
             "description": data.description,
             "feedback": data.feedback
         }
         const authToken = localStorage.getItem('authToken');
-        console.log(submission, authToken);
+        console.log( authToken);
         // dispatch(createSubmission({submission, authToken}));
         handleOnClose();
     }
@@ -91,9 +100,9 @@ export default function EditProfile(props) {
                                 <Typography mb={1}>Profile Image</Typography>
                                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                        {(!enableAvatar && profilePhoto) && <Box component='img' width={230} height={230} sx={{ objectFit: 'cover', padding: '8px', borderRadius: '200px' }} src={URL.createObjectURL(profilePhoto)} />}
+                                        {(!enableAvatar && profilePhoto) && <Box component='img' width={230} height={230} sx={{ objectFit: 'cover', padding: '8px', borderRadius: '200px' }} src={profilePhoto} />}
                                         {(!profilePhoto && !enableAvatar) &&
-                                            <Avatar sx={{ width: 200, height: 200, marginBottom:'30px' }}>
+                                            <Avatar sx={{ width: 200, height: 200 }}>
                                                 <AddAPhotoIcon />
                                             </Avatar>
                                         }
@@ -114,18 +123,18 @@ export default function EditProfile(props) {
                                                 }}
                                             />}
                                     </Box>
-                                    {enableAvatar && <Slider onChange={(e) => setScale(e.target.value)} min={1} max={10} />}
-                                    <Box gap={1} sx={{ display: 'flex', flexDirection: 'row' }}>
+                                    {enableAvatar && <Slider onChange={(e) => setScale(e.target.value)} step={0.0001} min={1} max={5} />}
+                                    <Box gap={1} sx={{ display: 'flex', flexDirection: 'row', marginTop: '30px' }}>
                                         {!enableAvatar && <Button size='small' fullWidth startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
                                             <input hidden accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e); } })} />
                                             {profilePhoto ? 'Change' : 'Choose'}
                                         </Button>}
 
-                                        {profilePhoto && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setProfilePhoto(null); }}>Delete</Button>}
+                                        {(profilePhoto && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setProfilePhoto(null); }}>Delete</Button>}
 
                                         {img && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
 
-                                        {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={() => {setProfilePhoto(img); setEnableAvatar(false); setImg(null)}}>Crop</Button>}
+                                        {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={handleCrop}>Crop</Button>}
                                     </Box>
                                 </Box>
                             </Grid>
@@ -197,7 +206,7 @@ export default function EditProfile(props) {
                                         </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid> */}
+                            </Grid>
                         </Grid>
                         <Box sx={{ display: 'flex', justifyContent: 'right' }}>
                             <Button name='submit' type='submit' variant='contained'>Save changes</Button>

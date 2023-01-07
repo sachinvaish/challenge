@@ -36,30 +36,15 @@ export default function UserInfo(props) {
     return (
         <Paper sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
             <EditProfile open={open} onClose={onClose} />
-
-            {(isLoggedIn && (user._id === _id)) ?
-                <Badge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    badgeContent={
-                        <PhotoCamera color='primary'/>
-                    }
-                >
-                    <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg" />
-                </Badge>
-             : (
-                <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg" />
-                )}
-
-
-            <Box my={1} sx={{ width: '100%' }} textAlign='center'>
+            <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src="https://newprofilepic2.photo-cdn.net//assets/images/article/profile.jpg" />
+            <Box mb={1} sx={{ width: '100%' }} textAlign='center'>
                 <Typography variant='h5' fontWeight='bold'>{name}</Typography>
                 <Typography variant='subtitle2'>{`@${username}`}</Typography>
                 <Typography variant='subtitle1'>UI/UX Designer</Typography>
                 <Typography variant='subtitle2'>Ambala, Haryana, India</Typography>
             </Box>
             {(isLoggedIn && ((user._id === _id) &&
-                <Button variant='contained' size='small' onClick={handleClick}>Edit Profile</Button>
+                <Button variant='outlined' size='small' onClick={handleClick}>Edit Profile</Button>
             ))}
 
             <Box my={1} sx={{ width: '100%' }} textAlign='center'>
