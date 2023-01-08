@@ -46,9 +46,9 @@ export default function EditProfile(props) {
 
 
     const handleOnClose = () => {
+        // setImg(null);
+        // setProfilePhoto(null);
         getUserByID(user._id);
-        setImg(null);
-        setProfilePhoto(null);
         onClose();
     }
 
@@ -75,8 +75,9 @@ export default function EditProfile(props) {
         setProfilePhoto(base64);
         const authToken = localStorage.getItem('authToken');
         dispatch(updateProfilePhoto({ base64, authToken }));
+        // getUserByID(user._id);
         setEnableAvatar(false);
-        setImg(null)
+        setImg(null);
     }
 
     const handleDelete = ()=>{
@@ -105,6 +106,7 @@ export default function EditProfile(props) {
         const authToken = localStorage.getItem('authToken');
         console.log(authToken);
         dispatch(updateUser({ updatedUser, authToken }));
+        getUserByID(user._id);
         handleOnClose();
     }
 
@@ -160,7 +162,7 @@ export default function EditProfile(props) {
 
                                         {(profilePhoto && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={handleDelete}>Delete</Button>}
 
-                                        {img && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
+                                        {img && <Button variant='contained' size='small' fullWidth color='success' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
 
                                         {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={handleCrop}>Set</Button>}
                                     </Box>

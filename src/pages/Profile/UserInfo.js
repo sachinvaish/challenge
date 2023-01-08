@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Divider, Paper, Badge, Typography } from '@mui/material'
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/Twitter';
@@ -17,10 +17,10 @@ export default function UserInfo(props) {
         designation,
         organization,
         location } = props.user;
-    const {handleEdit}=props;
+    const { handleEdit } = props;
     const { isLoggedIn, user } = useSelector((state) => ({ ...state.UserReducer }));
 
-    
+
 
     return (
         <Paper sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
@@ -28,8 +28,8 @@ export default function UserInfo(props) {
             <Box mb={1} sx={{ width: '100%' }} textAlign='center'>
                 <Typography variant='h5' fontWeight='bold'>{name}</Typography>
                 <Typography variant='subtitle2'>{`@${username}`}</Typography>
-                <Typography variant='subtitle1'>UI/UX Designer</Typography>
-                <Typography variant='subtitle2'>Ambala, Haryana, India</Typography>
+                <Typography variant='subtitle1'>{designation}</Typography>
+                <Typography variant='subtitle2'>{location}</Typography>
             </Box>
             {(isLoggedIn && ((user._id === _id) &&
                 <Button variant='outlined' size='small' onClick={handleEdit}>Edit Profile</Button>
@@ -68,7 +68,7 @@ export default function UserInfo(props) {
                 <Typography variant='h6' fontWeight='bold'>About Me</Typography>
                 <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'space-evenly' }}>
                     <Typography align='justify'>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam aperiam voluptates ducimus rem magni perspiciatis, earum, ipsa excepturi ad repudiandae ex porro, eveniet incidunt. Eveniet ipsam iusto odit officiis dolor quos deleniti suscipit fuga!
+                        {about}
                     </Typography>
                 </Box>
             </Box>

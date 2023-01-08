@@ -29,12 +29,12 @@ export default function Profile(props) {
     // console.log('fetching user ')
     getUserByID(id);
     getSubmissionsByUserID(id);
-  }, []);
+  },[id]);
 
   const getUserByID = async (user_id) => {
     console.log('getting user by ID');
     try {
-      setUser(null);
+      // setUser(null);
       const user = await fetch(`http://localhost:5000/users/${user_id}`);
       const res = await user.json();
       setUser(res);
