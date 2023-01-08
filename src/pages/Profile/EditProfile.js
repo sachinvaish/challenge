@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, InputAdornment, InputBase, Radio, RadioGroup, Slider, TextField, Typography } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
 import { PhotoCamera } from '@mui/icons-material';
@@ -10,13 +10,26 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import AvatarEditor from 'react-avatar-editor'
-import { useEffect } from 'react';
+import AvatarEditor from 'react-avatar-editor';
+import { deletePhoto, updateProfilePhoto, updateUser } from '../../redux/features/userSlice';
 
 export default function EditProfile(props) {
 
-    const { open, onClose } = props;
-    const { register, reset, handleSubmit, formState: { errors } } = useForm();
+    const { open, onClose, user, getUserByID } = props;
+    const preloadedValues = {
+        username: user.username,
+        name: user.name,
+        designation: user.designation,
+        location: user.location,
+        about: user.about,
+        facebook_url: user.facebook_url,
+        instagram_url: user.instagram_url,
+        twitter_url: user.twitter_url,
+        linkedin_url: user.linkedin_url,
+        portfolio_url: user.portfolio_url
+    }
+
+    const { register, reset, handleSubmit, formState: { errors } } = useForm({ defaultValues: preloadedValues });
     const [img, setImg] = useState(null);
     const [profilePhoto, setProfilePhoto] = useState(null);
     const [scale, setScale] = useState(1);
@@ -24,9 +37,16 @@ export default function EditProfile(props) {
     const dispatch = useDispatch();
     const editor = useRef(null);
 
+    useEffect(() => {
+        if (user.photo_url){
+            // console.log('setting photourl', user.photo_url);
+            setProfilePhoto(`http://localhost:5000/uploads/profile/${user.photo_url}`)
+        }
+    }, [])
+
 
     const handleOnClose = () => {
-        reset({ photo: null, description: null, tags: null, feedback: null });
+        getUserByID(user._id);
         setImg(null);
         setProfilePhoto(null);
         onClose();
@@ -51,15 +71,26 @@ export default function EditProfile(props) {
     };
 
     const handleCrop = () => {
-        const canvas = editor.current.getImageScaledToCanvas().toDataURL();
-        setProfilePhoto(canvas);
+        const base64 = editor.current.getImageScaledToCanvas().toDataURL();
+        setProfilePhoto(base64);
+        const authToken = localStorage.getItem('authToken');
+        dispatch(updateProfilePhoto({ base64, authToken }));
         setEnableAvatar(false);
         setImg(null)
+    }
+
+    const handleDelete = ()=>{
+        const authToken = localStorage.getItem('authToken');
+        console.log(authToken);
+        const photo_url = user.photo_url;
+        dispatch(deletePhoto({ photo_url, authToken }));
+        setProfilePhoto(null);
     }
 
     const onSubmit = (data) => {
         console.log(data);
         const updatedUser = {
+            "user_id": user._id,
             "username": data.username,
             "name": data.name,
             "designation": data.designation,
@@ -69,14 +100,11 @@ export default function EditProfile(props) {
             "instagram_url": data.instagram_url,
             "twitter_url": data.twitter_url,
             "linkedin_url": data.linkedin_url,
-            "portfolio_url": data.portfolio_url,
-            "photo": profilePhoto,
-            "description": data.description,
-            "feedback": data.feedback
+            "portfolio_url": data.portfolio_url
         }
         const authToken = localStorage.getItem('authToken');
-        console.log( authToken);
-        // dispatch(createSubmission({submission, authToken}));
+        console.log(authToken);
+        dispatch(updateUser({ updatedUser, authToken }));
         handleOnClose();
     }
 
@@ -94,7 +122,7 @@ export default function EditProfile(props) {
                     </Box>
                 </DialogTitle>
                 <DialogContent>
-                    <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
+                    <form onSubmit={handleSubmit(onSubmit)} >
                         <Grid container>
                             <Grid item md={3} sm={12} pr={1} >
                                 <Typography mb={1}>Profile Image</Typography>
@@ -126,15 +154,15 @@ export default function EditProfile(props) {
                                     {enableAvatar && <Slider onChange={(e) => setScale(e.target.value)} step={0.0001} min={1} max={5} />}
                                     <Box gap={1} sx={{ display: 'flex', flexDirection: 'row', marginTop: '30px' }}>
                                         {!enableAvatar && <Button size='small' fullWidth startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
-                                            <input hidden accept="image/*" type="file" {...register("photo", { required: true, onChange: (e) => { handleImageUpload(e); } })} />
+                                            <input hidden accept="image/*" type="file" {...register("photo", { onChange: (e) => { handleImageUpload(e); } })} />
                                             {profilePhoto ? 'Change' : 'Choose'}
                                         </Button>}
 
-                                        {(profilePhoto && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setProfilePhoto(null); }}>Delete</Button>}
+                                        {(profilePhoto && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={handleDelete}>Delete</Button>}
 
                                         {img && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
 
-                                        {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={handleCrop}>Crop</Button>}
+                                        {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={handleCrop}>Set</Button>}
                                     </Box>
                                 </Box>
                             </Grid>
@@ -143,11 +171,11 @@ export default function EditProfile(props) {
                                     <Grid item md={6} sm={12} px={1}>
                                         <Typography mb={1}>Personal Info</Typography>
                                         <Grid container gap={2}>
-                                            <TextField {...register("name", { required: true })} size='small' label='Name' fullWidth variant='outlined' />
-                                            <TextField {...register("username", { required: true })} size='small' label='Username' fullWidth variant='outlined' />
-                                            <TextField {...register("designation", { required: true })} size='small' label='Designation' fullWidth variant='outlined' />
-                                            <TextField {...register("location", { required: true })} size='small' label='Location' fullWidth variant='outlined' />
-                                            <TextField {...register("about", { required: true })} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself' />
+                                            <TextField {...register("name")} size='small' label='Name' fullWidth variant='outlined' />
+                                            <TextField InputProps={{ readOnly: true }} {...register("username", { required: true })} size='small' label='Username' fullWidth variant='outlined' />
+                                            <TextField {...register("designation")} size='small' label='Designation' fullWidth variant='outlined' />
+                                            <TextField {...register("location")} size='small' label='Location' fullWidth variant='outlined' />
+                                            <TextField {...register("about")} size='small' label='Let the world know who are you' fullWidth variant='outlined' multiline rows={4} placeholder='Describe yourself' />
                                         </Grid>
                                     </Grid>
                                     <Grid item md={6} sm={12} pl={1}>

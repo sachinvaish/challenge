@@ -1,10 +1,82 @@
 const express = require('express');
+const fs = require('fs');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
+const multer = require('multer');
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination: (req, file, cb) => {
+            uploadPath = './public/uploads/profile/'
+            fs.mkdirSync(uploadPath, { recursive: true })
+            cb(null, uploadPath);
+        },
+        filename: (req, file, cb) => {
+            let ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+            cb(null, file.fieldname + "-" + Date.now() + ext);
+        }
+    })
+}).single('profilePhoto');
+
+router.put('/setphoto', fetchuser, async (req, res) => {
+    try {
+        userID = req.user.id;
+        var data = req.body.photo.replace(/^data:image\/\w+;base64,/, "");
+        const buffer = Buffer.from(data, "base64");
+        // console.log('buffer is ', buffer);
+        const image = fs.writeFileSync(`./public/uploads/profile/${userID}.jpg`, buffer);
+        const user = await User.findByIdAndUpdate(userID, {
+            photo_url: `${userID}.jpg`
+        }, { new: true });
+        res.send(user);
+        
+    } catch (error) {
+        //catching errors 
+        console.log(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+
+})
+
+router.delete('/deletephoto',fetchuser, async(req,res)=>{
+    try {
+        userID = req.user.id;
+        let photo_url = `./public/uploads/profile/${req.body.photo_url}`
+        fs.unlinkSync(photo_url);
+        const user = await User.findByIdAndUpdate(userID, {
+            photo_url: ''
+        }, { new: true });
+        res.send(user);
+    } catch (error) {
+        //catching errors 
+        console.log(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+})
+
+// router.put('/setphoto', [upload, fetchuser], async (req, res) => {
+//     console.log('file is', req.file);
+//     try {
+//         userID = req.user.id;
+//         let photo_url = await User.findById(userID).select('photo_url');
+//         photo_url = `./public/uploads/profile/${photo_url.photo_url}`
+//         if (fs.existsSync(photo_url))
+//             fs.unlinkSync(photo_url);
+//         console.log('after unlink file is', req.file);
+//         const user = await User.findByIdAndUpdate(userID, {
+//             photo_url: req.file.filename
+//         }, { new: true });
+//         res.json(user);
+//     } catch (error) {
+//         //catching errors 
+//         console.log(error);
+//         res.status(500).json({ "message": "Server Error Occured" });
+//     }
+// })
 
 // GET : Get a User by authToken
 router.get('/', fetchuser, async (req, res) => {
@@ -12,11 +84,11 @@ router.get('/', fetchuser, async (req, res) => {
         userID = req.user.id;
         const user = await User.findById(userID).select("-password");
         res.json(user);
-     } catch (error) {
+    } catch (error) {
         //catching errors 
         console.log(error);
         res.status(500).json({ "message": "Server Error Occured" });
-     }
+    }
 })
 
 // GET : Get a User by ID
@@ -24,11 +96,11 @@ router.get('/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id).select("-password");
         res.json(user);
-     } catch (error) {
+    } catch (error) {
         //catching errors 
         console.log(error);
         res.status(500).json({ "message": "Server Error Occured" });
-     }
+    }
 })
 
 // POST : Create a User
@@ -54,7 +126,7 @@ router.post('/signup', [
 
         user = await User.create({
             username: req.body.username,
-            name : req.body.name,
+            name: req.body.name,
             email: req.body.email,
             password: secPass
         });
@@ -84,7 +156,7 @@ router.post('/login', [
     try {
         let user = await User.findOne({ email: req.body.email })
         if (!user) {
-            return res.status(400).json({"error":"Please login with correct credentials"});
+            return res.status(400).json({ "error": "Please login with correct credentials" });
         }
         let hash = user.password;
         let verified = bcrypt.compareSync(req.body.password, hash);
@@ -92,22 +164,22 @@ router.post('/login', [
         const payload = {
             id: user.id
         }
-        if(verified){
+        if (verified) {
             const secretKey = "ChallengeWebsite#1";
             let authToken = await jwt.sign(payload, secretKey);
             res.json({ authToken });
-        }else{
-            res.json({"error":"Please login with correct credentials"});
+        } else {
+            res.json({ "error": "Please login with correct credentials" });
         }
-        
+
     } catch (error) {
         res.json({ error });
     }
 })
 
 // PUT : Update a User
-router.put('/update', fetchuser, [
-    body('name', 'Name cannot be Empty').notEmpty()
+router.put('/', fetchuser, [
+    body('username', 'username cannot be Empty').notEmpty()
 ], async (req, res) => {
     const errors = validationResult(req);
     //validation check post
@@ -117,19 +189,29 @@ router.put('/update', fetchuser, [
 
     try {
         userID = req.user.id;
-        const user = await User.findByIdAndUpdate(userID,{
-            name: req.body.name,
-            photo_url: req.body.photo_url,
-            portfolio_url: req.body.portfolio_url,
-            instagram_url: req.body.instagram_url
-        },{new:true})
-        res.json(user);
-     } catch (error) {
+        if (req.body.user_id === userID) {
+            const user = await User.findByIdAndUpdate(userID, {
+                name: req.body.name,
+                username: req.body.username,
+                designation: req.body.designation,
+                location: req.body.location,
+                about: req.body.about,
+                facebook_url: req.body.facebook_url,
+                instagram_url: req.body.instagram_url,
+                twitter_url: req.body.twitter_url,
+                linkedin_url: req.body.linkedin_url,
+                portfolio_url: req.body.portfolio_url
+            }, { new: true })
+            res.json(user);
+        } else {
+            res.status(500).json({ "error": 'Authorization failed' });
+        }
+    } catch (error) {
         //catching errors 
         console.error(error);
         res.status(500).json({ "message": "Server Error Occured" });
-     }
-    
+    }
+
 })
 
 module.exports = router;

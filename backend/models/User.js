@@ -29,9 +29,10 @@ const UserSchema = new Schema({
   portfolio_url : String,
   facebook_url : String,
   instagram_url : String,
+  twitter_url : String,
+  linkedin_url : String,
   about : String,
   designation : String,
-  organization : String,
   location : String
 });
 

@@ -4,8 +4,6 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import SubmitDialog from './SubmitDialog';
 
-console.log("Inside ViewChallenge");
-
 export default function ChallengeHeader() {
 
   const [open, setOpen] = useState(false);

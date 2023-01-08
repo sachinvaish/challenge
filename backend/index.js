@@ -1,10 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors')
 const app = express();
 const connectToMongo = require('./db');
 const path = require('path');
 
 app.use(express.static(path.join(__dirname + '/public')));
+app.use(bodyParser.json({limit: '100mb'}));
 
 app.use(cors());
 app.use(express.json());
