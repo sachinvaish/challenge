@@ -11,7 +11,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import AvatarEditor from 'react-avatar-editor';
-import { deletePhoto, updateProfilePhoto, updateUser } from '../../redux/features/userSlice';
+import { deletePhoto, getUser, updateProfilePhoto, updateUser } from '../../redux/features/userSlice';
 
 export default function EditProfile(props) {
 
@@ -36,19 +36,23 @@ export default function EditProfile(props) {
     const [enableAvatar, setEnableAvatar] = useState(false);
     const dispatch = useDispatch();
     const editor = useRef(null);
+    const {user} = useSelector((state)=>({...state.UserReducer}));
 
-    useEffect(() => {
-        if (userInfo.photo_url){
-            console.log('setting photourl', userInfo.photo_url);
-            setProfilePhoto(`http://localhost:5000/uploads/profile/${userInfo.photo_url}`)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (user.photo_url){
+    //         console.log('setting photourl', user.photo_url);
+    //         setProfilePhoto(`http://localhost:5000/uploads/profile/${userInfo.photo_url}`)
+    //     }
+    // }, [])
 
 
     const handleOnClose = () => {
         // setImg(null);
         // setProfilePhoto(null);
         // getUserByID(user._id); ##
+        if (localStorage.getItem('authToken')){
+            dispatch(getUser(localStorage.getItem('authToken')));
+        }
         setPreloadedValues(null);
         onClose();
     }
@@ -71,14 +75,17 @@ export default function EditProfile(props) {
         // };
     };
 
-    const handleCrop = () => {
+    const handleCrop = async () => {
         const base64 = editor.current.getImageScaledToCanvas().toDataURL();
         setProfilePhoto(base64);
         const authToken = localStorage.getItem('authToken');
-        dispatch(updateProfilePhoto({ base64, authToken }));
+        await dispatch(updateProfilePhoto({ base64, authToken }));
         // getUserByID(user._id);
         setEnableAvatar(false);
         setImg(null);
+        if (localStorage.getItem('authToken')){
+            dispatch(getUser(localStorage.getItem('authToken')));
+        }
     }
 
     const handleDelete = ()=>{
@@ -87,6 +94,9 @@ export default function EditProfile(props) {
         const photo_url = userInfo.photo_url;
         dispatch(deletePhoto({ photo_url, authToken }));
         setProfilePhoto(null);
+        if (localStorage.getItem('authToken')){
+            dispatch(getUser(localStorage.getItem('authToken')));
+        }
     }
 
     const onSubmit = (data) => {
@@ -131,12 +141,7 @@ export default function EditProfile(props) {
                                 <Typography mb={1}>Profile Image</Typography>
                                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                        {(!enableAvatar && profilePhoto) && <Box component='img' width={230} height={230} sx={{ objectFit: 'cover', padding: '8px', borderRadius: '200px' }} src={profilePhoto} />}
-                                        {(!profilePhoto && !enableAvatar) &&
-                                            <Avatar sx={{ width: 200, height: 200 }}>
-                                                <AddAPhotoIcon />
-                                            </Avatar>
-                                        }
+                                        {!enableAvatar && <Avatar sx={{ height: '200px', width: '200px', margin: '20px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`} />}
                                         {enableAvatar &&
                                             <AvatarEditor
                                                 ref={editor}
@@ -158,10 +163,10 @@ export default function EditProfile(props) {
                                     <Box gap={1} sx={{ display: 'flex', flexDirection: 'row', marginTop: '30px' }}>
                                         {!enableAvatar && <Button size='small' fullWidth startIcon={<PhotoCamera />} variant='contained' color="primary" aria-label="upload picture" component="label">
                                             <input hidden accept="image/*" type="file" {...register("photo", { onChange: (e) => { handleImageUpload(e); } })} />
-                                            {profilePhoto ? 'Change' : 'Choose'}
+                                            {user.photo_url ? 'Change' : 'Choose'}
                                         </Button>}
 
-                                        {(profilePhoto && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={handleDelete}>Delete</Button>}
+                                        {(user.photo_url && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={handleDelete}>Delete</Button>}
 
                                         {img && <Button variant='contained' size='small' fullWidth color='success' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
 

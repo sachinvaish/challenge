@@ -25,12 +25,23 @@ const upload = multer({
 router.put('/setphoto', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
+        let photo_url = await User.findById(userID).select('photo_url');
+        // console.log('photourl',photo_url);
+        if (photo_url.photo_url){
+            let url = `./public/uploads/profile/${photo_url.photo_url}`
+            if(fs.existsSync(url)){
+                // console.log('value of existsSync : ',fs.existsSync(url))
+                fs.unlinkSync(url);
+            }
+        }
+
         var data = req.body.photo.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(data, "base64");
         // console.log('buffer is ', buffer);
-        const image = fs.writeFileSync(`./public/uploads/profile/${userID}.jpg`, buffer);
+        const pathName =userID + Date.now();
+        const image = fs.writeFileSync(`./public/uploads/profile/${pathName}.jpg`, buffer);
         const user = await User.findByIdAndUpdate(userID, {
-            photo_url: `${userID}.jpg`
+            photo_url: `${pathName}.jpg`
         }, { new: true });
         res.send(user);
         
