@@ -8,32 +8,46 @@ import { PhotoCamera } from '@mui/icons-material';
 
 export default function UserInfo(props) {
 
-    const { _id, name, username,
-        email, photo_url,
-        portfolio_url,
-        facebook_url,
-        instagram_url,
-        about,
-        designation,
-        organization,
-        location } = props.user;
-    const { handleEdit } = props;
+    // const { _id, name, username,
+    //     email, photo_url,
+    //     portfolio_url,
+    //     facebook_url,
+    //     instagram_url,
+    //     about,
+    //     designation,
+    //     organization,
+    //     location } = props.user;
+    const { handleEdit, userInfo } = props;
+    // console.log(userInfo);
     const { isLoggedIn, user } = useSelector((state) => ({ ...state.UserReducer }));
+    // console.log(user);
 
-
+    const [profile, setProfile] = useState(null);
+    
+    useEffect(()=>{
+        console.log('user',user);
+        console.log('userInfo',userInfo);
+        if(userInfo._id === user._id){
+            setProfile(user);
+        }else{
+            setProfile(userInfo);
+        }
+        
+    },[user])
 
     return (
         <Paper sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
-            <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src={photo_url && `http://localhost:5000/uploads/profile/${photo_url}`} />
+            {profile && (<>
+            <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src={profile.photo_url && `http://localhost:5000/uploads/profile/${profile.photo_url}`} />
             <Box mb={1} sx={{ width: '100%' }} textAlign='center'>
-                <Typography variant='h5' fontWeight='bold'>{name}</Typography>
-                <Typography variant='subtitle2'>{`@${username}`}</Typography>
-                <Typography variant='subtitle1'>{designation}</Typography>
-                <Typography variant='subtitle2'>{location}</Typography>
+                <Typography variant='h5' fontWeight='bold'>{profile.name}</Typography>
+                <Typography variant='subtitle2'>{`@${profile.username}`}</Typography>
+                <Typography variant='subtitle1'>{profile.designation}</Typography>
+                <Typography variant='subtitle2'>{profile.location}</Typography>
             </Box>
-            {(isLoggedIn && ((user._id === _id) &&
+            {(isLoggedIn && ((user._id === profile._id) &&
                 <Button variant='outlined' size='small' onClick={handleEdit}>Edit Profile</Button>
-            ))}
+                ))}
 
             <Box my={1} sx={{ width: '100%' }} textAlign='center'>
                 <Typography variant='h6' fontWeight='bold'>Awards</Typography>
@@ -68,11 +82,12 @@ export default function UserInfo(props) {
                 <Typography variant='h6' fontWeight='bold'>About Me</Typography>
                 <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'space-evenly' }}>
                     <Typography align='justify'>
-                        {about}
+                        {profile.about ? profile.about : 'Nothing to display'}
                     </Typography>
                 </Box>
             </Box>
 
+            </>)}
         </Paper>
     )
 }

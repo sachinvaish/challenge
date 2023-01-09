@@ -4,15 +4,16 @@ import UserInfo from './UserInfo';
 import Submissions from '../../components/Submissions';
 import { useParams } from 'react-router';
 import EditProfile from './EditProfile';
+import { useSelector } from 'react-redux';
 
 export default function Profile(props) {
 
   const { id } = useParams();
   //fake submission & user details below
   const challenge_id = '63748a4dfcc73c064df4c744';
-  const [user, setUser] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [submissions, setSubmissions] = useState(null);
-
+  const { isLoggedIn, user } = useSelector((state) => ({ ...state.UserReducer }));
   const [open, setOpen] = useState(false);
   const onClose = () => {
     setOpen(false);
@@ -29,7 +30,7 @@ export default function Profile(props) {
     // console.log('fetching user ')
     getUserByID(id);
     getSubmissionsByUserID(id);
-  },[id]);
+  }, [id]);
 
   const getUserByID = async (user_id) => {
     console.log('getting user by ID');
@@ -37,7 +38,7 @@ export default function Profile(props) {
       // setUser(null);
       const user = await fetch(`http://localhost:5000/users/${user_id}`);
       const res = await user.json();
-      setUser(res);
+      setUserInfo(res);
     } catch (error) {
       console.log(error);
     }
@@ -56,10 +57,20 @@ export default function Profile(props) {
   return (
     <>
       <Box m={4}>
-        {user && <EditProfile open={open} onClose={onClose} user={user}  getUserByID={getUserByID}  />}
+        {userInfo && (isLoggedIn && ((user._id === userInfo._id) &&
+          <EditProfile open={open} onClose={onClose} userInfo={user} getUserByID={getUserByID} />
+        ))}
+        {/* {userInfo && <EditProfile open={open} onClose={onClose} user={userInfo}  getUserByID={getUserByID}  />} */}
         <Grid container>
           <Grid item md={3}>
-            {user && <UserInfo user={user} handleEdit={handleClick}/>}
+
+            {isLoggedIn && (userInfo && ((user._id === userInfo._id) ?
+              <UserInfo userInfo={user} handleEdit={handleClick} /> : <UserInfo userInfo={userInfo} />
+            ))}
+
+            {!isLoggedIn && (userInfo && 
+              <UserInfo userInfo={userInfo} />
+            )}
           </Grid>
           <Grid item md={9}>
             {(submissions && submissions.length > 0) && (<>

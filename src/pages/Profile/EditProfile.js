@@ -15,19 +15,19 @@ import { deletePhoto, updateProfilePhoto, updateUser } from '../../redux/feature
 
 export default function EditProfile(props) {
 
-    const { open, onClose, user, getUserByID } = props;
-    const preloadedValues = {
-        username: user.username,
-        name: user.name,
-        designation: user.designation,
-        location: user.location,
-        about: user.about,
-        facebook_url: user.facebook_url,
-        instagram_url: user.instagram_url,
-        twitter_url: user.twitter_url,
-        linkedin_url: user.linkedin_url,
-        portfolio_url: user.portfolio_url
-    }
+    const { open, onClose, userInfo, getUserByID } = props;
+    const [preloadedValues, setPreloadedValues] = useState({
+        username: userInfo.username,
+        name: userInfo.name,
+        designation: userInfo.designation,
+        location: userInfo.location,
+        about: userInfo.about,
+        facebook_url: userInfo.facebook_url,
+        instagram_url: userInfo.instagram_url,
+        twitter_url: userInfo.twitter_url,
+        linkedin_url: userInfo.linkedin_url,
+        portfolio_url: userInfo.portfolio_url
+    });
 
     const { register, reset, handleSubmit, formState: { errors } } = useForm({ defaultValues: preloadedValues });
     const [img, setImg] = useState(null);
@@ -38,9 +38,9 @@ export default function EditProfile(props) {
     const editor = useRef(null);
 
     useEffect(() => {
-        if (user.photo_url){
-            // console.log('setting photourl', user.photo_url);
-            setProfilePhoto(`http://localhost:5000/uploads/profile/${user.photo_url}`)
+        if (userInfo.photo_url){
+            console.log('setting photourl', userInfo.photo_url);
+            setProfilePhoto(`http://localhost:5000/uploads/profile/${userInfo.photo_url}`)
         }
     }, [])
 
@@ -48,7 +48,8 @@ export default function EditProfile(props) {
     const handleOnClose = () => {
         // setImg(null);
         // setProfilePhoto(null);
-        getUserByID(user._id);
+        // getUserByID(user._id); ##
+        setPreloadedValues(null);
         onClose();
     }
 
@@ -83,7 +84,7 @@ export default function EditProfile(props) {
     const handleDelete = ()=>{
         const authToken = localStorage.getItem('authToken');
         console.log(authToken);
-        const photo_url = user.photo_url;
+        const photo_url = userInfo.photo_url;
         dispatch(deletePhoto({ photo_url, authToken }));
         setProfilePhoto(null);
     }
@@ -91,7 +92,7 @@ export default function EditProfile(props) {
     const onSubmit = (data) => {
         console.log(data);
         const updatedUser = {
-            "user_id": user._id,
+            "user_id": userInfo._id,
             "username": data.username,
             "name": data.name,
             "designation": data.designation,
@@ -106,7 +107,7 @@ export default function EditProfile(props) {
         const authToken = localStorage.getItem('authToken');
         console.log(authToken);
         dispatch(updateUser({ updatedUser, authToken }));
-        getUserByID(user._id);
+        // getUserByID(user._id);  ##
         handleOnClose();
     }
 
