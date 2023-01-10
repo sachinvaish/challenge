@@ -26,6 +26,9 @@ router.put('/setphoto', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
         let photo_url = await User.findById(userID).select('photo_url');
+
+        uploadPath = './public/uploads/profile/';
+            fs.mkdirSync(uploadPath, { recursive: true })
         // console.log('photourl',photo_url);
         if (photo_url.photo_url){
             let url = `./public/uploads/profile/${photo_url.photo_url}`

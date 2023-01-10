@@ -18,24 +18,24 @@ export default function Header() {
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, iste iusto quam distinctio nulla ipsa. Vitae aut minus neque non deleniti. Recusandae autem necessitatibus laboriosam tempore quaerat provident dicta voluptas. Reprehenderit dolore fugiat cupiditate!
                     </Typography>
                     <Grid container spacing={2} mt={2}>
-                        <Grid item md={2.5} xs={12}>
+                        <Grid item md={2.5} sm={6} xs={12}>
                             <Typography variant='h6'>Winner</Typography>
                             <Typography variant='h4'>$1000</Typography>
                         </Grid>
-                        <Grid item md={2.5} xs={12}>
+                        <Grid item md={2.5} sm={6} xs={12}>
                             <Typography variant='h6'>Runner Up</Typography>
                             <Typography variant='h4'>$1000</Typography>
                         </Grid>
-                        <Grid item md={2.5} xs={12}>
+                        <Grid item md={2.5} sm={6} xs={12}>
                             <Typography variant='h6'>Best Feedback</Typography>
                             <Typography variant='h4'>$1000</Typography>
                         </Grid>
-                        <Grid item md={4.5} xs={12}>
+                        <Grid item md={4.5} sm={6} xs={12}>
                             <Grid container >
-                                <Grid item md={4} >
+                                <Grid item md={4} sm={4} xs={12} mr={1} >
                                     <Box component='img' src='https://avatars.githubusercontent.com/u/25712570?v=4' height='80px' borderRadius='12px' />
                                 </Grid>
-                                <Grid item md={8} >
+                                <Grid item md={7} sm={7} xs={12} >
                                     <Typography fontSize={15}>JUDGE</Typography>
                                     <Typography fontSize={22} fontWeight='bold'>Sachin Vaish</Typography>
                                     <Typography fontSize={15}>MERN Stack Developer</Typography>
