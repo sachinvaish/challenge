@@ -25,6 +25,10 @@ const UserSchema = new Schema({
     type : Date,
     default : Date.now
   },
+  role :{
+    type : Number,
+    default : 0
+  },
   photo_url : String,
   portfolio_url : String,
   facebook_url : String,

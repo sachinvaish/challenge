@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
+const isAdmin = require('../middleware/isAdmin.js');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -28,11 +29,11 @@ router.put('/setphoto', fetchuser, async (req, res) => {
         let photo_url = await User.findById(userID).select('photo_url');
 
         uploadPath = './public/uploads/profile/';
-            fs.mkdirSync(uploadPath, { recursive: true })
+        fs.mkdirSync(uploadPath, { recursive: true })
         // console.log('photourl',photo_url);
-        if (photo_url.photo_url){
+        if (photo_url.photo_url) {
             let url = `./public/uploads/profile/${photo_url.photo_url}`
-            if(fs.existsSync(url)){
+            if (fs.existsSync(url)) {
                 // console.log('value of existsSync : ',fs.existsSync(url))
                 fs.unlinkSync(url);
             }
@@ -41,13 +42,13 @@ router.put('/setphoto', fetchuser, async (req, res) => {
         var data = req.body.photo.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(data, "base64");
         // console.log('buffer is ', buffer);
-        const pathName =userID + Date.now();
+        const pathName = userID + Date.now();
         const image = fs.writeFileSync(`./public/uploads/profile/${pathName}.jpg`, buffer);
         const user = await User.findByIdAndUpdate(userID, {
             photo_url: `${pathName}.jpg`
         }, { new: true });
         res.send(user);
-        
+
     } catch (error) {
         //catching errors 
         console.log(error);
@@ -56,7 +57,7 @@ router.put('/setphoto', fetchuser, async (req, res) => {
 
 })
 
-router.delete('/deletephoto',fetchuser, async(req,res)=>{
+router.delete('/deletephoto', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
         let photo_url = `./public/uploads/profile/${req.body.photo_url}`
@@ -200,7 +201,6 @@ router.put('/', fetchuser, [
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
     try {
         userID = req.user.id;
         if (req.body.user_id === userID) {
@@ -219,6 +219,54 @@ router.put('/', fetchuser, [
             res.json(user);
         } else {
             res.status(500).json({ "error": 'Authorization failed' });
+        }
+    } catch (error) {
+        //catching errors 
+        console.error(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+
+})
+
+router.delete('/', fetchuser, async (req, res) => {
+    try {
+        userID = req.user.id;
+        user = await User.findByIdAndDelete(userID);
+        console.log(user);
+        res.json({ "success": "User Deleted Successfully" });
+
+    } catch (error) {
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+})
+
+// ADMIN ROUTES
+// PUT : Update a User by Admin
+router.put('/admin', fetchuser, isAdmin, async (req, res) => {
+    const errors = validationResult(req);
+    //validation check post
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        if (req.body.id) {
+            userID = req.body.id
+            const user = await User.findByIdAndUpdate(userID, {
+                role: req.body.role,
+                name: req.body.name,
+                designation: req.body.designation,
+                location: req.body.location,
+                about: req.body.about,
+                facebook_url: req.body.facebook_url,
+                instagram_url: req.body.instagram_url,
+                twitter_url: req.body.twitter_url,
+                linkedin_url: req.body.linkedin_url,
+                portfolio_url: req.body.portfolio_url
+            }, { new: true })
+            res.json({ "success": "User Updated Successfully" });
+        } else {
+            res.status(500).json({ "error": 'User ID required' });
         }
     } catch (error) {
         //catching errors 

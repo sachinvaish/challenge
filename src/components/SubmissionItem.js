@@ -62,7 +62,7 @@ const getUserByID = async () => {
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                 <CardHeader
                     avatar={
-                        <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url} aria-label="recipe">
+                        <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`} aria-label="recipe">
 
                         </Avatar>
                     }

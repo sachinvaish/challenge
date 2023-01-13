@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
+const fetchuser = require('../middleware/fetchuser.js');
+const isAdmin = require('../middleware/isAdmin.js');
 const Challenge = require('../models/Challenge.js');
 
 
 // POST : Create a Challenge
-router.post('/', [
+router.post('/',fetchuser, isAdmin, [
     body('title', 'Name cannot be Empty').notEmpty(),
     body('description', 'Description cannot be Empty').notEmpty(),
     body('due_date', 'Please specify Due Date').isDate(),
@@ -26,9 +28,8 @@ router.post('/', [
             winner_prize: req.body.winner_prize,
             runner_prize: req.body.runner_prize
         });
-
-        res.json({ challenge });
         console.log('successfull');
+        res.json({ challenge });
     } catch (error) {
         res.json({ error });
     }
@@ -49,7 +50,7 @@ router.get('/:id', async (req, res) => {
 
 
 // PUT : Update a Challenge
-router.put('/:id', [body('title', 'Name cannot be Empty').notEmpty(),
+router.put('/:id', fetchuser, isAdmin, [body('title', 'Name cannot be Empty').notEmpty(),
 body('description', 'Description cannot be Empty').notEmpty(),
 body('due_date', 'Please specify Due Date').isDate(),
 body('winner_prize', 'Specify Winner Prize in Number').isNumeric(),
