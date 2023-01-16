@@ -60,12 +60,19 @@ router.put('/setphoto', fetchuser, async (req, res) => {
 router.delete('/deletephoto', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
-        let photo_url = `./public/uploads/profile/${req.body.photo_url}`
-        fs.unlinkSync(photo_url);
-        const user = await User.findByIdAndUpdate(userID, {
-            photo_url: ''
-        }, { new: true });
-        res.send(user);
+        if(req.body.photo_url){
+            let photo_url = `./public/uploads/profile/${req.body.photo_url}`
+            if (fs.existsSync(photo_url)) {
+                // console.log('value of existsSync : ',fs.existsSync(url))
+                fs.unlinkSync(photo_url);
+            }
+            const user = await User.findByIdAndUpdate(userID, {
+                photo_url: ''
+            }, { new: true });
+            res.send(user);
+        }else{
+            res.status(401).json({ "message": "Please provide Photo Url" });
+        }
     } catch (error) {
         //catching errors 
         console.log(error);
@@ -231,6 +238,16 @@ router.put('/', fetchuser, [
 router.delete('/', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
+        let photo_url = await User.findById(userID).select('photo_url');
+        uploadPath = './public/uploads/profile/';
+        // console.log('photourl',photo_url);
+        if (photo_url.photo_url) {
+            let url = `./public/uploads/profile/${photo_url.photo_url}`
+            if (fs.existsSync(url)) {
+                // console.log('value of existsSync : ',fs.existsSync(url))
+                fs.unlinkSync(url);
+            }
+        }
         user = await User.findByIdAndDelete(userID);
         console.log(user);
         res.json({ "success": "User Deleted Successfully" });
@@ -274,6 +291,30 @@ router.put('/admin', fetchuser, isAdmin, async (req, res) => {
         res.status(500).json({ "message": "Server Error Occured" });
     }
 
+})
+
+// Delete a user by ADMIN
+router.delete('/', isAdmin, async (req, res) => {
+    try {
+        userID = req.body.user_id;
+        //deleting photo
+        let photo_url = await User.findById(userID).select('photo_url');
+        uploadPath = './public/uploads/profile/';
+        // console.log('photourl',photo_url);
+        if (photo_url.photo_url) {
+            let url = `./public/uploads/profile/${photo_url.photo_url}`
+            if (fs.existsSync(url)) {
+                // console.log('value of existsSync : ',fs.existsSync(url))
+                fs.unlinkSync(url);
+            }
+        }
+        user = await User.findByIdAndDelete(userID);
+        console.log(user);
+        res.json({ "success": "User Deleted Successfully" });
+
+    } catch (error) {
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
 })
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router = express.Router();
 const Feedback = require('../models/Feedback.js');
 const fetchuser = require('../middleware/fetchuser');
 const { body, validationResult } = require('express-validator');
+const isAdmin = require('../middleware/isAdmin.js');
 
 // POST Create a feedback
 router.post('/',fetchuser,[
@@ -53,6 +54,33 @@ router.get('/getfeedbackscount/:submission_id', async (req, res) => {
         res.send({count});
     } catch (error) {
         console.log(error);
+    }
+})
+
+// delete all Feedbacks for a user
+// when a user account is deleted, this API should be hit
+router.delete('/:user_id', async (req, res) => {
+    try {
+        let feedback = await Feedback.deleteMany({ user_id: req.params.user_id });
+        res.json({"message":"All Feedbacks Deleted for this User"});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "error": "Internal Server Error" });
+    }
+})
+
+// Delete a feedback by ADMIN
+router.delete('/:feedback_id', fetchuser,isAdmin, async (req, res) => {
+    try {
+        feedbackID = req.params.feedback_id;
+        console.log(feedbackID);
+        feedback = await Feedback.findByIdAndDelete(feedbackID);
+        console.log(feedback);
+        res.json({ "success": "Feedback Deleted Successfully" });
+
+    } catch (error) {
+        res.status(500).json({ "message": "Server Error Occured" });
     }
 })
 

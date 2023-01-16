@@ -81,7 +81,7 @@ body('runner_prize', 'Specify Runner up Prize in Number').isNumeric()
 })
 
 //PUT Delete a challenge by ID
-router.delete('/:id',async (req,res)=>{
+router.delete('/:id',fetchuser, isAdmin, async (req,res)=>{
     try {
        let challenge = await Challenge.findById(req.params.id);
        if(!challenge){

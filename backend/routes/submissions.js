@@ -6,11 +6,11 @@ const Submission = require('../models/Submission.js');
 const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
 const path = require('path');
+const isAdmin = require('../middleware/isAdmin.js');
 
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => {
-
             uploadPath = './public/uploads/submissions/'
             fs.mkdirSync(uploadPath, { recursive: true })
             cb(null, uploadPath);
@@ -85,6 +85,38 @@ router.get('/user/:user_id', async (req, res) => {
         res.send(submissions);
     } catch (error) {
         console.log(error);
+    }
+})
+
+// delete all Submissions for a user
+// when a user account is deleted, this API should be hit
+router.delete('/:user_id', async (req, res) => {
+    try {
+        let submission = await Submission.deleteMany({ user_id: req.params.user_id });
+        res.json({"message":"All Submissions Deleted for this User"});
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "error": "Internal Server Error" });
+    }
+})
+
+// Delete a submission by ADMIN
+router.delete('/:id', fetchuser, isAdmin, async(req,res)=>{
+    try {
+        let submission_id = req.params.id;
+        let photo_url = await Submission.findById(submission_id).select('photo_url');
+        if (photo_url.photo_url) {
+            let url = `./public/uploads/submissions/${photo_url.photo_url}`
+            if (fs.existsSync(url)) {
+                // console.log('value of existsSync : ',fs.existsSync(url))
+                fs.unlinkSync(url);
+            }
+        }
+        await Submission.findByIdAndDelete(submission_id);
+        res.json({ "success": "Submission Deleted Successfully" });
+    } catch (error) {
+        res.status(500).json({ "message": "Server Error Occured" });
     }
 })
 
