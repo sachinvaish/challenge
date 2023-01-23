@@ -317,4 +317,16 @@ router.delete('/', isAdmin, async (req, res) => {
     }
 })
 
+// POST : Get All Users
+router.post('/getallusers', async (req, res) => {
+    try {
+        const users = await User.find().select("-password");
+        res.json(users);
+    } catch (error) {
+        //catching errors 
+        console.log(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+})
+
 module.exports = router;
