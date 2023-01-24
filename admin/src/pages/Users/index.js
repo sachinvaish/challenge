@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '../../redux/services/userSlice';
 
 export default function Users() {
+
+  const { users, allUsers, loading, error } = useSelector((state) => ({ ...state.UserReducer }));
+  const dispatch = useDispatch();
+  console.log(allUsers);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [])
 
   const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -38,14 +48,17 @@ export default function Users() {
   ];
 
   return (
-    <Box sx={{height:'100%'}}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={12}
-        rowsPerPageOptions={[12]}
-        checkboxSelection
-      />
-    </Box>
+    <>
+      <Box sx={{ height: '50%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={12}
+          rowsPerPageOptions={[12]}
+          checkboxSelection
+          sx={{ color: '#011111', backgroundColor: 'white' }}
+        />
+      </Box>
+    </>
   );
 }

@@ -7,7 +7,7 @@ import Topbar from '../components/Topbar';
 
 export default function Layout() {
     return (
-        <Box container >
+        <Box >
             <Topbar />
             <Box mt={8} sx={{ display: 'flex' }}>
                 <Sidebar />

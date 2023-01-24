@@ -15,7 +15,7 @@ async()=>{
 
 const userSlice = createSlice({
     name : 'user',
-    state : {
+    initialState : {
         user : null,
         loading : false,
         error : null,
@@ -24,12 +24,15 @@ const userSlice = createSlice({
     reducers : {},
     extraReducers: (builder)=>{
         builder.addCase(getAllUsers.fulfilled,(state,action)=>{
-            console.log('fulfilled', action.payload);
+            // console.log('fulfilled', action.payload);
             state.allUsers = action.payload;
         });
         builder.addCase(getAllUsers.rejected,(state,action)=>{
-            console.log('rejected', action.payload);
+            // console.log('rejected', action.payload);
             state.error = action.payload;
+        });
+        builder.addCase(getAllUsers.pending,(state,action)=>{
+            // console.log('Pending', action.payload);
         })
     }
 })

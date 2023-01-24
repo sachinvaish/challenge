@@ -319,6 +319,7 @@ router.delete('/', isAdmin, async (req, res) => {
 
 // POST : Get All Users
 router.post('/getallusers', async (req, res) => {
+    console.log('inside getAll Users');
     try {
         const users = await User.find().select("-password");
         res.json(users);

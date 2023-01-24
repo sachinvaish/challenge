@@ -1,15 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-import Sidebar from './components/Sidebar';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Challenges from './pages/Challenges';
-import Users from './pages/Users.js';
+import Users from './pages/Users';
 import Submissions from './pages/Submissions';
-import { Box } from '@mui/system';
-import { Grid } from '@mui/material';
 import Layout from './pages/Layout';
 
 function App() {
+
   return (
     <>
       <Routes>
