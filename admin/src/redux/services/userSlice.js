@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getAllUsers = createAsyncThunk('users/getAllUsers',
 async()=>{
-    console.log('inside getAllUsers');
+    // console.log('inside getAllUsers');
     return fetch('http://localhost:5000/users/getallusers',{
         method : 'POST',
         headers : {
