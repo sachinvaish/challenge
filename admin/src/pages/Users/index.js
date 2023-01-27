@@ -18,32 +18,36 @@ export default function Users() {
 
 
   const columns = [
-    { field: 'id', headerName: '#', width: 20, align:'right', type:'number' },
+    { field: 'id', headerName: '#', width: 20, align: 'right', type: 'number' },
     {
-      field: 'photo', headerName: 'Photo', width: 80,  align:'left',
+      field: 'photo', headerName: 'Photo', width: 80, align: 'left',
       renderCell: ({ row }) => (<>
-        <Avatar sx={{ marginX: '10px', borderRadius:'10px' }} src={row.photo && `http://localhost:5000/uploads/profile/${row.photo}`}> {(row.username).charAt(0).toUpperCase()}</Avatar>
+        <Avatar sx={{ marginX: '10px', borderRadius: '10px' }} src={row.photo && `http://localhost:5000/uploads/profile/${row.photo}`}> {(row.username).charAt(0).toUpperCase()}</Avatar>
       </>),
     },
-    { field: 'username', headerName: 'Username', width: 150, align:'left' },
+    { field: 'username', headerName: 'Username', width: 150, align: 'left' },
     {
       field: 'designation',
       headerName: 'Designation',
       // type: 'number',
       width: 150,
-      align:'left'
-    },
-    { field: 'date', headerName: 'Joined', width: 220, align:'left' },
-    { field: 'role', headerName: 'Role', width: 80, align:'left',
-      renderCell:({row})=>(row.role===1 ? 'Admin' : 'User')
+      align: 'left'
     },
     {
-      field: 'actions', headerName: 'Actions', width: 120, align:'center',
+      field: 'date', headerName: 'Joined', width: 120, align: 'left',
+      renderCell : ({row})=>{return row.date.substr(0,10)}
+    },
+    {
+      field: 'role', headerName: 'Role', width: 80, align: 'left',
+      renderCell: ({ row }) => (row.role === 1 ? 'Admin' : 'User')
+    },
+    {
+      field: 'actions', headerName: 'Actions', width: 120, align: 'center',
       renderCell: ({ row }) => (<>
-        <IconButton sx={{marginX:'5px'}} variant='contained' size='small' color='primary' onClick={() => alert(`Edit User ${row.username}`)}>
+        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' color='primary' onClick={() => alert(`Edit User ${row.username}`)}>
           <ModeEditIcon />
         </IconButton>
-        <IconButton sx={{marginX:'5px'}} variant='contained' size='small' color='error' onClick={() => alert(`Delete User ${row.username}`)}>
+        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' color='error' onClick={() => alert(`Delete User ${row.username}`)}>
           <DeleteIcon />
         </IconButton>
       </>),
@@ -58,15 +62,15 @@ export default function Users() {
       username: user.username,
       designation: user.designation,
       date: user.date,
-      photo : user.photo_url,
-      role : user.role
+      photo: user.photo_url,
+      role: user.role
     }))
   }
 
   return (
     <>
       {rows && (
-        <Box sx={{ height: '50%', display:'flex' }}>
+        <Box sx={{ height: '50%', display: 'flex' }}>
           <DataGrid
             rows={rows}
             columns={columns}
