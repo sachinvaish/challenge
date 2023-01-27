@@ -10,6 +10,7 @@ import CreateChallenge from './CreateChallenge';
 export default function Challenges() {
 
   const { users, allUsers, loading, error } = useSelector((state) => ({ ...state.UserReducer }));
+  // console.log(allUsers);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const onClose = () => {

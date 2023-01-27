@@ -4,7 +4,7 @@ const isAdmin = async (req, res, next) => {
     console.log('inside isAdmin');
     try {
         let user = await User.findById(req.user.id);
-        console.log(user);
+        // console.log(user);
         if(user){
             if (user.role === 1) {
                 console.log('user role OK');

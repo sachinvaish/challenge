@@ -15,8 +15,9 @@ const ChallengeSchema = new Schema ({
         default : Date.now
       },
     due_date : Date,
-    winner_prize : Number,
-    runner_prize : Number,
+    first_prize : Number,
+    second_prize : Number,
+    feedback_prize : Number,
     winner_id : {
         type : mongoose.Schema.Types.ObjectId,
         ref :'users'

@@ -10,23 +10,24 @@ const Challenge = require('../models/Challenge.js');
 router.post('/',fetchuser, isAdmin, [
     body('title', 'Name cannot be Empty').notEmpty(),
     body('description', 'Description cannot be Empty').notEmpty(),
-    body('due_date', 'Please specify Due Date').isDate(),
-    body('winner_prize', 'Specify Winner Prize in Number').isNumeric(),
-    body('runner_prize', 'Specify Runner up Prize in Number').isNumeric()
+    body('first_prize', 'Specify Winner Prize in Number').isNumeric(),
+    body('second_prize', 'Specify Runner up Prize in Number').isNumeric(),
+    body('feedback_prize', 'Specify Runner up Prize in Number').isNumeric()
 ], async (req, res) => {
     const errors = validationResult(req);
+    console.log(req.body)
     //validation check post
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-
+    
     try {
         let challenge = await Challenge.create({
             title: req.body.title,
             description: req.body.description,
-            due_date: req.body.due_date,
-            winner_prize: req.body.winner_prize,
-            runner_prize: req.body.runner_prize
+            due_date: req.body.due_date.toDate(),
+            first_prize: req.body.first_prize,
+            second_prize: req.body.second_prize
         });
         console.log('successfull');
         res.json({ challenge });
