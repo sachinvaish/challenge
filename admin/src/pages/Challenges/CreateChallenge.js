@@ -40,13 +40,15 @@ export default function CreateChallenge(props) {
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
         // console.log(data);
+        localStorage.setItem('authToken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDgzNDU1N30.bgswS-fQIBqDu9Otpz9xe597XRFljoo2GBFxYtTHvwg')
         const challenge = {
             "title": data.title,
             "description": data.description,
             "firstPrize": data.firstPrize,
             "secondPrize": data.secondPrize,
             "feedbackPrize": data.feedbackPrize,
-            "deadline": deadline
+            "deadline": deadline.toDate()
+            // "deadline": dayjs(deadline, 'YYYY-MM-DD').toDate()
         }
         const authToken = localStorage.getItem('authToken');
         // console.log(challenge, authToken);
@@ -89,7 +91,6 @@ export default function CreateChallenge(props) {
                                             onChange={(newValue) =>setDeadline(newValue)}
                                             renderInput={(params) => <TextField size="small" disabled {...params} />}
                                             minDateTime={dayjs()}
-                                            // {...register("deadline", { required: true })} helperText={errors.description && 'This field is required'}
                                         />
                                     </LocalizationProvider>
                                 </Box>

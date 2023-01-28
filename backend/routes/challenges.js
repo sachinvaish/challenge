@@ -25,13 +25,15 @@ router.post('/',fetchuser, isAdmin, [
         let challenge = await Challenge.create({
             title: req.body.title,
             description: req.body.description,
-            due_date: req.body.due_date.toDate(),
+            due_date: req.body.due_date,
             first_prize: req.body.first_prize,
-            second_prize: req.body.second_prize
+            second_prize: req.body.second_prize,
+            feedback_prize : req.body.feedback_prize
         });
-        console.log('successfull');
+        console.log('successfull', challenge);
         res.json({ challenge });
     } catch (error) {
+        console.log(error);
         res.json({ error });
     }
 })
@@ -68,14 +70,16 @@ body('runner_prize', 'Specify Runner up Prize in Number').isNumeric()
         const challenge = await Challenge.findByIdAndUpdate(challengeID, {
             title: req.body.title,
             description: req.body.description,
-            due_date: req.body.due_date,
-            winner_prize: req.body.winner_prize,
-            runner_prize: req.body.runner_prize
+            due_date: Date.parse(req.body.due_date),
+            first_prize: req.body.first_prize,
+            second_prize: req.body.second_prize,
+            feedback_prize : req.body.feedback_prize
         }, { new: true })
+        console.log('challeng aya',challenge);
         res.json(challenge);
     } catch (error) {
         //catching errors 
-        console.error(error);
+        console.error('error aya',error);
         res.status(500).json({ "message": "Server Error Occured" });
     }
 
