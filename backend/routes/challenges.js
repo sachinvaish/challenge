@@ -51,6 +51,18 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+// GET : Get a All Challenges
+router.get('/', async (req, res) => {
+    try {
+        const challenges = await Challenge.find();
+        res.json(challenges);
+    } catch (error) {
+        //catching errors 
+        console.error(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+})
+
 
 // PUT : Update a Challenge
 router.put('/:id', fetchuser, isAdmin, [body('title', 'Name cannot be Empty').notEmpty(),
