@@ -7,12 +7,12 @@ const Challenge = require('../models/Challenge.js');
 
 
 // POST : Create a Challenge
-router.post('/',fetchuser, isAdmin, [
+router.post('/', fetchuser, isAdmin, [
     body('title', 'Name cannot be Empty').notEmpty(),
     body('description', 'Description cannot be Empty').notEmpty(),
-    body('first_prize', 'Specify Winner Prize in Number').isNumeric(),
-    body('second_prize', 'Specify Runner up Prize in Number').isNumeric(),
-    body('feedback_prize', 'Specify Runner up Prize in Number').isNumeric()
+    body('first_prize', 'Specify First Prize in Number').isNumeric(),
+    body('second_prize', 'Specify Second Prize in Number').isNumeric(),
+    body('feedback_prize', 'Specify Feedback Prize in Number').isNumeric()
 ], async (req, res) => {
     const errors = validationResult(req);
     console.log(req.body)
@@ -20,7 +20,7 @@ router.post('/',fetchuser, isAdmin, [
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
-    
+
     try {
         let challenge = await Challenge.create({
             title: req.body.title,
@@ -28,7 +28,7 @@ router.post('/',fetchuser, isAdmin, [
             due_date: req.body.due_date,
             first_prize: req.body.first_prize,
             second_prize: req.body.second_prize,
-            feedback_prize : req.body.feedback_prize
+            feedback_prize: req.body.feedback_prize
         });
         console.log('successfull', challenge);
         res.json({ challenge });
@@ -65,11 +65,12 @@ router.get('/', async (req, res) => {
 
 
 // PUT : Update a Challenge
-router.put('/:id', fetchuser, isAdmin, [body('title', 'Name cannot be Empty').notEmpty(),
-body('description', 'Description cannot be Empty').notEmpty(),
-body('due_date', 'Please specify Due Date').isDate(),
-body('winner_prize', 'Specify Winner Prize in Number').isNumeric(),
-body('runner_prize', 'Specify Runner up Prize in Number').isNumeric()
+router.put('/:id', fetchuser, isAdmin, [
+    body('title', 'Name cannot be Empty').notEmpty(),
+    body('description', 'Description cannot be Empty').notEmpty(),
+    body('first_prize', 'Specify First Prize in Number').isNumeric(),
+    body('second_prize', 'Specify Second Prize in Number').isNumeric(),
+    body('feedback_prize', 'Specify Feedback Prize in Number').isNumeric()
 ], async (req, res) => {
     const errors = validationResult(req);
     //validation check post
@@ -82,35 +83,35 @@ body('runner_prize', 'Specify Runner up Prize in Number').isNumeric()
         const challenge = await Challenge.findByIdAndUpdate(challengeID, {
             title: req.body.title,
             description: req.body.description,
-            due_date: Date.parse(req.body.due_date),
+            due_date: req.body.due_date,
             first_prize: req.body.first_prize,
             second_prize: req.body.second_prize,
-            feedback_prize : req.body.feedback_prize
+            feedback_prize: req.body.feedback_prize
         }, { new: true })
-        console.log('challeng aya',challenge);
+        console.log('challeng aya', challenge);
         res.json(challenge);
     } catch (error) {
         //catching errors 
-        console.error('error aya',error);
+        console.error('error aya', error);
         res.status(500).json({ "message": "Server Error Occured" });
     }
 
 })
 
 //PUT Delete a challenge by ID
-router.delete('/:id',fetchuser, isAdmin, async (req,res)=>{
+router.delete('/:id', fetchuser, isAdmin, async (req, res) => {
     try {
-       let challenge = await Challenge.findById(req.params.id);
-       if(!challenge){
-          return res.status(404).send({"error" : "Not Found"});
-       }
-       await Challenge.findByIdAndDelete(req.params.id)
-       return res.json({"Success":"Challenge Deleted Successfully"});
+        let challenge = await Challenge.findById(req.params.id);
+        if (!challenge) {
+            return res.status(404).send({ "error": "Not Found" });
+        }
+        await Challenge.findByIdAndDelete(req.params.id)
+        return res.json({ "Success": "Challenge Deleted Successfully" });
     } catch (error) {
-       console.error(error);
-       res.status(500).send("Some Error Occured");
+        console.error(error);
+        res.status(500).send("Some Error Occured");
     }
- 
- })
+
+})
 
 module.exports = router;

@@ -1,30 +1,39 @@
-import { Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, Input, InputAdornment, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
-import { FormatAlignJustify, PhotoCamera } from '@mui/icons-material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import moment from 'moment/moment';
-import { createChallenge, getAllChallenges } from '../../redux/services/challengeSlice';
+import { getAllChallenges,  updateChallenge } from '../../redux/services/challengeSlice';
 
 
-// import DateFnsUtils from '@date-io/date-fns';
-
-export default function CreateChallenge(props) {
-
-    const { open, onClose } = props;
-    const { register, reset, handleSubmit, formState: { errors } } = useForm();
+export default function EditChallenge(props) {
+    const { open, onClose, challenge } = props;
     const dispatch = useDispatch();
     const [firstPrize, setFirstPrize] = useState(0);
     const [secondPrize, setSecondPrize] = useState(0);
     const [feedbackPrize, setFeedbackPrize] = useState(0);
     const [deadline, setDeadline] = useState('');
-    // const dispatch = useDispatch();   
+    // const dispatch = useDispatch(); 
+
+    const [preloadedValues, setPreloadedValues] = useState({
+        title: challenge.title,
+        description: challenge.description,
+        due_date: challenge.due_date
+    });
+
+    useEffect(() => {
+        setFirstPrize(challenge.first_prize);
+        setSecondPrize(challenge.second_prize);
+        setFeedbackPrize(challenge.feedback_prize);
+        setDeadline(dayjs(challenge.due_date));
+    }, [])
+
+    const { register, reset, handleSubmit, formState: { errors } } = useForm({ defaultValues: preloadedValues });
 
     const handleOnClose = () => {
         dispatch(getAllChallenges());
@@ -38,16 +47,12 @@ export default function CreateChallenge(props) {
         onClose();
     }
 
-    // const handleOnChange = (e) => {
-    //     console.log('onChange : ', e)
-    //     setDeadline(e)
-    // }
-
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
         // console.log(data);
         localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
-        const challenge = {
+        const newChallenge = {
+            "id": challenge._id,
             "title": data.title,
             "description": data.description,
             "firstPrize": firstPrize,
@@ -57,7 +62,7 @@ export default function CreateChallenge(props) {
         }
         const authToken = localStorage.getItem('authToken');
         // console.log(challenge, authToken);
-        dispatch(createChallenge({ challenge, authToken }));
+        dispatch(updateChallenge({ newChallenge, authToken }));
         handleOnClose();
     }
 
@@ -66,7 +71,7 @@ export default function CreateChallenge(props) {
             <Dialog open={open} onClose={handleOnClose} fullWidth maxWidth='sm'>
                 <DialogTitle>
                     <Box display="flex" alignItems="center">
-                        <Box flexGrow={1}>Create Challenge</Box>
+                        <Box flexGrow={1}>Edit Challenge</Box>
                         <Box>
                             <IconButton onClick={handleOnClose}>
                                 <CloseIcon />

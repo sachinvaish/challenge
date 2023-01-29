@@ -22,6 +22,42 @@ export const createChallenge = createAsyncThunk('challenge/createChallenge',
         ).catch((err) => err)
     })
 
+export const updateChallenge = createAsyncThunk('challenge/updateChallenge',
+    async ({ newChallenge, authToken }) => {
+        console.log('inside update challnegne', newChallenge);
+        return fetch(`http://localhost:5000/challenges/${newChallenge.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'auth-token': authToken
+            },
+            body: JSON.stringify({
+                'title': newChallenge.title,
+                'description': newChallenge.description,
+                'due_date': newChallenge.deadline,
+                'first_prize': newChallenge.firstPrize,
+                'second_prize': newChallenge.secondPrize,
+                'feedback_prize': newChallenge.feedbackPrize
+            })
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((err) => err)
+    })
+
+    export const deleteChallenge = createAsyncThunk('challenge/deleteChallenge',
+    async({id,authToken})=>{
+        console.log('inside deleteChallenge');
+        return fetch(`http://localhost:5000/challenges/${id}`,{
+            method:'DELETE',
+            headers:{
+                'Content-type':'application/json',
+                'auth-token':authToken
+            }
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((err) => err)
+    })
+
 export const getAllChallenges = createAsyncThunk('challenge/getAllChallenges',
     async () => {
         console.log('get Challenge');
@@ -35,13 +71,26 @@ export const getAllChallenges = createAsyncThunk('challenge/getAllChallenges',
         ).catch((err) => err)
     })
 
+export const getChallengeByID = createAsyncThunk('challenge/getChallengeByID',
+    async (id) => {
+        console.log('get single challenge');
+        return fetch(`http://localhost:5000/challenges/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((err) => err)
+    })
+
 const challengeSlice = createSlice({
     name: 'challenge',
     initialState: {
-        challenge : null,
+        singleChallenge: null,
         loading: false,
         error: null,
-        allChallenges : null
+        allChallenges: null
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -51,7 +100,21 @@ const challengeSlice = createSlice({
         builder.addCase(createChallenge.rejected, (state, action) => {
             console.log('rejected', action.payload);
             state.error = action.payload;
-        })
+        });
+        builder.addCase(updateChallenge.rejected, (state, action) => {
+            console.log('rejected', action.payload);
+            state.error = action.payload;
+        });
+        builder.addCase(updateChallenge.fulfilled, (state, action) => {
+            console.log('fulfilled', action.payload);
+        });
+        builder.addCase(deleteChallenge.rejected, (state, action) => {
+            console.log('rejected', action.payload);
+            state.error = action.payload;
+        });
+        builder.addCase(deleteChallenge.fulfilled, (state, action) => {
+            console.log('fulfilled', action.payload);
+        });
         builder.addCase(getAllChallenges.fulfilled, (state, action) => {
             console.log('fulfilled', action.payload);
             state.allChallenges = action.payload;
@@ -59,7 +122,15 @@ const challengeSlice = createSlice({
         builder.addCase(getAllChallenges.rejected, (state, action) => {
             console.log('rejected', action.payload);
             state.error = action.payload;
-        })
+        });
+        builder.addCase(getChallengeByID.fulfilled, (state, action) => {
+            console.log('fulfilled', action.payload);
+            state.singleChallenge = action.payload;
+        });
+        builder.addCase(getChallengeByID.rejected, (state, action) => {
+            console.log('rejected', action.payload);
+            state.error = action.payload;
+        });
     }
 })
 

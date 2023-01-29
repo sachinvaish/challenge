@@ -1,25 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Box, Button, IconButton } from '@mui/material';
+import { Avatar, Box, Button, IconButton, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import CreateChallenge from './CreateChallenge';
-import { getAllChallenges } from '../../redux/services/challengeSlice';
+import { deleteChallenge, getAllChallenges } from '../../redux/services/challengeSlice';
+import Timer from '../../components/Timer';
+import { Add } from '@mui/icons-material';
+import EditChallenge from './EditChallenge';
+import ConfirmDialogue from '../../components/ConfirmDialogue';
 
 export default function Challenges() {
 
-  const { challenge, allChallenges, loading, error } = useSelector((state) => ({ ...state.ChallengeReducer }));
+  const { allChallenges, loading, error } = useSelector((state) => ({ ...state.ChallengeReducer }));
   // console.log(allUsers);
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const onClose = () => {
-    setOpen(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [createOpen, setCreateOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [challenge, setChallenge] = useState(null);
+  const onCreateClose = () => {
+    setCreateOpen(false);
   }
 
-  const handleClick = () => {
+  const onDeleteClose = () => {
+    setDeleteOpen(false);
+  }
+
+  const onEditClose = () => {
+    setEditOpen(false);
+  }
+
+  const deleteChallengeMethod = (id) => {
+    localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
+    const authToken = localStorage.getItem('authToken');
+    dispatch(deleteChallenge({ id, authToken }));
+
+    setTimeout(() => {
+      setTimeout(() => {
+        dispatch(getAllChallenges());
+      }, 500);
+      onDeleteClose();
+    }, 500);
+  }
+
+  const handleEditChallenge = (challengeInfo) => {
+    setChallenge(challengeInfo);
+    setEditOpen(true);
+  }
+
+  const handleDeleteChallenge = (challengeInfo) => {
+    setChallenge(challengeInfo)
+    setDeleteOpen(true);
+  }
+
+  const handleCreateChallenge = () => {
     if (localStorage.getItem('authToken'))
-      setOpen(true);
+      setCreateOpen(true);
     else
       alert('please login');
   }
@@ -31,17 +69,26 @@ export default function Challenges() {
 
   const columns = [
     { field: 'id', headerName: '#', width: 20, align: 'right', type: 'number' },
-    { field: 'title', headerName: 'Title', width: 200, align: 'left' },
+    {
+      field: 'title', headerName: 'Title', width: 160, align: 'left',
+      renderCell: ({ row }) => (<Typography variant='body2' color='primary' sx={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => alert('view detail')}>{row.title}</Typography>)
+    },
     { field: 'description', headerName: 'Description', width: 300, align: 'left' },
-    { field: 'due_date', headerName: 'Due Date', width: 150, align: 'left' },
-    { field: 'first_prize', headerName: 'First Prize', width: 150, align: 'left' },
+    {
+      field: 'due_date', headerName: 'Deadline', width: 200, align: 'center', type: 'date',
+      renderCell: ({ row }) => (<Timer countDownDate={row.due_date} />)
+    },
+    {
+      field: 'total_amount', headerName: 'Amount(₹)', width: 100, align: 'right', type: 'number'
+      // renderCell: ({ row }) => (Number(row.first_prize + row.second_prize + row.feedback_prize))
+    },
     {
       field: 'actions', headerName: 'Actions', width: 120, align: 'center',
       renderCell: ({ row }) => (<>
-        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' color='primary' onClick={() => alert(`Edit User ${row.username}`)}>
+        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' onClick={() => { handleEditChallenge(row.challenge) }}>
           <ModeEditIcon />
         </IconButton>
-        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' color='error' onClick={() => alert(`Delete User ${row.username}`)}>
+        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' onClick={() => { handleDeleteChallenge(row.challenge) }}>
           <DeleteIcon />
         </IconButton>
       </>),
@@ -56,19 +103,25 @@ export default function Challenges() {
       title: challenge.title,
       description: challenge.description,
       due_date: challenge.due_date,
-      first_prize: challenge.first_prize
+      total_amount: (challenge.first_prize + challenge.second_prize + challenge.feedback_prize),
+      challenge: challenge
     }))
   }
 
   return (
     <>
-      <CreateChallenge open={open} onClose={onClose} />
-      <Box marginY={2} width='100%' >
-        <Button variant='contained' onClick={handleClick}>Submit Design</Button>
+      <CreateChallenge open={createOpen} onClose={onCreateClose} />
+      {editOpen && <EditChallenge open={editOpen} onClose={onEditClose} challenge={challenge} />}
+      {deleteOpen && <ConfirmDialogue open={deleteOpen} onClose={onDeleteClose} data={challenge._id} method={deleteChallengeMethod} />}
+
+      <Box marginY={2} width='100%' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant='h4'>Challenges</Typography>
+        <Button variant='contained' size='small' onClick={handleCreateChallenge} startIcon={<Add />}>Create Challenge</Button>
       </Box>
       {rows && (
-        <Box sx={{ height: '50%', display: 'flex' }}>
+        <Box sx={{ height: '100vh', display: 'flex' }}>
           <DataGrid
+            getRowHeight={() => { return 'auto' }}
             rows={rows}
             columns={columns}
             pdesignationSize={12}
