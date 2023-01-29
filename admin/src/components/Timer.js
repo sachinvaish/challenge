@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { React, useState, useRef, useEffect } from 'react';
 
 export default function Timer(props) {
+    const {countDownDate,size}=props;
     const [timerDays, setTimerDays] = useState('00');
     const [timerHours, setTimerHours] = useState('00');
     const [timerMinutes, setTimerMinutes] = useState('00');
@@ -41,26 +42,26 @@ export default function Timer(props) {
 
     return (
         <>
-            {(new Date(props.countDownDate).getTime() >= new Date().getTime()) ?
+            {(new Date(countDownDate).getTime() >= new Date().getTime()) ?
                 (
                     <Box display='flex' justifyContent='space-between' textAlign='center' my={1} >
                         <Box sx={{ width: '45px' }}>
-                            <Typography variant='body1'>{timerDays}</Typography>
+                            <Typography variant={(size==='md')?'h4':'body1'}>{timerDays}</Typography>
                             <Typography fontSize={12}>Days</Typography>
                         </Box>
-                        <Typography variant='body1'>:</Typography>
+                        <Typography variant={(size==='md')?'h4':'body1'}>:</Typography>
                         <Box sx={{ width: '45px' }}>
-                            <Typography variant='body1'>{timerHours}</Typography>
+                            <Typography variant={(size==='md')?'h4':'body1'}>{timerHours}</Typography>
                             <Typography fontSize={12}>Hours</Typography>
                         </Box>
-                        <Typography variant='body1'>:</Typography>
+                        <Typography variant={(size==='md')?'h4':'body1'}>:</Typography>
                         <Box sx={{ width: '45px' }}>
-                            <Typography variant='body1'>{timerMinutes}</Typography>
+                            <Typography variant={(size==='md')?'h4':'body1'}>{timerMinutes}</Typography>
                             <Typography fontSize={12}>Minutes</Typography>
                         </Box>
-                        <Typography variant='body1'>:</Typography>
+                        <Typography variant={(size==='md')?'h4':'body1'}>:</Typography>
                         <Box sx={{ width: '45px' }}>
-                            <Typography variant='body1'>{timerSeconds}</Typography>
+                            <Typography variant={(size==='md')?'h4':'body1'}>{timerSeconds}</Typography>
                             <Typography fontSize={12}>Seconds</Typography>
                         </Box>
                     </Box>

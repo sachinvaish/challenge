@@ -10,6 +10,7 @@ import Timer from '../../components/Timer';
 import { Add } from '@mui/icons-material';
 import EditChallenge from './EditChallenge';
 import ConfirmDialogue from '../../components/ConfirmDialogue';
+import { useNavigate } from 'react-router';
 
 export default function Challenges() {
 
@@ -20,6 +21,8 @@ export default function Challenges() {
   const [createOpen, setCreateOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [challenge, setChallenge] = useState(null);
+  const navigate = useNavigate();
+
   const onCreateClose = () => {
     setCreateOpen(false);
   }
@@ -71,7 +74,7 @@ export default function Challenges() {
     { field: 'id', headerName: '#', width: 20, align: 'right', type: 'number' },
     {
       field: 'title', headerName: 'Title', width: 160, align: 'left',
-      renderCell: ({ row }) => (<Typography variant='body2' color='primary' sx={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => alert('view detail')}>{row.title}</Typography>)
+      renderCell: ({ row }) => (<Typography variant='body2' color='primary' sx={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => navigate(`/challenge/${row.challenge._id}`)}>{row.title}</Typography>)
     },
     { field: 'description', headerName: 'Description', width: 300, align: 'left' },
     {
