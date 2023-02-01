@@ -1,5 +1,5 @@
 const express = require('express');
-const fs= require('fs');
+const fs = require('fs');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const Submission = require('../models/Submission.js');
@@ -88,12 +88,30 @@ router.get('/user/:user_id', async (req, res) => {
     }
 })
 
+// PUT : Update Winner in Submission
+router.put('/:id', fetchuser, isAdmin, async (req, res) => {
+    try {
+        submissionID = req.params.id;
+        const submission = await Submission.findByIdAndUpdate(submissionID, {
+            prize: req.body.prize
+        }, { new: true })
+        console.log('winner added in submission', submission);
+        res.json(submission);
+
+    } catch (error) {
+        //catching errors 
+        console.error('error aya', error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+
+})
+
 // delete all Submissions for a user
 // when a user account is deleted, this API should be hit
 router.delete('/:user_id', async (req, res) => {
     try {
         let submission = await Submission.deleteMany({ user_id: req.params.user_id });
-        res.json({"message":"All Submissions Deleted for this User"});
+        res.json({ "message": "All Submissions Deleted for this User" });
 
     } catch (error) {
         console.log(error);
@@ -102,7 +120,7 @@ router.delete('/:user_id', async (req, res) => {
 })
 
 // Delete a submission by ADMIN
-router.delete('/:id', fetchuser, isAdmin, async(req,res)=>{
+router.delete('/:id', fetchuser, isAdmin, async (req, res) => {
     try {
         let submission_id = req.params.id;
         let photo_url = await Submission.findById(submission_id).select('photo_url');

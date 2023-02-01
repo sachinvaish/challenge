@@ -44,14 +44,65 @@ export const updateChallenge = createAsyncThunk('challenge/updateChallenge',
         ).catch((err) => err)
     })
 
-    export const deleteChallenge = createAsyncThunk('challenge/deleteChallenge',
-    async({id,authToken})=>{
+export const setFirstWinner = createAsyncThunk('challenge/setFirstWinner',
+    async ({ newChallenge, authToken }) => {
+        // console.log('inside update challnegne', newChallenge);
+        return fetch(`http://localhost:5000/challenges/setwinner/${newChallenge.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'auth-token': authToken
+            },
+            body: JSON.stringify({
+                'first_winner_id': newChallenge.first_winner_id
+            })
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((err) => err)
+    })
+
+export const setSecondWinner = createAsyncThunk('challenge/setSecondWinner',
+    async ({ newChallenge, authToken }) => {
+        // console.log('inside update challnegne', newChallenge);
+        return fetch(`http://localhost:5000/challenges/setwinner/${newChallenge.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'auth-token': authToken
+            },
+            body: JSON.stringify({
+                'second_winner_id': newChallenge.second_winner_id
+            })
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((err) => err)
+    })
+
+export const setFeedbackWinner = createAsyncThunk('challenge/setFeedbackWinner',
+    async ({ newChallenge, authToken }) => {
+        // console.log('inside update challnegne', newChallenge);
+        return fetch(`http://localhost:5000/challenges/setwinner/${newChallenge.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json',
+                'auth-token': authToken
+            },
+            body: JSON.stringify({
+                'feedback_winner_id': newChallenge.feedback_winner_id
+            })
+        }).then((res) => res.json()
+        ).then((res) => res
+        ).catch((err) => err)
+    })
+
+export const deleteChallenge = createAsyncThunk('challenge/deleteChallenge',
+    async ({ id, authToken }) => {
         // console.log('inside deleteChallenge');
-        return fetch(`http://localhost:5000/challenges/${id}`,{
-            method:'DELETE',
-            headers:{
-                'Content-type':'application/json',
-                'auth-token':authToken
+        return fetch(`http://localhost:5000/challenges/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'auth-token': authToken
             }
         }).then((res) => res.json()
         ).then((res) => res
@@ -128,6 +179,35 @@ const challengeSlice = createSlice({
             state.challenge = action.payload;
         });
         builder.addCase(getChallengeByID.rejected, (state, action) => {
+            // console.log('rejected', action.payload);
+            state.error = action.payload;
+        });
+        builder.addCase(setFirstWinner.fulfilled, (state, action) => {
+            // console.log('fulfilled', action.payload);
+            // state.challenge = action.payload;
+        });
+        builder.addCase(setFirstWinner.rejected, (state, action) => {
+            // console.log('rejected', action.payload);
+            state.error = action.payload;
+        });
+        builder.addCase(setSecondWinner.fulfilled, (state, action) => {
+            // console.log('fulfilled', action.payload);
+            // state.challenge = action.payload;
+        });
+        builder.addCase(setSecondWinner.rejected, (state, action) => {
+            // console.log('rejected', action.payload);
+            state.error = action.payload;
+        });
+        builder.addCase(setFeedbackWinner.pending, (state, action) => {
+            // console.log('fulfilled', action.payload);
+            state.loading = true;
+        });
+        builder.addCase(setFeedbackWinner.fulfilled, (state, action) => {
+            // console.log('fulfilled', action.payload);
+            // state.challenge = action.payload;
+            state.loading = false;
+        });
+        builder.addCase(setFeedbackWinner.rejected, (state, action) => {
             // console.log('rejected', action.payload);
             state.error = action.payload;
         });

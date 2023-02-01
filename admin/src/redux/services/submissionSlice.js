@@ -26,15 +26,34 @@ export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID'
         }).then((res) => res.json()
         ).then((res) => {
             // console.log(res);
-            return res;   
+            return res;
         }).catch((error) => error)
     })
+
+// export const setPrize = createAsyncThunk('submission/setPrize',
+//     async ({ newSubmission, authToken }) => {
+//         console.log('inside setPrize , newSubmission', newSubmission);
+//         return fetch(`http://localhost:5000/submissions/${newSubmission.id}`, {
+//             method: 'PUT',
+//             headers: {
+//                 'Content-type': 'application/json',
+//                 'auth-token': authToken
+//             },
+//             body: JSON.stringify({
+//                 prize: newSubmission.prize
+//             })
+//         }).then((res) => res.json()
+//         ).then((res) => {
+//             // console.log(res);
+//             return res;
+//         }).catch((error) => error)
+//     })
 
 const submissionSlice = createSlice({
     name: 'submission',
     initialState: {
         submissions: null,
-        singleSubmission : null,
+        singleSubmission: null,
         loading: false,
         error: null,
         message: null
@@ -54,6 +73,13 @@ const submissionSlice = createSlice({
             builder.addCase(getSubmissionByID.rejected, (state, action) => {
                 state.error = action.payload;
             });
+            // builder.addCase(setPrize.fulfilled, (state, action) => {
+            //     // state.singleSubmission = action.payload
+            //     console.log('setPrize fulfilled');
+            // });
+            // builder.addCase(setPrize.rejected, (state, action) => {
+            //     state.error = action.payload;
+            // });
         }
 })
 

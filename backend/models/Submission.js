@@ -14,7 +14,8 @@ const SubmissionSchema = new Schema ({
     description : {
         type : String,
         min : [20, "Description must be of 20 Characters"]
-    }
+    },
+    prize : String
 });
 
 module.exports = mongoose.model('submission', SubmissionSchema);

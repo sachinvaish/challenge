@@ -98,6 +98,40 @@ router.put('/:id', fetchuser, isAdmin, [
 
 })
 
+// PUT : Set Winner
+router.put('/setwinner/:id', fetchuser, isAdmin, async (req, res) => {
+    try {
+        challengeID = req.params.id;
+        if(req.body.first_winner_id){
+            const challenge = await Challenge.findByIdAndUpdate(challengeID, {
+                first_winner_id: req.body.first_winner_id
+            }, { new: true })
+            console.log('winner ghoshit', challenge);
+            res.json(challenge);
+        }
+        if(req.body.second_winner_id){
+            const challenge = await Challenge.findByIdAndUpdate(challengeID, {
+                second_winner_id: req.body.second_winner_id
+            }, { new: true })
+            console.log('winner ghoshit', challenge);
+            res.json(challenge);
+        }
+        if(req.body.feedback_winner_id){
+            const challenge = await Challenge.findByIdAndUpdate(challengeID, {
+                feedback_winner_id: req.body.feedback_winner_id
+            }, { new: true })
+            console.log('winner ghoshit', challenge);
+            res.json(challenge);
+        }
+        
+    } catch (error) {
+        //catching errors 
+        console.error('error aya', error);
+        res.status(500).json({ "error": "Server Error Occured" });
+    }
+
+})
+
 //PUT Delete a challenge by ID
 router.delete('/:id', fetchuser, isAdmin, async (req, res) => {
     try {

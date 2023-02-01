@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 
 export default function Sidebar(props) {
     const submission = props.submission;
-    const { description, user_id , _id} = props.submission;
+    const { description, user_id , _id, challenge_id} = props.submission;
 
     const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
 
@@ -37,12 +37,10 @@ export default function Sidebar(props) {
     const getAllFeedbacks = () => {
         //API call to fetch feedbacks
         if (submission) {
-            console.log('calling from sidebar', submission._id);
+            // console.log('calling from sidebar', submission._id);
             dispatch(getFeedbacks(submission._id));
         }
     }
-
-
 
     const handleFeedback = (e) => {
         console.log('handle feedback called', submission._id)
@@ -100,7 +98,7 @@ export default function Sidebar(props) {
                             <Typography variant='h6'>Feedbacks ({feedbacks.length})</Typography>
                             {feedbacks.map((feedback) => {
                                 return (
-                                    <Feedback key={feedback._id} feedback={feedback} />
+                                    <Feedback key={feedback._id} feedback={feedback} challenge_id={challenge_id} />
                                 )
                             })}
                         </Box>
