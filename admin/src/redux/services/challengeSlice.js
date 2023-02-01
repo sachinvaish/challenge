@@ -54,7 +54,8 @@ export const setFirstWinner = createAsyncThunk('challenge/setFirstWinner',
                 'auth-token': authToken
             },
             body: JSON.stringify({
-                'first_winner_id': newChallenge.first_winner_id
+                'first_winner_id': newChallenge.first_winner_id,
+                'second_winner_id': newChallenge.second_winner_id
             })
         }).then((res) => res.json()
         ).then((res) => res
@@ -71,7 +72,8 @@ export const setSecondWinner = createAsyncThunk('challenge/setSecondWinner',
                 'auth-token': authToken
             },
             body: JSON.stringify({
-                'second_winner_id': newChallenge.second_winner_id
+                'second_winner_id': newChallenge.second_winner_id,
+                'first_winner_id' : newChallenge.first_winner_id
             })
         }).then((res) => res.json()
         ).then((res) => res

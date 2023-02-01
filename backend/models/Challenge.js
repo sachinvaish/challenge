@@ -20,11 +20,11 @@ const ChallengeSchema = new Schema({
   feedback_prize: Number,
   first_winner_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'submission'
   },
   second_winner_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'submission'
   },
   feedback_winner_id: {
     type: mongoose.Schema.Types.ObjectId,

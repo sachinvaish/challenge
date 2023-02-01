@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import Sidebar from './Sidebar';
-import { getSubmissionByID} from '../../redux/services/submissionSlice';
-import { setFirstWinner, setSecondWinner } from '../../redux/services/challengeSlice';
+import { getSubmissionByID } from '../../redux/services/submissionSlice';
+import { getChallengeByID, setFirstWinner, setSecondWinner } from '../../redux/services/challengeSlice';
 
 export default function SubmissionView(props) {
 
@@ -12,36 +12,56 @@ export default function SubmissionView(props) {
     const { id } = useParams();
     const navigate = useNavigate();
     const [prize, setPrize] = useState('');
+    const { singleSubmission } = useSelector((state) => ({ ...state.SubmissionReducer }));
+    const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
+
+    useEffect(() => {
+        if(singleSubmission){
+            dispatch(getChallengeByID(singleSubmission.challenge_id))
+        }
+    }, []);
 
     const setSubmissionWinner = () => {
         localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
         const authToken = localStorage.getItem('authToken');
         if (prize === 1) {
             //give user first prize
-            const newChallenge = {
+            let newChallenge = {
                 "id": singleSubmission.challenge_id,
-                "first_winner_id": singleSubmission.user_id
+                "first_winner_id": singleSubmission._id,
+                "second_winner_id": null
+            }
+            // there couldn't be same submission id for both prizes, so
+            if(challenge.second_winner_id===singleSubmission._id){
+                newChallenge.second_winner_id = null;
             }
             dispatch(setFirstWinner({ newChallenge, authToken }));
         }
         if (prize === 2) {
             //give user 2nd prize
-            const newChallenge = {
+            let newChallenge = {
                 "id": singleSubmission.challenge_id,
-                "second_winner_id": singleSubmission.user_id
+                "second_winner_id": singleSubmission._id,
+                "first_winner_id":null
+            }
+            // there couldn't be same submission id for both prizes, so
+            if(challenge.first_winner_id===singleSubmission._id){
+                newChallenge.first_winner_id = null;
             }
             dispatch(setSecondWinner({ newChallenge, authToken }));
         }
+        dispatch(getChallengeByID(singleSubmission.challenge_id))
     }
 
     // console.log('inside Submission VIEW');
     // console.log('id is :',id);
-    const { singleSubmission } = useSelector((state) => ({ ...state.SubmissionReducer }));
+   
     // console.log('single submission', singleSubmission);
 
     useEffect(() => {
         dispatch(getSubmissionByID(id));
     }, [id]);
+
 
     return (
         <Box sx={{ marginTop: 0, padding: 3 }}>

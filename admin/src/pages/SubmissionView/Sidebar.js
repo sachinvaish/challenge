@@ -3,14 +3,16 @@ import Like from '../../components/Like';
 import { Link, Box, Card, CardHeader, CardActions, Avatar, Typography, Divider, Button, TextField } from '@mui/material';
 import Feedback from '../../components/Feedback';
 import { useSelector, useDispatch } from 'react-redux';
-import { createFeedback, FeedbackReducer, getFeedbacks } from '../../redux/services/feedbackSlice';
+import { createFeedback, getFeedbacks } from '../../redux/services/feedbackSlice';
 import { useNavigate } from 'react-router';
+import { getChallengeByID } from '../../redux/services/challengeSlice';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 export default function Sidebar(props) {
     const submission = props.submission;
     const { description, user_id , _id, challenge_id} = props.submission;
-
     const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
+    const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -20,6 +22,7 @@ export default function Sidebar(props) {
     useEffect(() => {
         getUserByID(user_id);
         getAllFeedbacks();
+        dispatch(getChallengeByID(challenge_id))
     }, [submission])
 
     const getUserByID = async (user_id) => {
@@ -74,14 +77,17 @@ export default function Sidebar(props) {
                     <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                         <CardHeader
                             avatar={
-                                <Avatar sx={{ marginX: '10px', width:'50px', height:'50px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`}>
+                                <Avatar sx={{width:'50px', height:'50px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`}>
                                      {(user.username).charAt(0).toUpperCase()}
                                 </Avatar>
                             }
                             title={
+                                <>
                                 <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                                     {user.name ? user.name : user.username}
                                 </Link>
+                                {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E' }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD' }} />))}
+                                </>
                             }
                             subheader={`@${user.username}`}
                         />

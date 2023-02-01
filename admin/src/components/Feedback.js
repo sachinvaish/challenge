@@ -2,8 +2,11 @@ import { Box, Card, CardHeader, CardActions, Avatar, Link, Typography, Button } 
 import React, { useState, useEffect } from 'react';
 // import LoadingButton from '@mui/lab/LoadingButton';
 import Like from './Like';
-import { setFeedbackWinner } from '../redux/services/challengeSlice';
+import { setFeedbackWinner, getChallengeByID } from '../redux/services/challengeSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import GetTimeFormat from './GetTimeFormat';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { CheckBox } from '@mui/icons-material';
 
 export default function Feedback(props) {
 
@@ -12,10 +15,12 @@ export default function Feedback(props) {
     // console.log('inside feedback component',feedback);
     const [user, setUser] = useState({});
     const dispatch = useDispatch();
-    const {loading}=useSelector((state)=>({...state.ChallengeReducer}))
+    const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
+    // console.log('challenge', challenge);
 
     useEffect(() => {
         getUser();
+        dispatch(getChallengeByID(challenge_id))
     }, []);
 
     const setWinner = (id) => {
@@ -27,6 +32,9 @@ export default function Feedback(props) {
         }
         console.log('feedback winner called');
         dispatch(setFeedbackWinner({ newChallenge, authToken }));
+        setTimeout(() => {
+            dispatch(getChallengeByID(challenge_id))
+        }, 500);
     }
 
     const getUser = async () => {
@@ -43,11 +51,15 @@ export default function Feedback(props) {
 
     return (
         <Box sx={{ marginY: 3 }}>
-            <Box sx={{ display: 'flex', spacing: '2' }} >
-                <Avatar sx={{ bgcolor: 'primary', height: '30px', width: '30px' }} src={user.photo_url} aria-label="recipe"></Avatar>
-                <Link marginX={1} variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ fontSize: '16px', cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+            <Box sx={{ display: 'flex' }} >
+                <Avatar sx={{ width: '30px', height: '30px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`}>
+                    {user.name && (user.username).charAt(0).toUpperCase()}
+                </Avatar>
+                <Link marginX={1} variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ fontSize: '16px', ml: 1, cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                     {user.name ? user.name : user.username}
                 </Link>
+                {challenge && (challenge.feedback_winner_id === _id && <EmojiEventsIcon sx={{ color: '#E8AF0E' }} />)}
+
             </Box>
             <Box sx={{ marginY: 1, textAlign: 'left' }}>
                 <Typography variant='p'>
@@ -55,8 +67,8 @@ export default function Feedback(props) {
                 </Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}>{date}</Typography>
-                <Button size='small' onClick={()=>setWinner(_id)}>Set Winner</Button>
+                <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}><GetTimeFormat countDownDate={date} /></Typography>
+                {challenge && ((challenge.feedback_winner_id === _id) ? '' : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)}
                 {/* <LoadingButton
                     size="small"
                     onClick={()=>setWinner(_id)}
