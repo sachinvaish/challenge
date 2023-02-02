@@ -6,7 +6,7 @@ import { loginUser } from '../../redux/services/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Login(props) {
-    const {setValue}=props;
+    const { setValue } = props;
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -31,36 +31,30 @@ export default function Login(props) {
 
     return (
         <>
-            <Typography mb={2}>Don't have any Account ?
-                <Button
-                    onClick={() => { setValue('signup') }}
-                >Sign up</Button>
-            </Typography>
+            <Typography mb={2} textAlign='center' variant='h5' fontWeight='bold' color='primary'>Admin Login</Typography>
             <form onSubmit={handleSubmit(onSubmit)} >
                 <Grid container direction='column' gap={3} >
-                    <Grid item lg>
-                        <TextField fullWidth label='Email' {...register("email", {
+                    <Grid item>
+                        <TextField size='small' fullWidth label='Email' {...register("email", {
                             required: true, pattern: {
                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                 message: "invalid email address"
                             }
                         })} placeholder="yourname@crowwwn.com" helperText={errors.email && 'Please enter valid Email'} />
                     </Grid>
-                    <Grid item lg>
-                        <TextField fullWidth label='Password' type='password' {...register("password", { required: true })} />
+                    <Grid item>
+                        <TextField size='small' fullWidth label='Password' type='password' {...register("password", { required: true })} />
                     </Grid>
-                    <Grid item lg>
+                    <Grid item>
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
                             label="Keep me logged in until I sign out"
                         />
-                    </Grid>
-                    <Grid item lg>
                         <Button fullWidth type='submit' variant='contained'>Log in</Button>
-                        {error && <Typography variant='h6' textAlign='center' sx={{ color: '#FF3F16', fontWeight: 'bold' }}>{error.error}</Typography>}
-                    </Grid>
-                    <Grid item lg sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <Button>Forgot Password ?</Button>
+                        {error && <Typography mt={1} variant='body1' textAlign='center' sx={{ color: '#FF3F16', fontWeight: 'bold' }}>{error.error}</Typography>}
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <Button>Forgot Password ?</Button>
+                        </Box>
                     </Grid>
                 </Grid>
             </form>

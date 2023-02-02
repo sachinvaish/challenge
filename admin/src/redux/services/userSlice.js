@@ -40,7 +40,7 @@ export const createUser = createAsyncThunk('user/createUser',
     export const loginUser = createAsyncThunk('user/loginUser',
     async (creds, { getState }) => {
         // console.log('inside login thunk', creds);
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/admin/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

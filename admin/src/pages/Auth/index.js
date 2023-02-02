@@ -29,17 +29,18 @@ export default function Auth() {
         display: 'flex', justifyContent: 'center',
         backgroundImage: `url('https://images.unsplash.com/photo-1506971456216-7b494f54d588?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTh8MTExMjY2MHx8ZW58MHx8fHw%3D&w=1000&q=80')`
       }}>
-        <Box sx={{ width: '500px',  margin: 'auto', backgroundColor: 'white' }}>
-          <TabContext value={value}>
+        <Box sx={{ width: '500px',  margin: 'auto', backgroundColor: 'white',padding:3,borderRadius:'20px' }}>
+          <Login/>
+          {/* <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList onChange={handleChange} fullWidth>
-                <Tab label="Login" value="login" width='50%'/>
-                <Tab label="Sign up" value="signup"  width='50%'/>
+              <TabList onChange={handleChange} >
+                <Tab label="Login" value="login" />
+                <Tab label="Sign up" value="signup"  width='50%'/> 
               </TabList>
             </Box>
             <TabPanel value="login"><Login setValue={setValue} /></TabPanel>
-            <TabPanel value="signup"><Signup setValue={setValue}/></TabPanel>
-          </TabContext>
+            <TabPanel value="signup"><Signup setValue={setValue}/></TabPanel> 
+          </TabContext> */}
         </Box>
       </Box>
     </>

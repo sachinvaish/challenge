@@ -61,7 +61,7 @@ router.put('/setphoto', fetchuser, async (req, res) => {
 router.delete('/deletephoto', fetchuser, async (req, res) => {
     try {
         userID = req.user.id;
-        if(req.body.photo_url){
+        if (req.body.photo_url) {
             let photo_url = `./public/uploads/profile/${req.body.photo_url}`
             if (fs.existsSync(photo_url)) {
                 // console.log('value of existsSync : ',fs.existsSync(url))
@@ -71,7 +71,7 @@ router.delete('/deletephoto', fetchuser, async (req, res) => {
                 photo_url: ''
             }, { new: true });
             res.send(user);
-        }else{
+        } else {
             res.status(401).json({ "message": "Please provide Photo Url" });
         }
     } catch (error) {
@@ -195,6 +195,46 @@ router.post('/login', [
             res.json({ "error": "Please login with correct credentials" });
         }
 
+    } catch (error) {
+        res.json({ error });
+    }
+})
+
+// POST : Authenticate a User
+router.post('/admin/login', [
+    body('email', 'Please enter a valid Email').isEmail(),
+    body('password', 'Password must be min 8 characters').isLength(8)
+], async (req, res) => {
+    const errors = validationResult(req);
+    //validation check post
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+        let user = await User.findOne({ email: req.body.email })
+        if (user) {
+            if (user.role === 1) {
+                console.log('user role OK');
+                let hash = user.password;
+                let verified = bcrypt.compareSync(req.body.password, hash);
+
+                const payload = {
+                    id: user.id
+                }
+                if (verified) {
+                    const secretKey = process.env.SECRET_KEY;
+                    let authToken = await jwt.sign(payload, secretKey);
+                    res.json({ authToken });
+                } else {
+                    res.json({ "error": "Please login with correct credentials" });
+                }
+
+            } else {
+                res.status(401).send({ "error": "Unauthorized : Access Denied" });
+            }
+        } else {
+            res.status(400).json({ "error": "Please login with correct credentials" });
+        }
     } catch (error) {
         res.json({ error });
     }
