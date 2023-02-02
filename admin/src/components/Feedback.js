@@ -39,7 +39,7 @@ export default function Feedback(props) {
 
     const getUser = async () => {
         try {
-            const user = await fetch(`http://localhost:5000/users/${user_id}`);
+            const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
             const res = await user.json();
             // console.log('Got user detail :',res);
             setUser(res);
@@ -52,7 +52,7 @@ export default function Feedback(props) {
     return (
         <Box sx={{ marginY: 3 }}>
             <Box sx={{ display: 'flex' }} >
-                <Avatar sx={{ width: '30px', height: '30px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`}>
+                <Avatar sx={{ width: '30px', height: '30px' }} src={user.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${user.photo_url}`}>
                     {user.name && (user.username).charAt(0).toUpperCase()}
                 </Avatar>
                 <Link marginX={1} variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ fontSize: '16px', ml: 1, cursor: 'pointer', textDecoration: 'none', color: 'black' }} >

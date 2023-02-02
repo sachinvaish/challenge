@@ -88,7 +88,7 @@ export default function SubmissionView(props) {
                     <Grid item md={8}>
                         <Box
                             component='img'
-                            src={`http://localhost:5000/uploads/submissions/${singleSubmission.photo_url}`}
+                            src={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/${singleSubmission.photo_url}`}
                             maxWidth='100%'
                             padding={0}
                         >

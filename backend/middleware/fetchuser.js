@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secretKey = "ChallengeWebsite#1";
+const secretKey = process.env.SECRET_KEY;
 
 const fetchuser = async (req, res, next) => {
     console.log('inside fetchuser');

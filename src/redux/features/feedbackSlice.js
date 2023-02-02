@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const createFeedback = createAsyncThunk('feedback/createFeedback',
     async ({feedback, authToken}) => {
         // console.log('inside create feedback thunk', feedback);
-        return fetch('http://localhost:5000/feedbacks/',{
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/feedbacks/`,{
             method : 'POST',
             headers : {
                 'Content-type':'application/json',
@@ -21,7 +21,7 @@ export const createFeedback = createAsyncThunk('feedback/createFeedback',
 export const getFeedbacks = createAsyncThunk('feedback/getFeedbacks',
 async(submission_id)=>{
     // console.log('inside get feedbacksTHUNK', submission_id);
-    return fetch(`http://localhost:5000/feedbacks/${submission_id}`,{
+    return fetch(`${process.env.REACT_APP_BACKEND_URL}/feedbacks/${submission_id}`,{
         method:'GET',
         headers : {
             'Content-type':'application/json'

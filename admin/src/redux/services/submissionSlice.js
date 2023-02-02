@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+const host=process.env.REACT_APP_BACKEND_URL;
 
 export const getSubmissions = createAsyncThunk('submission/getSubmissions',
     async (challenge_id) => {
         // console.log('inside getSubmissions',challenge_id);
-        return fetch(`http://localhost:5000/submissions/contest/${challenge_id}`, {
+        return fetch(`${host}/submissions/contest/${challenge_id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -17,7 +18,7 @@ export const getSubmissions = createAsyncThunk('submission/getSubmissions',
 export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID',
     async (id) => {
         // console.log('inside getSubmission by ID');
-        return fetch(`http://localhost:5000/submissions/${id}`, {
+        return fetch(`${host}/submissions/${id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -29,25 +30,6 @@ export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID'
             return res;
         }).catch((error) => error)
     })
-
-// export const setPrize = createAsyncThunk('submission/setPrize',
-//     async ({ newSubmission, authToken }) => {
-//         console.log('inside setPrize , newSubmission', newSubmission);
-//         return fetch(`http://localhost:5000/submissions/${newSubmission.id}`, {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-type': 'application/json',
-//                 'auth-token': authToken
-//             },
-//             body: JSON.stringify({
-//                 prize: newSubmission.prize
-//             })
-//         }).then((res) => res.json()
-//         ).then((res) => {
-//             // console.log(res);
-//             return res;
-//         }).catch((error) => error)
-//     })
 
 const submissionSlice = createSlice({
     name: 'submission',

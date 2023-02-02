@@ -32,7 +32,7 @@ export default function UserInfo(props) {
     return (
         <Paper sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
             {profile && (<>
-                <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src={profile.photo_url && `http://localhost:5000/uploads/profile/${profile.photo_url}`} />
+                <Avatar sx={{ height: '130px', width: '130px', margin: '20px' }} src={profile.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${profile.photo_url}`} />
                 <Box mb={1} sx={{ width: '100%' }} textAlign='center'>
                     <Typography variant='h5' fontWeight='bold'>{profile.name}</Typography>
                     <Typography variant='subtitle2'>{`@${profile.username}`}</Typography>

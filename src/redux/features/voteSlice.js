@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const toggleVote = createAsyncThunk('vote/toggleVote',
     async ({ submission_id, authToken }) => {
         console.log('inside toggleVote', submission_id, authToken);
-        return fetch('http://localhost:5000/votes', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/votes`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -19,7 +19,7 @@ export const toggleVote = createAsyncThunk('vote/toggleVote',
 // export const getVotes = createAsyncThunk('vote/getVotes',
 //     async(submission_id)=>{
 //         console.log('inside gietVotes', submission_id);
-//         return fetch(`http://localhost:5000/votes/${submission_id}`,{
+//         return fetch(`${process.env.REACT_APP_BACKEND_URL}/votes/${submission_id}`,{
 //             method:'GET'
 //         }).then((res)=>res.json()
 //         ).then((res)=>res

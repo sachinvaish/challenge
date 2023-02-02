@@ -52,7 +52,7 @@ export default function Navbar() {
                         {(isLoggedIn && user) ? (
                             <>
                                 <Box sx={{ display: 'flex' }}>
-                                    <Avatar sx={{ marginX: '10px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`}> {(user.username).charAt(0).toUpperCase()}</Avatar>
+                                    <Avatar sx={{ marginX: '10px' }} src={user.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${user.photo_url}`}> {(user.username).charAt(0).toUpperCase()}</Avatar>
                                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer', color: 'black' }}
                                         onClick={()=>{navigate(`/profile/${user._id}`)}}>

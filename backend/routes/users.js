@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
 const isAdmin = require('../middleware/isAdmin.js');
+// console.log('secreate key is :',process.env.SECRET_KEY);
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -156,7 +157,7 @@ router.post('/signup', [
         const payload = {
             id: user.id
         }
-        const secretKey = "ChallengeWebsite#1";
+        const secretKey = process.env.SECRET_KEY;
         let authToken = await jwt.sign(payload, secretKey);
         res.json({ authToken });
     } catch (error) {
@@ -187,7 +188,7 @@ router.post('/login', [
             id: user.id
         }
         if (verified) {
-            const secretKey = "ChallengeWebsite#1";
+            const secretKey = process.env.SECRET_KEY;
             let authToken = await jwt.sign(payload, secretKey);
             res.json({ authToken });
         } else {

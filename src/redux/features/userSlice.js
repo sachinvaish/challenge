@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const createUser = createAsyncThunk('user/createUser',
     async (values) => {
         // console.log('inside async thunk', values);
-        return fetch('http://localhost:5000/users/signup', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/signup`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -25,7 +25,7 @@ export const createUser = createAsyncThunk('user/createUser',
 export const loginUser = createAsyncThunk('user/loginUser',
     async (creds, { getState }) => {
         // console.log('inside login thunk', creds);
-        return fetch('http://localhost:5000/users/login', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/login`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -48,7 +48,7 @@ export const loginUser = createAsyncThunk('user/loginUser',
 export const getUser = createAsyncThunk('user/getUser',
     async (authToken) => {
         // console.log('inside getUser');
-        return fetch('http://localhost:5000/users', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -71,7 +71,7 @@ export const getUser = createAsyncThunk('user/getUser',
 
 export const getUserProfile = createAsyncThunk('user/getUserProfile',
     async (id) => {
-        return fetch(`http://localhost:5000/users/${id}`,{
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id}`,{
             method:'GET',
             headers:{
                 'Content-type':'application/json'
@@ -84,7 +84,7 @@ export const getUserProfile = createAsyncThunk('user/getUserProfile',
 export const updateUser = createAsyncThunk('user/updateUser',
     async ({ updatedUser, authToken }) => {
         // console.log('inside update user');
-        return fetch('http://localhost:5000/users', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -111,7 +111,7 @@ export const updateUser = createAsyncThunk('user/updateUser',
 export const updateProfilePhoto = createAsyncThunk('user/updateProfilePhoto',
     async ({ base64, authToken }) => {
         // console.log('inside update photo', base64);
-        return fetch('http://localhost:5000/users/setphoto', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/setphoto`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -127,7 +127,7 @@ export const updateProfilePhoto = createAsyncThunk('user/updateProfilePhoto',
 
 export const deletePhoto = createAsyncThunk('user/deletePhoto',
     async ({ photo_url, authToken }) => {
-        return fetch('http://localhost:5000/users/deletephoto', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/deletephoto`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',

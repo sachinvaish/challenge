@@ -22,7 +22,7 @@ export default function Users() {
     {
       field: 'photo', headerName: 'Photo', width: 80, align: 'left',
       renderCell: ({ row }) => (<>
-        <Avatar sx={{ marginX: '10px', borderRadius: '10px' }} src={row.photo && `http://localhost:5000/uploads/profile/${row.photo}`}> {(row.username).charAt(0).toUpperCase()}</Avatar>
+        <Avatar sx={{ marginX: '10px', borderRadius: '10px' }} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${row.photo}`}> {(row.username).charAt(0).toUpperCase()}</Avatar>
       </>),
     },
     { field: 'username', headerName: 'Username', width: 150, align: 'left' },

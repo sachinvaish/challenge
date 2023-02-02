@@ -7,7 +7,6 @@ import Layout from './pages/Layout';
 import ChallengeDetail from './pages/ChallengeDetail';
 
 function App() {
-
   return (
     <>
       <Routes>

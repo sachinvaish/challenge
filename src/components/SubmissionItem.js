@@ -22,7 +22,7 @@ export default function SubmissionItem(props) {
 
 const getUserByID = async () => {
     try {
-        const user = await fetch(`http://localhost:5000/users/${user_id}`);
+        const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
         const res = await user.json();
         // console.log('Got user detail :',res);
         setUser(res);
@@ -34,7 +34,7 @@ const getUserByID = async () => {
 
     const getFeedbacksBySubmissionID = async() => {
         //API CALL to get feedbacks on particular submission id /getfeedbackscount/id
-        let count = await fetch(`http://localhost:5000/feedbacks/getfeedbackscount/${_id}`,{
+        let count = await fetch(`${process.env.REACT_APP_BACKEND_URL}/feedbacks/getfeedbackscount/${_id}`,{
             method:'GET',
             headers : {
                 'Content-type':'application/json'
@@ -56,13 +56,13 @@ const getUserByID = async () => {
                 component="img"
                 height="auto"
                 width='auto'
-                image={`http://localhost:5000/uploads/submissions/${photo_url}`}
+                image={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/${photo_url}`}
                 alt="submission"
             />
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                 <CardHeader
                     avatar={
-                        <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`} aria-label="recipe">
+                        <Avatar sx={{ bgcolor: 'primary' }} src={user.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${user.photo_url}`} aria-label="recipe">
 
                         </Avatar>
                     }

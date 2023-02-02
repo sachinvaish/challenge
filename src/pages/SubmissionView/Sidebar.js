@@ -24,7 +24,7 @@ export default function Sidebar(props) {
 
     const getUserByID = async (user_id) => {
         try {
-            const user = await fetch(`http://localhost:5000/users/${user_id}`);
+            const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
             const res = await user.json();
             // console.log('Got user detail :',res);
             setUser(res);

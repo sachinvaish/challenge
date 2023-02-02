@@ -36,7 +36,7 @@ export default function Profile(props) {
     console.log('getting user by ID');
     try {
       // setUser(null);
-      const user = await fetch(`http://localhost:5000/users/${user_id}`);
+      const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
       const res = await user.json();
       setUserInfo(res);
     } catch (error) {
@@ -46,7 +46,7 @@ export default function Profile(props) {
 
   const getSubmissionsByUserID = async (user_id) => {
     try {
-      const user = await fetch(`http://localhost:5000/submissions/user/${user_id}`);
+      const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/submissions/user/${user_id}`);
       const res = await user.json();
       setSubmissions(res);
     } catch (error) {

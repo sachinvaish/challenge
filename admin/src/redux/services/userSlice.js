@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const host=process.env.REACT_APP_BACKEND_URL;
 export const getAllUsers = createAsyncThunk('users/getAllUsers',
 async()=>{
     // console.log('inside getAllUsers');
-    return fetch('http://localhost:5000/users/getallusers',{
+    return fetch(`${host}/users/getallusers`,{
         method : 'POST',
         headers : {
             'Content-type':'application/json'

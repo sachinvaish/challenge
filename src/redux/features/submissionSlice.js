@@ -7,7 +7,7 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
         data.append('description', submission.description);
         data.append('feedback', submission.feedback);
         data.append('image', submission.photo)
-        return fetch('http://localhost:5000/submissions/', {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/submissions/`, {
             method: 'POST',
             headers: {
                 'auth-token': authToken
@@ -24,7 +24,7 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
 export const getSubmissions = createAsyncThunk('submission/getSubmissions',
     async (challenge_id) => {
         // console.log('inside getSubmissions');
-        return fetch(`http://localhost:5000/submissions/contest/${challenge_id}`, {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/submissions/contest/${challenge_id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -38,7 +38,7 @@ export const getSubmissions = createAsyncThunk('submission/getSubmissions',
 export const getSubmissionByID = createAsyncThunk('submission/getSubmissionByID',
     async (id) => {
         // console.log('inside getSubmission by ID');
-        return fetch(`http://localhost:5000/submissions/${id}`, {
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/submissions/${id}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',

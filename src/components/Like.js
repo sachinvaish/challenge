@@ -28,7 +28,7 @@ export default function Like(props) {
     }
 
     const getVotes = async(submission_id)=>{
-        let votes = await fetch(`http://localhost:5000/votes/${submission_id}`,{
+        let votes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/votes/${submission_id}`,{
             method:'GET',
             headers : {
                 'Content-type':'application/json'
@@ -40,7 +40,7 @@ export default function Like(props) {
     }
 
     const getIsLiked = async(submission_id,user_id)=>{
-        let isLiked = await fetch(`http://localhost:5000/votes/isliked/${submission_id}/${user_id}`,{
+        let isLiked = await fetch(`${process.env.REACT_APP_BACKEND_URL}/votes/isliked/${submission_id}/${user_id}`,{
             method:'GET',
             headers : {'Content-type':'application/json'}
         });

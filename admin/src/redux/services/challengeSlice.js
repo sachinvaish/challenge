@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+const host=process.env.REACT_APP_BACKEND_URL;
+
 export const createChallenge = createAsyncThunk('challenge/createChallenge',
     async ({ challenge, authToken }) => {
         // console.log('inside create Challenge', challenge, authToken);
-        return fetch('http://localhost:5000/challenges/', {
+        return fetch(`${host}/challenges/`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -25,7 +27,7 @@ export const createChallenge = createAsyncThunk('challenge/createChallenge',
 export const updateChallenge = createAsyncThunk('challenge/updateChallenge',
     async ({ newChallenge, authToken }) => {
         // console.log('inside update challnegne', newChallenge);
-        return fetch(`http://localhost:5000/challenges/${newChallenge.id}`, {
+        return fetch(`${host}/challenges/${newChallenge.id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -47,7 +49,7 @@ export const updateChallenge = createAsyncThunk('challenge/updateChallenge',
 export const setFirstWinner = createAsyncThunk('challenge/setFirstWinner',
     async ({ newChallenge, authToken }) => {
         // console.log('inside update challnegne', newChallenge);
-        return fetch(`http://localhost:5000/challenges/setwinner/${newChallenge.id}`, {
+        return fetch(`${host}/challenges/setwinner/${newChallenge.id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -65,7 +67,7 @@ export const setFirstWinner = createAsyncThunk('challenge/setFirstWinner',
 export const setSecondWinner = createAsyncThunk('challenge/setSecondWinner',
     async ({ newChallenge, authToken }) => {
         // console.log('inside update challnegne', newChallenge);
-        return fetch(`http://localhost:5000/challenges/setwinner/${newChallenge.id}`, {
+        return fetch(`${host}/challenges/setwinner/${newChallenge.id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -83,7 +85,7 @@ export const setSecondWinner = createAsyncThunk('challenge/setSecondWinner',
 export const setFeedbackWinner = createAsyncThunk('challenge/setFeedbackWinner',
     async ({ newChallenge, authToken }) => {
         // console.log('inside update challnegne', newChallenge);
-        return fetch(`http://localhost:5000/challenges/setwinner/${newChallenge.id}`, {
+        return fetch(`${host}/challenges/setwinner/${newChallenge.id}`, {
             method: 'PUT',
             headers: {
                 'Content-type': 'application/json',
@@ -100,7 +102,7 @@ export const setFeedbackWinner = createAsyncThunk('challenge/setFeedbackWinner',
 export const deleteChallenge = createAsyncThunk('challenge/deleteChallenge',
     async ({ id, authToken }) => {
         // console.log('inside deleteChallenge');
-        return fetch(`http://localhost:5000/challenges/${id}`, {
+        return fetch(`${host}/challenges/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',
@@ -114,7 +116,7 @@ export const deleteChallenge = createAsyncThunk('challenge/deleteChallenge',
 export const getAllChallenges = createAsyncThunk('challenge/getAllChallenges',
     async () => {
         // console.log('get Challenge');
-        return fetch('http://localhost:5000/challenges/', {
+        return fetch(`${host}/challenges/`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'
@@ -127,7 +129,7 @@ export const getAllChallenges = createAsyncThunk('challenge/getAllChallenges',
 export const getChallengeByID = createAsyncThunk('challenge/getChallengeByID',
     async (id) => {
         // console.log('get single challenge');
-        return fetch(`http://localhost:5000/challenges/${id}`, {
+        return fetch(`${host}/challenges/${id}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json'

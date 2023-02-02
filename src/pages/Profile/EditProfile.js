@@ -41,7 +41,7 @@ export default function EditProfile(props) {
     // useEffect(() => {
     //     if (user.photo_url){
     //         console.log('setting photourl', user.photo_url);
-    //         setProfilePhoto(`http://localhost:5000/uploads/profile/${userInfo.photo_url}`)
+    //         setProfilePhoto(`${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${userInfo.photo_url}`)
     //     }
     // }, [])
 
@@ -141,7 +141,7 @@ export default function EditProfile(props) {
                                 <Typography mb={1}>Profile Image</Typography>
                                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
-                                        {!enableAvatar && <Avatar sx={{ height: '200px', width: '200px', margin: '20px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`} />}
+                                        {!enableAvatar && <Avatar sx={{ height: '200px', width: '200px', margin: '20px' }} src={user.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${user.photo_url}`} />}
                                         {enableAvatar &&
                                             <AvatarEditor
                                                 ref={editor}

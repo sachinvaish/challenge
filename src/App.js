@@ -17,7 +17,6 @@ import { logout } from "./redux/features/userSlice";
 
 
 function App() {
-  
   const {isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));  
   const dispatch = useDispatch();
   const navigate = useNavigate();

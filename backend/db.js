@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const URI = "mongodb://localhost:27017/challenge";
-const connectToMongo = ()=>{
-    mongoose.connect(URI,()=>{
+const connectToMongo = (DB_URI)=>{
+    mongoose.connect(DB_URI,()=>{
         console.log("Connected to Database successfully");
     })
 }

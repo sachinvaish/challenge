@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+const host=process.env.REACT_APP_BACKEND_URL;
 
 export const toggleVote = createAsyncThunk('vote/toggleVote',
     async ({ submission_id, authToken }) => {
         console.log('inside toggleVote', submission_id, authToken);
-        return fetch('http://localhost:5000/votes', {
+        return fetch(`${host}/votes`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',

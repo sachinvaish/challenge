@@ -9,6 +9,7 @@ import { getChallengeByID } from '../../redux/services/challengeSlice';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 export default function Sidebar(props) {
+    const host = process.env.REACT_APP_BACKEND_URL;
     const submission = props.submission;
     const { description, user_id , _id, challenge_id} = props.submission;
     const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
@@ -27,7 +28,7 @@ export default function Sidebar(props) {
 
     const getUserByID = async (user_id) => {
         try {
-            const user = await fetch(`http://localhost:5000/users/${user_id}`);
+            const user = await fetch(`${host}/users/${user_id}`);
             const res = await user.json();
             // console.log('Got user detail :',res);
             setUser(res);
@@ -77,7 +78,7 @@ export default function Sidebar(props) {
                     <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                         <CardHeader
                             avatar={
-                                <Avatar sx={{width:'50px', height:'50px' }} src={user.photo_url && `http://localhost:5000/uploads/profile/${user.photo_url}`}>
+                                <Avatar sx={{width:'50px', height:'50px' }} src={user.photo_url && `${host}/uploads/profile/${user.photo_url}`}>
                                      {(user.username).charAt(0).toUpperCase()}
                                 </Avatar>
                             }
