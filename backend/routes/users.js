@@ -102,7 +102,7 @@ router.delete('/deletephoto', fetchuser, async (req, res) => {
 // })
 
 // GET : Get a User by authToken
-router.get('/', fetchuser, async (req, res) => {
+router.get('/', fetchuser,  async (req, res) => {
     try {
         userID = req.user.id;
         const user = await User.findById(userID).select("-password");

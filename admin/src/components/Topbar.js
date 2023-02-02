@@ -14,8 +14,10 @@ export default function Topbar() {
     useEffect(() => {
         if (localStorage.getItem('authToken')){
             dispatch(getUser(localStorage.getItem('authToken')));
+        }else{
+            navigate('/auth');
         }
-    }, [isLoggedIn]);
+    }, []);
 
     return (
         <AppBar >

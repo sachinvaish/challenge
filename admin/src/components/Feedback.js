@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import GetTimeFormat from './GetTimeFormat';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { CheckBox } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 
 export default function Feedback(props) {
 
@@ -24,17 +25,18 @@ export default function Feedback(props) {
     }, []);
 
     const setWinner = (id) => {
-        localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
         const authToken = localStorage.getItem('authToken');
         const newChallenge = {
             "id": challenge_id,
             "feedback_winner_id": id
         }
         console.log('feedback winner called');
-        dispatch(setFeedbackWinner({ newChallenge, authToken }));
-        setTimeout(() => {
-            dispatch(getChallengeByID(challenge_id))
-        }, 500);
+        if(authToken){
+            dispatch(setFeedbackWinner({ newChallenge, authToken }));
+            setTimeout(() => {
+                dispatch(getChallengeByID(challenge_id))
+            }, 500);
+        }
     }
 
     const getUser = async () => {
@@ -68,16 +70,18 @@ export default function Feedback(props) {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}><GetTimeFormat countDownDate={date} /></Typography>
-                {challenge && ((challenge.feedback_winner_id === _id) ? '' : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)}
-                {/* <LoadingButton
-                    size="small"
-                    onClick={()=>setWinner(_id)}
-                    loading={loading}
-                    loadingIndicator="Setting..."
-                    variant="outlined"
-                >
-                    <span>Set Winner</span>
-                </LoadingButton> */}
+                {/* {challenge && ((challenge.feedback_winner_id === _id) ? '' : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)} */}
+                {challenge && ((challenge.feedback_winner_id === _id) ? '' :
+                    <LoadingButton
+                        size="small"
+                        onClick={() => setWinner(_id)}
+                        loading={loading}
+                        loadingIndicator="Setting..."
+                        variant="outlined"
+                    >
+                        <span>Set Winner</span>
+                    </LoadingButton>
+                )}
             </Box>
         </Box>
     );

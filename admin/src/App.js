@@ -21,6 +21,8 @@ function App() {
     }
     if (isLoggedIn) {
       navigate('/');
+  }else{
+    navigate('/auth')
   }
 }, [isLoggedIn]);
 
