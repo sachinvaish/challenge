@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AccountCircle, Mail, More, Notifications } from '@mui/icons-material';
-import { AppBar, Badge, Box, Grid, IconButton, Menu, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Badge, Box, Grid, IconButton, Menu, Toolbar, Typography } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { getUser, logout } from '../redux/services/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Topbar() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { loading, user, isLoggedIn } = useSelector((state) => ({ ...state.UserReducer }));
+
+    useEffect(() => {
+        if (localStorage.getItem('authToken')){
+            dispatch(getUser(localStorage.getItem('authToken')));
+        }
+    }, [isLoggedIn]);
+
     return (
         <AppBar >
         <Toolbar>
@@ -16,7 +30,7 @@ export default function Topbar() {
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
             <Box
-            // sx={{ display: { xs: 'none', md: 'flex' } }}
+            sx={{ display: 'flex' }}
             >
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                     <Badge badgeContent={4} color="error">
@@ -32,15 +46,21 @@ export default function Topbar() {
                         <Notifications />
                     </Badge>
                 </IconButton>
-                <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
+                {(isLoggedIn && user) && (
+                            <>
+                                <Box sx={{ display: 'flex' }}>
+                                    <Avatar sx={{ marginX: '10px' }} src={user.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${user.photo_url}`}> {(user.username).charAt(0).toUpperCase()}</Avatar>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Typography variant='body1' sx={{ fontWeight: 'bold', cursor: 'pointer'  }}
+                                        onClick={()=>{navigate(`/profile/${user._id}`)}}>
+                                            {(user.name) ? (user.name) : (user.username)}</Typography>
+                                        <Typography variant='subtitle2' sx={{ cursor: 'pointer' }} onClick={() => { dispatch(logout());  }}>
+                                            Logout</Typography>
+                                    </Box>
+                                </Box>
+                            </>
+                            )
+                        }
             </Box>
         </Toolbar>
         </AppBar>

@@ -36,9 +36,12 @@ export default function Challenges() {
   }
 
   const deleteChallengeMethod = (id) => {
-    localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
     const authToken = localStorage.getItem('authToken');
-    dispatch(deleteChallenge({ id, authToken }));
+    if(authToken){
+      dispatch(deleteChallenge({ id, authToken }));
+    }else{
+      alert('Please Login');
+    }
 
     setTimeout(() => {
       setTimeout(() => {

@@ -49,8 +49,6 @@ export default function EditChallenge(props) {
 
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
-        // console.log(data);
-        localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
         const newChallenge = {
             "id": challenge._id,
             "title": data.title,
@@ -61,9 +59,12 @@ export default function EditChallenge(props) {
             "deadline": deadline.toDate()
         }
         const authToken = localStorage.getItem('authToken');
-        // console.log(challenge, authToken);
-        dispatch(updateChallenge({ newChallenge, authToken }));
-        handleOnClose();
+        if(authToken){
+            dispatch(updateChallenge({ newChallenge, authToken }));
+            handleOnClose();
+        }else{
+            alert('Please Login');
+        }
     }
 
     return (

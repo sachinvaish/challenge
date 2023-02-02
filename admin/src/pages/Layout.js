@@ -1,11 +1,22 @@
 import { AccountCircle, Mail, More, Notifications } from '@mui/icons-material';
 import { AppBar, Badge, Box, Grid, IconButton, Menu, Toolbar, Typography } from '@mui/material';
-import React from 'react';
-import { Outlet } from 'react-router';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
 
 export default function Layout() {
+
+    const { isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate('/auth');
+        }
+    }, [isLoggedIn]);
+
     return (
         <Box >
             <Topbar />
