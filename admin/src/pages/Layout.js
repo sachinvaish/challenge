@@ -10,30 +10,34 @@ import { getUser } from '../redux/services/userSlice';
 
 export default function Layout() {
 
-    const { isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));
+    const { user, isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (localStorage.getItem('authToken')){
+        if (localStorage.getItem('authToken')) {
             dispatch(getUser(localStorage.getItem('authToken')));
-        }else{
-            navigate('/auth');
+            console.log('in LAYOUT UseEffect');
+            // navigate('/admin');
+        } else {
+            navigate('/');
         }
     }, []);
 
     return (
         <Box >
-            <Topbar />
-            <Box mt={8} sx={{ display: 'flex' }}>
-                <Sidebar />
-                <Box
-                    component="main"
-                    sx={{ flexGrow: 1, bgcolor: '#EFF1F2', p: 3, height: '800px' }}>
-                    <Outlet sx={{ height: '500px' }} />
-                </Box>
+            {isLoggedIn && (<>
+                <Topbar user={user} isLoggedIn={isLoggedIn} />
+                <Box mt={8} sx={{ display: 'flex' }}>
+                    <Sidebar />
+                    <Box
+                        component="main"
+                        sx={{ flexGrow: 1, bgcolor: '#EFF1F2', p: 3, height: '800px' }}>
+                        <Outlet sx={{ height: '500px' }} />
+                    </Box>
 
-            </Box>
+                </Box>
+            </>)}
         </Box>
     );
 }

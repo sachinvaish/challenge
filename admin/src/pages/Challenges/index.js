@@ -77,7 +77,7 @@ export default function Challenges() {
     { field: 'id', headerName: '#', width: 20, align: 'right', type: 'number' },
     {
       field: 'title', headerName: 'Title', width: 160, align: 'left',
-      renderCell: ({ row }) => (<Typography variant='body2' color='primary' sx={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => navigate(`/challenge/${row.challenge._id}`)}>{row.title}</Typography>)
+      renderCell: ({ row }) => (<Typography variant='body2' color='primary' sx={{ cursor: 'pointer', fontWeight: 'bold' }} onClick={() => navigate(`/admin/challenge/${row.challenge._id}`)}>{row.title}</Typography>)
     },
     { field: 'description', headerName: 'Description', width: 300, align: 'left' },
     {

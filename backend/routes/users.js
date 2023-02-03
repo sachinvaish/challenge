@@ -200,7 +200,7 @@ router.post('/login', [
     }
 })
 
-// POST : Authenticate a User
+// POST : Authenticate an ADMIN
 router.post('/admin/login', [
     body('email', 'Please enter a valid Email').isEmail(),
     body('password', 'Password must be min 8 characters').isLength(8)

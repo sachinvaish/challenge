@@ -21,7 +21,7 @@ export default function Sidebar() {
                 {/* <h2>Crowwwn</h2>
                 <Divider /> */}
                 <List>
-                    <ListItemButton onClick={()=>navigate('/users')}>
+                    <ListItemButton onClick={()=>navigate('/admin/users')}>
                         <ListItemIcon>
                             <AccountBox />
                         </ListItemIcon>
@@ -29,7 +29,7 @@ export default function Sidebar() {
                             Users
                         </ListItemText>
                     </ListItemButton>
-                    <ListItemButton onClick={()=>navigate('/challenges')}>
+                    <ListItemButton onClick={()=>navigate('/admin/challenges')}>
                         <ListItemIcon>
                             <Assignment />
                         </ListItemIcon>
@@ -37,7 +37,7 @@ export default function Sidebar() {
                             Challenges
                         </ListItemText>
                     </ListItemButton>
-                    <ListItemButton onClick={()=>navigate('/submissions')}>
+                    <ListItemButton onClick={()=>navigate('/admin/submissions')}>
                         <ListItemIcon>
                             <PermMedia />
                         </ListItemIcon>

@@ -51,6 +51,18 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+//GET : Get last finished challenge
+router.get('/getlastchallenge', async(req,res)=>{
+    try{
+        const challenge = await Challenge.find().sort({date:-1});
+        console.log(challenge);
+    }catch (error) {
+        //catching errors 
+        console.error(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+})
+
 // GET : Get a All Challenges
 router.get('/', async (req, res) => {
     try {

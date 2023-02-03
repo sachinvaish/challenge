@@ -14,24 +14,24 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, user, isLoggedIn } = useSelector((state) => ({ ...state.UserReducer }));
-  
+
   useEffect(() => {
-    if (localStorage.getItem('authToken')){
-        dispatch(getUser(localStorage.getItem('authToken')));
+    if (localStorage.getItem('authToken')) {
+      dispatch(getUser(localStorage.getItem('authToken')));
     }
     if (isLoggedIn) {
-      navigate('/');
-  }else{
-    navigate('/auth')
-  }
-}, [isLoggedIn]);
+      navigate('/admin');
+    } else {
+      navigate('/')
+    }
+  }, [isLoggedIn]);
 
 
   return (
     <>
       <Routes>
-        <Route path='/auth' element={<Auth/>}/>
-        <Route path='/' element={<Layout/>}>
+        <Route path='/' element={<Auth />} />
+        <Route path='/admin' element={<Layout />}>
           <Route path='challenges' element={<Challenges />} />
           <Route path='challenge/:challengeID' element={<ChallengeDetail />} />
           <Route path='users' element={<Users />} />

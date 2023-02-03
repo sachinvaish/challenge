@@ -14,7 +14,7 @@ export default function Login(props) {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/');
+            navigate('/admin');
         }
     }, [isLoggedIn]);
 
@@ -24,9 +24,6 @@ export default function Login(props) {
             password: data.password
         }
         const res = dispatch(loginUser(creds));
-        if (isLoggedIn) {
-            // onClose();
-        }
     }
 
     return (

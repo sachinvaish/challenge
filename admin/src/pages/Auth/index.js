@@ -16,11 +16,11 @@ export default function Auth() {
   const navigate = useNavigate();
 
   useEffect(() => {
-      if (isLoggedIn) {
-          navigate('/');
-      }
+    if (!isLoggedIn) {
+      console.log('in AUTH UseEffect');
+      navigate('/');
+    }
   }, [isLoggedIn]);
-
 
   return (
     <>
@@ -29,8 +29,8 @@ export default function Auth() {
         display: 'flex', justifyContent: 'center',
         backgroundImage: `url('https://images.unsplash.com/photo-1506971456216-7b494f54d588?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTh8MTExMjY2MHx8ZW58MHx8fHw%3D&w=1000&q=80')`
       }}>
-        <Box sx={{ width: '500px',  margin: 'auto', backgroundColor: 'white',padding:3,borderRadius:'20px' }}>
-          <Login/>
+        <Box sx={{ width: '500px', margin: 'auto', backgroundColor: 'white', padding: 3, borderRadius: '20px' }}>
+          <Login />
           {/* <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} >

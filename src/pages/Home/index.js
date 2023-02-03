@@ -14,6 +14,7 @@ export default function Home() {
 
     useEffect(() => {
         dispatch(getSubmissions(challenge_id));
+        // dispatch(getAllChallenges());
       }, []);
 
     return (

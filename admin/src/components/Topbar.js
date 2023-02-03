@@ -5,19 +5,11 @@ import { useNavigate } from 'react-router';
 import { getUser, logout } from '../redux/services/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function Topbar() {
+export default function Topbar(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { loading, user, isLoggedIn } = useSelector((state) => ({ ...state.UserReducer }));
-
-    useEffect(() => {
-        if (localStorage.getItem('authToken')){
-            dispatch(getUser(localStorage.getItem('authToken')));
-        }else{
-            navigate('/auth');
-        }
-    }, []);
+    const {user, isLoggedIn } = props;
 
     return (
         <AppBar >
