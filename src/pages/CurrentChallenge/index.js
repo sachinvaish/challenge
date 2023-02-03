@@ -1,17 +1,27 @@
 import { Typography, Container} from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Timer from '../../components/Timer';
+import { getCurrentChallenge } from '../../redux/features/challengeSlice';
 import ChallengeHeader from './ChallengeHeader';
 import PrizeSection from './PrizeSection';
 
 export default function CurrentChallenge() {
+  const dispatch = useDispatch();
+  const {currentChallenge}=useSelector((state)=>({...state.ChallengeReducer}));
+
+  useEffect(()=>{
+    dispatch(getCurrentChallenge());
+  },[])
+
   return (
     <Container >
-      <ChallengeHeader />
+      {currentChallenge && <ChallengeHeader challenge={currentChallenge} />}
       <Typography variant='body1' textAlign='center'>Submission Deadline</Typography>
       <Box paddingX='auto' alignItems='center' marginX='30vw' >
-        <Timer countDownDate="15-JAN-2023" />
+        {currentChallenge && <Timer countDownDate={currentChallenge.due_date} />}
       </Box>
       <PrizeSection />
       <Typography variant='body1' textAlign='center'>Deliverables , Rules & Regulations</Typography>

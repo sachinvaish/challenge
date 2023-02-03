@@ -4,6 +4,7 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
     async ({ submission, authToken }, { rejectWithValue }) => {
         // console.log('inside create Submission', submission, authToken);
         const data = new FormData();
+        data.append('challenge_id', submission.challenge_id);
         data.append('description', submission.description);
         data.append('feedback', submission.feedback);
         data.append('image', submission.photo)

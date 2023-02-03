@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const dayjs = require('dayjs');
 const { body, validationResult } = require('express-validator');
 const fetchuser = require('../middleware/fetchuser.js');
 const isAdmin = require('../middleware/isAdmin.js');
@@ -52,11 +53,23 @@ router.get('/:id', async (req, res) => {
 })
 
 //GET : Get last finished challenge
-router.get('/getlastchallenge', async(req,res)=>{
-    try{
-        const challenge = await Challenge.find().sort({date:-1});
-        console.log(challenge);
-    }catch (error) {
+router.get('/getchallenge/last', async (req, res) => {
+    try {
+        const challenge = await Challenge.findOne({ due_date: { $lte: dayjs() } }).sort({ due_date: 'desc' });
+        res.send(challenge);
+    } catch (error) {
+        //catching errors 
+        console.error(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+})
+
+//GET : Get Current nearest challenge
+router.get('/getchallenge/current', async (req, res) => {
+    try {
+        const challenge = await Challenge.findOne({ due_date: { $gte: dayjs() } }).sort({ due_date: 'asc' });
+        res.send(challenge);
+    } catch (error) {
         //catching errors 
         console.error(error);
         res.status(500).json({ "message": "Server Error Occured" });
@@ -114,28 +127,28 @@ router.put('/:id', fetchuser, isAdmin, [
 router.put('/setwinner/:id', fetchuser, isAdmin, async (req, res) => {
     try {
         challengeID = req.params.id;
-        if(req.body.first_winner_id){
+        if (req.body.first_winner_id) {
             const challenge = await Challenge.findByIdAndUpdate(challengeID, {
                 first_winner_id: req.body.first_winner_id
             }, { new: true })
             console.log('winner ghoshit', challenge);
             res.json(challenge);
         }
-        if(req.body.second_winner_id){
+        if (req.body.second_winner_id) {
             const challenge = await Challenge.findByIdAndUpdate(challengeID, {
                 second_winner_id: req.body.second_winner_id
             }, { new: true })
             console.log('winner ghoshit', challenge);
             res.json(challenge);
         }
-        if(req.body.feedback_winner_id){
+        if (req.body.feedback_winner_id) {
             const challenge = await Challenge.findByIdAndUpdate(challengeID, {
                 feedback_winner_id: req.body.feedback_winner_id
             }, { new: true })
             console.log('winner ghoshit', challenge);
             res.json(challenge);
         }
-        
+
     } catch (error) {
         //catching errors 
         console.error('error aya', error);

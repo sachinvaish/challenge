@@ -50,7 +50,7 @@ const getUserByID = async () => {
             <CardMedia
                 onClick={() => { 
                     // dispatch(getSubmissionByID(_id));
-                    navigate(`/submission/${_id}`); 
+                    navigate(`/admin/submission/${_id}`); 
                 }}
                 sx={{cursor:'pointer', objectFit:'cover', aspectRatio: '4/3'}}
                 component="img"

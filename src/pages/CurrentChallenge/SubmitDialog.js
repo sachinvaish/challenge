@@ -10,7 +10,7 @@ import { createSubmission } from '../../redux/features/submissionSlice';
 
 export default function SubmitDialog(props) {
 
-    const { open, onClose } = props;
+    const { open, onClose, challenge_id } = props;
     const { register, reset, handleSubmit, formState: { errors } } = useForm();
     const dispatch = useDispatch();
     const { submission, error, loading } = useSelector((state) => ({ ...state.submissionReducer }));
@@ -46,7 +46,7 @@ export default function SubmitDialog(props) {
         console.log(data);
         const submission = {
             // "_id": Math.random(),
-            "challenge_id": "63748a4dfcc73c064df4c744",
+            "challenge_id": challenge_id,
             "photo": data.photo[0],
             "description": data.description,
             "feedback": data.feedback

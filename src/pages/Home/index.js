@@ -5,21 +5,23 @@ import Submissions from '../../components/Submissions';
 import Header from './Header';
 import empty from '../../assets/empty.png';
 import { getSubmissions } from '../../redux/features/submissionSlice';
+import { getLastChallenge } from '../../redux/features/challengeSlice';
 
 export default function Home() {
 
     const dispatch = useDispatch();
-    const {submissions} = useSelector((state)=>({...state.SubmissionReducer}))
+    const {submissions} = useSelector((state)=>({...state.SubmissionReducer}));
+    const {lastChallenge}= useSelector((state)=>({...state.ChallengeReducer}))
     const challenge_id = '63748a4dfcc73c064df4c744'; 
 
     useEffect(() => {
         dispatch(getSubmissions(challenge_id));
-        // dispatch(getAllChallenges());
+        dispatch(getLastChallenge());
       }, []);
 
     return (
         <Container >
-            <Header />
+            {lastChallenge && <Header challenge={lastChallenge}/>}
             {(submissions && submissions.length > 0) && (<>
             <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                 <Grid container>

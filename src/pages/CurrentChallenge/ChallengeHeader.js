@@ -4,9 +4,9 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import SubmitDialog from './SubmitDialog';
 
-export default function ChallengeHeader() {
-
-  const [open, setOpen] = useState(false);
+export default function ChallengeHeader(props) {
+  const {challenge}=props;
+  const [open, setOpen] = useState(false);  
   const onClose = () => {
     setOpen(false);
   }
@@ -20,12 +20,10 @@ export default function ChallengeHeader() {
 
   return (
     <Container sx={{ marginY: '30px', textAlign: 'center', alignItems: 'center', width: '70%' }}>
-      <SubmitDialog open={open} onClose={onClose} />
+      <SubmitDialog open={open} onClose={onClose} challenge_id={challenge._id} />
       <Typography variant='h6'>This week's challenge</Typography>
-      <Typography variant='h4' fontWeight="bold">Food App Challenge</Typography>
-      <Typography variant='p'>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, iste iusto quam distinctio nulla ipsa. Vitae aut minus neque non deleniti. Recusandae autem necessitatibus laboriosam tempore quaerat provident dicta voluptas. Reprehenderit dolore fugiat cupiditate!
-      </Typography>
+      <Typography variant='h4' fontWeight="bold">{challenge.title}</Typography>
+      <Typography variant='p'>{challenge.description}</Typography>
       <Box marginY={2} width='100%' >
         <Button variant='contained' onClick={handleClick}>Submit Design</Button>
       </Box>
