@@ -23,13 +23,13 @@ export default function CreateChallenge(props) {
     const [firstPrize, setFirstPrize] = useState(0);
     const [secondPrize, setSecondPrize] = useState(0);
     const [feedbackPrize, setFeedbackPrize] = useState(0);
-    const [deadline, setDeadline] = useState('');
+    const [deadline, setDeadline] = useState(dayjs().add(1,'day'));
     // const dispatch = useDispatch();   
 
     const handleOnClose = () => {
         dispatch(getAllChallenges());
         setTimeout(() => {
-            reset({title:"",description:""});
+            reset({ title: "", description: "" });
             setFirstPrize(0);
             setSecondPrize(0);
             setFeedbackPrize(0);
@@ -54,10 +54,10 @@ export default function CreateChallenge(props) {
             "deadline": deadline.toDate()
         }
         const authToken = localStorage.getItem('authToken');
-        if(authToken){
+        if (authToken) {
             dispatch(createChallenge({ challenge, authToken }));
             handleOnClose();
-        }else{
+        } else {
             alert('Please login');
         }
     }
@@ -89,16 +89,24 @@ export default function CreateChallenge(props) {
                                 </Box>
                             </Grid>
                             <Grid item md={12} sm={12} xs={12}>
-                                <Box sx={{ marginBottom: '10px', mr: 2 }}>
-                                    <Typography variant='body2' sx={{ marginBottom: '6px', fontWeight: 'bold' }}>Deadline</Typography>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DateTimePicker
-                                            value={deadline}
-                                            onChange={(newValue) => setDeadline(newValue)}
-                                            renderInput={(params) => <TextField size="small" required disabled {...params} />}
-                                            minDateTime={dayjs()}
-                                        />
-                                    </LocalizationProvider>
+                                <Typography variant='body2' sx={{ marginBottom: '6px', fontWeight: 'bold' }}>Deadline</Typography>
+                                <Box sx={{ marginBottom: '10px', mr: 2, display: 'flex', alignItems:'center' }}>
+                                    <Box>
+                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                            <DateTimePicker
+                                                value={deadline}
+                                                inputFormat='lll'
+                                                onChange={(newValue) => setDeadline(newValue)}
+                                                renderInput={(params) => <TextField size="small" required disabled {...params} />}
+                                                minDateTime={dayjs()}
+                                            />
+                                        </LocalizationProvider>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', gap: 1, marginLeft: 2 }}>
+                                        <Typography color='primary' onClick={() => { setDeadline(dayjs().add(3, 'day')) }} variant='body2' sx={{cursor:'pointer', fontWeight:'bold'}} >3 Days</Typography>
+                                        <Typography color='primary' onClick={() => { setDeadline(dayjs().add(7, 'day')) }} variant='body2' sx={{cursor:'pointer', fontWeight:'bold'}}>7 Days</Typography>
+                                        <Typography color='primary' onClick={() => { setDeadline(dayjs().add(10, 'day')) }} variant='body2' sx={{cursor:'pointer', fontWeight:'bold'}}>10 Days</Typography>
+                                    </Box>
                                 </Box>
 
                                 <Box sx={{ my: '0px', display: 'flex' }}>
