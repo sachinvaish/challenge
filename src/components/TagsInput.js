@@ -1,4 +1,4 @@
-import { Box, Chip, InputBase, Link, Typography } from '@mui/material';
+import { Box, Chip, InputBase, Link, TextField, Typography } from '@mui/material';
 import React, { useState , useEffect} from 'react';
 
 export default function TagsInput(props) {
@@ -43,13 +43,17 @@ export default function TagsInput(props) {
                 {chips.map((chip, index) => (
                     <Chip key={index} sx={{ margin: '4px', borderRadius: '7px' }} color='primary' label={chip} onDelete={() => { handleDeleteChip(chip, index) }} />
                 ))}
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    placeholder="Enter tags here"
-                    inputProps={{ 'aria-label': 'Enter Tags' }}
+                <TextField
+                multiline rows={1}
+                variant="standard"
+                    sx={{ ml: 1, flex: 1, border:'none' }}
+                    placeholder="Enter Tags Here"
                     onKeyUp={addChip}
                     fullWidth
-                    maxLength={200}
+                    maxLength={150}
+                    InputProps={{
+                        disableUnderline: true // <== added this
+                      }}
                 />
             </Box>
             <Box sx={{ marginY: '15px', display:'flex' }}>

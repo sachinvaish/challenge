@@ -7,7 +7,8 @@ export const createSubmission = createAsyncThunk('submission/createSubmission',
         data.append('challenge_id', submission.challenge_id);
         data.append('description', submission.description);
         data.append('feedback', submission.feedback);
-        data.append('image', submission.photo)
+        data.append('image', submission.photo);
+        data.append('tags',submission.tags);
         return fetch(`${process.env.REACT_APP_BACKEND_URL}/submissions/`, {
             method: 'POST',
             headers: {

@@ -42,13 +42,15 @@ export default function SubmitDialog(props) {
     }
 
     // "photo_url": data.photo[0].name,
-    const onSubmit = (data) => {
+    const onSubmit = (data,e) => {
+        e.preventDefault();
         // console.log(data);
         const submission = {
             // "_id": Math.random(),
             "challenge_id": challenge_id,
             "photo": data.photo[0],
             "description": data.description,
+            "tags": tags,
             "feedback": data.feedback
         }
         const authToken =  localStorage.getItem('authToken');
@@ -98,7 +100,7 @@ export default function SubmitDialog(props) {
                                 <Box sx={{ marginY: '20px' }}>
                                     <Typography variant='body2' sx={{ fontWeight: 'bold' }} >Add tags</Typography>
                                     <TagsInput handleTags={handleTags} />
-                                    <input type='text' hidden {...register("tags")} value={tags} />
+                                    <input type='text' hidden value={tags} onChange={()=>{}} />
                                 </Box>
                                 <Box sx={{ marginY: '20px' }}>
                                     <Typography variant='body2' sx={{ fontWeight: 'bold' }}  >Would you like feedback from the Crowwwn community?*</Typography>
