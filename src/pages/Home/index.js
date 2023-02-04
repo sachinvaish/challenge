@@ -12,12 +12,16 @@ export default function Home() {
     const dispatch = useDispatch();
     const {submissions} = useSelector((state)=>({...state.SubmissionReducer}));
     const {lastChallenge}= useSelector((state)=>({...state.ChallengeReducer}))
-    const challenge_id = '63748a4dfcc73c064df4c744'; 
 
     useEffect(() => {
-        dispatch(getSubmissions(challenge_id));
         dispatch(getLastChallenge());
       }, []);
+
+      useEffect(()=>{
+        if(lastChallenge){
+            dispatch(getSubmissions(lastChallenge._id));
+        }
+      },[lastChallenge])
 
     return (
         <Container >
@@ -25,7 +29,7 @@ export default function Home() {
             {(submissions && submissions.length > 0) && (<>
             <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                 <Grid container>
-                    <Submissions sm={12} md={6} lg={4} challenge_id={challenge_id} submissions={submissions} />
+                    <Submissions sm={12} md={6} lg={4} challenge_id={lastChallenge._id} submissions={submissions} />
                 </Grid>
             </Box>
             </>)}

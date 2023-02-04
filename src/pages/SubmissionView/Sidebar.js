@@ -5,21 +5,26 @@ import Feedback from '../../components/Feedback';
 import { useSelector, useDispatch } from 'react-redux';
 import { createFeedback, FeedbackReducer, getFeedbacks } from '../../redux/features/feedbackSlice';
 import { useNavigate } from 'react-router';
+import { getChallengeByID } from '../../redux/features/challengeSlice';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 export default function Sidebar(props) {
     const submission = props.submission;
-    const { description, user_id , _id} = props.submission;
+    const { description, user_id , _id, challenge_id} = props.submission;
 
     const { feedbacks } = useSelector((state) => ({ ...state.FeedbackReducer }))
+    const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [newFeedback, setNewFeedback] = useState('');
+    const host = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         getUserByID(user_id);
         getAllFeedbacks();
+        dispatch(getChallengeByID(challenge_id))
     }, [submission])
 
     const getUserByID = async (user_id) => {
@@ -76,15 +81,17 @@ export default function Sidebar(props) {
                     <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                         <CardHeader
                             avatar={
-                                <Avatar sx={{ bgcolor: 'primary' }}
-                                    src={user.photo_url}
-                                    aria-label="recipe">
+                                <Avatar sx={{width:'50px', height:'50px' }} src={user.photo_url && `${host}/uploads/profile/${user.photo_url}`}>
+                                     {(user.username).charAt(0).toUpperCase()}
                                 </Avatar>
                             }
                             title={
+                                <Box sx={{ display: 'flex', alignItems:'center' }}>
                                 <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                                     {user.name ? user.name : user.username}
                                 </Link>
+                                {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E', ml:1 }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD', ml:1 }} />))}
+                                </Box>
                             }
                             subheader={`@${user.username}`}
                         />
@@ -101,7 +108,7 @@ export default function Sidebar(props) {
                             <Typography variant='h6'>Feedbacks ({feedbacks.length})</Typography>
                             {feedbacks.map((feedback) => {
                                 return (
-                                    <Feedback key={feedback._id} feedback={feedback} />
+                                    <Feedback key={feedback._id} feedback={feedback} challenge_id={challenge_id} />
                                 )
                             })}
                         </Box>

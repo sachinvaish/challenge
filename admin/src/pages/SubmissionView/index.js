@@ -20,7 +20,11 @@ export default function SubmissionView(props) {
             dispatch(getChallengeByID(singleSubmission.challenge_id))
         }
     }, []);
-
+    
+    useEffect(() => {
+        dispatch(getSubmissionByID(id));
+    }, [id]);
+    
     const setSubmissionWinner = () => {
         const authToken = localStorage.getItem('authToken');
         if (prize === 0) {
@@ -58,9 +62,6 @@ export default function SubmissionView(props) {
    
     // console.log('single submission', singleSubmission);
 
-    useEffect(() => {
-        dispatch(getSubmissionByID(id));
-    }, [id]);
 
 
     return (

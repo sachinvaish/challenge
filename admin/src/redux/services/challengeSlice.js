@@ -135,8 +135,7 @@ export const setFeedbackWinner = createAsyncThunk(
   }
 );
 
-export const unsetFeedbackWinner = createAsyncThunk(
-  "challenge/unsetFeedbackWinner",
+export const unsetFeedbackWinner = createAsyncThunk("challenge/unsetFeedbackWinner",
   async ({ newChallenge, authToken }) => {
     // console.log('inside update challnegne', newChallenge);
     return fetch(`${host}/challenges/unsetfeedbackwinner/${newChallenge.id}`, {

@@ -2,23 +2,28 @@ import { Link, Card, CardMedia, Typography, CardHeader, CardActions, Avatar, Box
 import React, { useState, useEffect } from 'react';
 import Like from './Like';
 import { useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { useDispatch, useSelector } from 'react-redux';
+import { getChallengeByID } from '../redux/features/challengeSlice';
 // import {getSubmissionByID} from '../redux/features/submissionSlice';
 
 export default function SubmissionItem(props) {
 
     const { _id, challenge_id, user_id, photo_url, description } = props.submission;
+    const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
     // console.log(_id, challenge_id, user_id, photo_url, description)
     const [feedbackCount, setFeedbackCount] = useState(0);
     const [user, setUser] = useState({});
     const [upvotes, setUpvotes] = useState(5);
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getUserByID();
         getFeedbacksBySubmissionID();
+        dispatch(getChallengeByID(challenge_id))
 }, []);
+
 
 const getUserByID = async () => {
     try {
@@ -67,9 +72,12 @@ const getUserByID = async () => {
                         </Avatar>
                     }
                     title={
+                        <Box sx={{ display: 'flex', alignItems:'center' }}>
                         <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                             {user.name?user.name:user.username}
                         </Link>
+                        {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E', ml:1 }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD', ml:1  }} />))}
+                        </Box>
                     }
                     subheader={`${feedbackCount} Feedbacks`}
                     
