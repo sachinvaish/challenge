@@ -43,7 +43,7 @@ router.post('/', [upload, fetchuser], [
             return res.status(404).send({ "error": "Login required" });
         }
         // console.log(req.file);
-        console.log(req.body);
+        // console.log(req.body);
 
         let submission = await Submission.create({
             challenge_id: req.body.challenge_id,

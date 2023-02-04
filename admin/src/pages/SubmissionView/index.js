@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import Sidebar from './Sidebar';
 import { getSubmissionByID } from '../../redux/services/submissionSlice';
-import { getChallengeByID, setFirstWinner, setSecondWinner } from '../../redux/services/challengeSlice';
+import { getChallengeByID, removeWinner, setFirstWinner, setSecondWinner } from '../../redux/services/challengeSlice';
 
 export default function SubmissionView(props) {
 
     const dispatch = useDispatch();
     const { id } = useParams();
     const navigate = useNavigate();
-    const [prize, setPrize] = useState('');
+    const [prize, setPrize] = useState(0);
     const { singleSubmission } = useSelector((state) => ({ ...state.SubmissionReducer }));
     const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
 
@@ -23,16 +23,21 @@ export default function SubmissionView(props) {
 
     const setSubmissionWinner = () => {
         const authToken = localStorage.getItem('authToken');
+        if (prize === 0) {
+            //Remove Prize
+            let newChallenge = {
+                "id": singleSubmission.challenge_id,
+                "first_winner_id": null,
+                "second_winner_id": null
+            }
+            dispatch(removeWinner({ newChallenge, authToken }));
+        }
         if (prize === 1) {
             //give user first prize
             let newChallenge = {
                 "id": singleSubmission.challenge_id,
                 "first_winner_id": singleSubmission._id,
                 "second_winner_id": null
-            }
-            // there couldn't be same submission id for both prizes, so
-            if(challenge.second_winner_id===singleSubmission._id){
-                newChallenge.second_winner_id = null;
             }
             dispatch(setFirstWinner({ newChallenge, authToken }));
         }
@@ -43,13 +48,9 @@ export default function SubmissionView(props) {
                 "second_winner_id": singleSubmission._id,
                 "first_winner_id":null
             }
-            // there couldn't be same submission id for both prizes, so
-            if(challenge.first_winner_id===singleSubmission._id){
-                newChallenge.first_winner_id = null;
-            }
             dispatch(setSecondWinner({ newChallenge, authToken }));
         }
-        dispatch(getChallengeByID(singleSubmission.challenge_id))
+        // dispatch(getChallengeByID(singleSubmission.challenge_id))
     }
 
     // console.log('inside Submission VIEW');
@@ -72,7 +73,7 @@ export default function SubmissionView(props) {
                             value={prize}
                             onChange={(e) => setPrize(e.target.value)}
                         >
-                            <MenuItem value="">
+                            <MenuItem value={0}>
                                 <em>None</em>
                             </MenuItem>
                             <MenuItem value={1}>1st Prize</MenuItem>

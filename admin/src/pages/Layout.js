@@ -17,7 +17,7 @@ export default function Layout() {
     useEffect(() => {
         if (localStorage.getItem('authToken')) {
             dispatch(getUser(localStorage.getItem('authToken')));
-            console.log('in LAYOUT UseEffect');
+            // console.log('in LAYOUT UseEffect');
             // navigate('/admin');
         } else {
             navigate('/');

@@ -2,7 +2,7 @@ import { Box, Card, CardHeader, CardActions, Avatar, Link, Typography, Button } 
 import React, { useState, useEffect } from 'react';
 // import LoadingButton from '@mui/lab/LoadingButton';
 import Like from './Like';
-import { setFeedbackWinner, getChallengeByID } from '../redux/services/challengeSlice';
+import { setFeedbackWinner, getChallengeByID, unsetFeedbackWinner } from '../redux/services/challengeSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import GetTimeFormat from './GetTimeFormat';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -30,12 +30,21 @@ export default function Feedback(props) {
             "id": challenge_id,
             "feedback_winner_id": id
         }
-        console.log('feedback winner called');
+        // console.log('feedback winner called');
         if(authToken){
             dispatch(setFeedbackWinner({ newChallenge, authToken }));
-            setTimeout(() => {
-                dispatch(getChallengeByID(challenge_id))
-            }, 500);
+        }
+    }
+
+    const unsetWinner = (id) => {
+        const authToken = localStorage.getItem('authToken');
+        const newChallenge = {
+            "id": challenge_id,
+            "feedback_winner_id": null
+        }
+        // console.log('remove feedback winner called');
+        if(authToken){
+            dispatch(unsetFeedbackWinner({ newChallenge, authToken }));
         }
     }
 
@@ -70,7 +79,10 @@ export default function Feedback(props) {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}><GetTimeFormat countDownDate={date} /></Typography>
-                {challenge && ((challenge.feedback_winner_id === _id) ? '' : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)}
+                {challenge && ((challenge.feedback_winner_id === _id) ? 
+                <Button size='small' onClick={() => unsetWinner(_id)}>Remove Winner</Button>
+                 : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)}
+                
                 {/* {challenge && ((challenge.feedback_winner_id === _id) ? '' :
                     <LoadingButton
                         size="small"

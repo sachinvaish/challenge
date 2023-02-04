@@ -17,7 +17,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      console.log('in AUTH UseEffect');
+      // console.log('in AUTH UseEffect');
       navigate('/');
     }
   }, [isLoggedIn]);
