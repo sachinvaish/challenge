@@ -22,7 +22,6 @@ export default function SubmissionView(props) {
     }, []);
 
     const setSubmissionWinner = () => {
-        localStorage.setItem('authToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYmM0ODk1MzRlODgyYzNkYWVkYWUxNSIsImlhdCI6MTY3NDk4ODc1NH0.mkRVETiwv732v15w2ablF3APWZCXQxRPihzTnltr1jg')
         const authToken = localStorage.getItem('authToken');
         if (prize === 1) {
             //give user first prize

@@ -23,7 +23,7 @@ export default function ChallengeDetail() {
 
     return (
         <>
-            {challenge && <Header challenge={challenge} />}
+            {challenge && <Header challenge={challenge} submissionCount={submissions && submissions.length} />}
             {(submissions && submissions.length > 0) && (<>
                 <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                     <Grid container>

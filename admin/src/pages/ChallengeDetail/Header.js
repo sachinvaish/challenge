@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
 
 export default function Header(props) {
-    const { challenge } = props;
+    const { challenge, submissionCount } = props;
     const navigate = useNavigate();
 
     return (
@@ -46,8 +46,9 @@ export default function Header(props) {
                         <Grid item md={3} xs={12}>
                             <Card sx={{ color: 'text.secondary', textAlign: 'center' }}>
                                 <CardContent>
-                                    <Typography variant='h5' fontWeight='bold'>Deadline</Typography>
+                                    <Typography variant='h6' fontWeight='bold'>Deadline</Typography>
                                     <Timer countDownDate={challenge.due_date} size='md' />
+                                    <Typography variant='h6'>Submissions : {submissionCount}</Typography>
                                 </CardContent>
                             </Card>
                         </Grid>

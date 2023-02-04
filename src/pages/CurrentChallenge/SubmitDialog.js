@@ -30,7 +30,7 @@ export default function SubmitDialog(props) {
             alert(`File ${file.name} is not an image.`);
             return false;
         } else {
-            console.log('no errors, setting image')
+            // console.log('no errors, setting image')
             setImg(file);
         }
     };
@@ -43,7 +43,7 @@ export default function SubmitDialog(props) {
 
     // "photo_url": data.photo[0].name,
     const onSubmit = (data) => {
-        console.log(data);
+        // console.log(data);
         const submission = {
             // "_id": Math.random(),
             "challenge_id": challenge_id,

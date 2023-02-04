@@ -23,7 +23,7 @@ export default function CurrentChallenge() {
       <Box paddingX='auto' alignItems='center' marginX='30vw' >
         {currentChallenge && <Timer countDownDate={currentChallenge.due_date} />}
       </Box>
-      <PrizeSection />
+      {currentChallenge && <PrizeSection challenge={currentChallenge}/>}
       <Typography variant='body1' textAlign='center'>Deliverables , Rules & Regulations</Typography>
       <Typography>
         What is Lorem Ipsum?

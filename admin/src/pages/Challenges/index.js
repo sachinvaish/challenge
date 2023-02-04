@@ -89,14 +89,15 @@ export default function Challenges() {
       // renderCell: ({ row }) => (Number(row.first_prize + row.second_prize + row.feedback_prize))
     },
     {
-      field: 'actions', headerName: 'Actions', width: 120, align: 'center',
+      field: 'actions', headerName: 'Actions', flex:1, align: 'center',
       renderCell: ({ row }) => (<>
-        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' onClick={() => { handleEditChallenge(row.challenge) }}>
+        <IconButton sx={{ marginX: '3px' }} variant='contained' size='small' onClick={() => { handleEditChallenge(row.challenge) }}>
           <ModeEditIcon />
         </IconButton>
-        <IconButton sx={{ marginX: '5px' }} variant='contained' size='small' onClick={() => { handleDeleteChallenge(row.challenge) }}>
+        <IconButton sx={{ marginX: '3px' }} variant='contained' size='small' onClick={() => { handleDeleteChallenge(row.challenge) }}>
           <DeleteIcon />
         </IconButton>
+        <Button variant='contained' size='small' onClick={() => navigate(`/admin/challenge/${row.challenge._id}`)} >Announce Winners</Button>
       </>),
     }
   ];

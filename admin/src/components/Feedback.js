@@ -70,8 +70,8 @@ export default function Feedback(props) {
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant='p' sx={{ fontSize: 12, color: 'grey' }}><GetTimeFormat countDownDate={date} /></Typography>
-                {/* {challenge && ((challenge.feedback_winner_id === _id) ? '' : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)} */}
-                {challenge && ((challenge.feedback_winner_id === _id) ? '' :
+                {challenge && ((challenge.feedback_winner_id === _id) ? '' : <Button size='small' onClick={() => setWinner(_id)}>Set Winner</Button>)}
+                {/* {challenge && ((challenge.feedback_winner_id === _id) ? '' :
                     <LoadingButton
                         size="small"
                         onClick={() => setWinner(_id)}
@@ -81,7 +81,7 @@ export default function Feedback(props) {
                     >
                         <span>Set Winner</span>
                     </LoadingButton>
-                )}
+                )} */}
             </Box>
         </Box>
     );
