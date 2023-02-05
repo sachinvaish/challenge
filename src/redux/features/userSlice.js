@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const createUser = createAsyncThunk('user/createUser',
     async (values) => {
@@ -154,6 +155,7 @@ const userSlice = createSlice({
     reducers: {
         logout: (state, action) => {
             localStorage.clear();
+            toast("You've been logged out");
             state.isLoggedIn = false;
             state.user = null;
         }
@@ -161,23 +163,23 @@ const userSlice = createSlice({
     extraReducers:
         (builder) => {
             builder.addCase(createUser.fulfilled, (state, action) => {
-                console.log('fulfilled',action.payload);
+                // console.log('fulfilled',action.payload);
                 if (action.payload.authToken) {
                     localStorage.setItem('authToken', action.payload.authToken);
-                    console.log('inside IF fulfilled',action.payload);
+                    // console.log('inside IF fulfilled',action.payload);
+                    toast.success('User Created Successfully');
                     state.isLoggedIn = true;
                     state.error = null;
                 }
                 else {
                     state.error = action.payload;
+                    toast.error(action.payload.error);
                 }
             });
             builder.addCase(createUser.rejected, (state, action) => {
                 // console.log('Rejected login');
                 state.error = action.payload;
                 state.isLoggedIn = false;
-                // console.log(action.payload);
-                // return action.payload;
             });
             builder.addCase(getUser.fulfilled, (state, action) => {
                 // console.log('inside BUILDER addCase');
@@ -188,12 +190,14 @@ const userSlice = createSlice({
             });
             builder.addCase(loginUser.fulfilled, (state, action) => {
                 if (action.payload.authToken) {
+                    toast.success('Logged in Successfully');
                     localStorage.setItem('authToken', action.payload.authToken);
                     state.isLoggedIn = true;
                     state.error = null;
                 }
                 else {
                     state.error = action.payload;
+                    toast.error(action.payload.error);
                 }
             });
             builder.addCase(loginUser.rejected, (state, action) => {
@@ -205,18 +209,21 @@ const userSlice = createSlice({
             });
             builder.addCase(updateUser.fulfilled, (state, action) => {
                 state.user = action.payload;
+                toast.success('User updated successfully');
             });
             builder.addCase(updateUser.rejected, (state, action) => {
-                console.log('rejected update', action.payload);
+                // console.log('rejected update', action.payload);
             });
             builder.addCase(updateProfilePhoto.fulfilled, (state, action) => {
-                state.message = 'Photo updated successfully';
+                // state.message = 'Photo updated successfully';
+                toast.success('Photo updated successfully');
             });
             builder.addCase(updateProfilePhoto.rejected, (state, action) => {
                 console.log('rejected updatePhoto', action.payload);
             });
             builder.addCase(deletePhoto.fulfilled, (state, action) => {
-                state.message = 'Photo Deleted successfully';
+                // state.message = 'Photo Deleted successfully';
+                toast.info('Photo Deleted')
             });
             builder.addCase(deletePhoto.rejected, (state, action) => {
                 console.log('rejected deletePhoto', action.payload);

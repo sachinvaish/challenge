@@ -4,6 +4,7 @@ import SubmissionReducer from './features/submissionSlice';
 import FeedbackReducer from './features/feedbackSlice';
 import VoteReducer from './features/voteSlice';
 import ChallengeReducer from './features/challengeSlice';
+import AlertReducer from './features/alertSlice';
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
         ChallengeReducer : ChallengeReducer,
         SubmissionReducer : SubmissionReducer,
         FeedbackReducer : FeedbackReducer,
-        VoteReducer : VoteReducer
+        VoteReducer : VoteReducer,
+        AlertReducer : AlertReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

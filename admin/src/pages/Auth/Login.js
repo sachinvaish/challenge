@@ -48,7 +48,7 @@ export default function Login(props) {
                             label="Keep me logged in until I sign out"
                         />
                         <Button fullWidth type='submit' variant='contained'>Log in</Button>
-                        {error && <Typography mt={1} variant='body1' textAlign='center' sx={{ color: '#FF3F16', fontWeight: 'bold' }}>{error.error}</Typography>}
+                        
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                             <Button>Forgot Password ?</Button>
                         </Box>

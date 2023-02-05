@@ -61,8 +61,8 @@ exports.createUser = async (req, res) => {
         let authToken = await jwt.sign(payload, secretKey);
 
         res.json({ authToken });
-        let mail = this.sendMail(user.name, user.email, user._id);
-        console.log(mail);
+        // let mail = this.sendMail(user.name, user.email, user._id);
+        // console.log(mail);
     } catch (error) {
         res.json({ error });
     }

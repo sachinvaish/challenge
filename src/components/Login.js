@@ -77,7 +77,7 @@ export default function Login(props) {
                             </Grid>
                             <Grid item lg>
                                 <Button fullWidth type='submit' variant='contained'>Log in</Button>
-                                { error && <Typography variant='h6' textAlign='center' sx={{color:'#FF3F16', fontWeight:'bold'}}>{error.error}</Typography>}
+                                
                             </Grid>
                             <Grid item lg sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button>Forgot Password ?</Button>

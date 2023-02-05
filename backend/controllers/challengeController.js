@@ -108,7 +108,7 @@ exports.getChallengeById = async (req, res) => {
         { new: true }
       );
       console.log("challeng aya", challenge);
-      res.json(challenge);
+      res.json({challenge});
     } catch (error) {
       //catching errors
       console.error("error aya", error);

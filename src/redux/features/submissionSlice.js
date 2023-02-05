@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const createSubmission = createAsyncThunk('submission/createSubmission',
     async ({ submission, authToken }, { rejectWithValue }) => {
@@ -66,7 +67,8 @@ const submissionSlice = createSlice({
     extraReducers:
         (builder) => {
             builder.addCase(createSubmission.fulfilled, (state, action) => {
-                state.message = action.payload
+                state.message = action.payload;
+                toast.success(action.payload);
             });
             builder.addCase(createSubmission.rejected, (state, action) => {
                 state.error = action.payload;

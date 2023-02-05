@@ -16,10 +16,10 @@ exports.toggleVote  = async (req, res) => {
                 submission_id: submission_id,
                 user_id: user_id
             })
-            res.json({ "UpVoted": "You upvoted for the submission" });
+            res.json({ "message": "You upvoted for the submission" });
         } else {
             await Vote.findOneAndDelete({ "_id": vote._id });
-            res.json({ "DownVoted": "You down voted for the submission" });
+            res.json({ "message": "You down voted for the submission" });
         }
     } catch (error) {
         res.status(500).send({ "error": "Internal Server Error" });

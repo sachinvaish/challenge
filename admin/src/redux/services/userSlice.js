@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const host=process.env.REACT_APP_BACKEND_URL;
 
@@ -113,11 +114,13 @@ const userSlice = createSlice({
         builder.addCase(createUser.fulfilled, (state, action) => {
             if (action.payload.authToken) {
                 localStorage.setItem('authToken', action.payload.authToken);
+                toast.success('User created successfully');
                 state.isLoggedIn = true;
                 state.error = null;
             }
             else {
                 state.error = action.payload;
+                toast.error(action.payload.error)
             }
         });
         builder.addCase(createUser.rejected, (state, action) => {
@@ -130,11 +133,13 @@ const userSlice = createSlice({
         builder.addCase(loginUser.fulfilled, (state, action) => {
             if (action.payload.authToken) {
                 localStorage.setItem('authToken', action.payload.authToken);
+                toast.success('Logged in successfully');
                 state.isLoggedIn = true;
                 state.error = null;
             }
             else {
                 state.error = action.payload;
+                toast.error(action.payload.error);
             }
         });
         builder.addCase(loginUser.rejected, (state, action) => {

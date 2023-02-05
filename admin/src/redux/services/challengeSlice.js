@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const host = process.env.REACT_APP_BACKEND_URL;
 
@@ -212,6 +213,11 @@ const challengeSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(createChallenge.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
+      if(action.payload.challenge){
+        toast.success('Challenge created');
+      }else{
+        toast.error(action.payload.error);
+      }
     });
     builder.addCase(createChallenge.rejected, (state, action) => {
       // console.log('rejected', action.payload);
@@ -223,6 +229,11 @@ const challengeSlice = createSlice({
     });
     builder.addCase(updateChallenge.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
+      if(action.payload.challenge){
+        toast.success('Challenge updated');
+      }else{
+        toast.error(action.payload.error);
+      }
     });
     builder.addCase(deleteChallenge.rejected, (state, action) => {
       // console.log('rejected', action.payload);
@@ -230,6 +241,7 @@ const challengeSlice = createSlice({
     });
     builder.addCase(deleteChallenge.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
+      toast.success('Challenge Deleted');
     });
     builder.addCase(getAllChallenges.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
@@ -249,6 +261,7 @@ const challengeSlice = createSlice({
     });
     builder.addCase(removeWinner.fulfilled, (state, action) => {
       // console.log('remove winner actionpayload', action.payload);
+      toast('Winner removed');
       state.challenge = action.payload;
     });
     builder.addCase(removeWinner.rejected, (state, action) => {
@@ -258,6 +271,7 @@ const challengeSlice = createSlice({
     builder.addCase(setFirstWinner.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
       state.challenge = action.payload;
+      toast.success('First Winner Declared');
     });
     builder.addCase(setFirstWinner.rejected, (state, action) => {
       // console.log('rejected', action.payload);
@@ -266,6 +280,7 @@ const challengeSlice = createSlice({
     builder.addCase(setSecondWinner.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
       state.challenge = action.payload;
+      toast.success('Second Winner Declared');
     });
     builder.addCase(setSecondWinner.rejected, (state, action) => {
       // console.log('rejected', action.payload);
@@ -278,6 +293,7 @@ const challengeSlice = createSlice({
     builder.addCase(setFeedbackWinner.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
       state.challenge = action.payload;
+      toast.success('Feedback Winner Declared');
       state.loading = false;
     });
     builder.addCase(setFeedbackWinner.rejected, (state, action) => {
@@ -287,6 +303,7 @@ const challengeSlice = createSlice({
     builder.addCase(unsetFeedbackWinner.fulfilled, (state, action) => {
       // console.log('fulfilled', action.payload);
       state.challenge = action.payload;
+      toast('Feedback Winner Removed');
       state.loading = false;
     });
     builder.addCase(unsetFeedbackWinner.rejected, (state, action) => {

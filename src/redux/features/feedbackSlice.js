@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 export const createFeedback = createAsyncThunk('feedback/createFeedback',
     async ({feedback, authToken}) => {
@@ -45,6 +46,7 @@ const feedbackSlice = createSlice({
         (builder) => {
             builder.addCase(createFeedback.fulfilled, (state, action) => {
                 // console.log('ADDfeedback fulfilled',action.payload);
+                toast.success('Thank you for the feedback')
             });
             builder.addCase(createFeedback.rejected, (state, action) => {
                 console.log('ADDfeedback rejected', action.payload);

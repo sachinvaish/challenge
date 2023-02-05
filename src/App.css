@@ -41,3 +41,7 @@
   display: none;
 }
 
+:root{
+  --toastify-toast-width: 'auto';
+}
+

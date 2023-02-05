@@ -1,5 +1,6 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home/index.js';
@@ -14,10 +15,14 @@ import Login from "./components/Login";
 import Profile from "./pages/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./redux/features/userSlice";
+import AlertMessage from "./components/AlertMessage";
+import { toast, ToastContainer } from "react-toastify";
+import { Button } from "@mui/material";
+
 
 
 function App() {
-  const {isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));  
+  const { isLoggedIn, error } = useSelector((state) => ({ ...state.UserReducer }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -54,12 +59,20 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Navbar />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        theme="dark"
+      />
       <Routes>
         <Route exact path="/" element={<Home />}>
-          {/* {!(localStorage.getItem('authToken')) ? (<> */}
           <Route path="/login" element={<Login open={true} />} />
           <Route path="/signup" element={<Signup open={true} />} />
-          {/* </>) : handleLoggedin() } */}
         </Route>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />

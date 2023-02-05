@@ -9,6 +9,9 @@ import Auth from './pages/Auth';
 import { getUser } from './redux/services/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
 function App() {
   const navigate = useNavigate();
@@ -29,6 +32,16 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        theme="dark"
+      />
       <Routes>
         <Route path='/' element={<Auth />} />
         <Route path='/admin' element={<Layout />}>

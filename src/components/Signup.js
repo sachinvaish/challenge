@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { createUser } from '../redux/features/userSlice';
+import { showAlert } from '../redux/features/alertSlice';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Signup(props) {
 
@@ -98,7 +100,6 @@ export default function Signup(props) {
                             </Grid>
                             <Grid item lg>
                                 <Button fullWidth type='submit' variant='contained'>Sign up</Button>
-                                { error && <Typography variant='h6' textAlign='center' sx={{color:'#FF3F16', fontWeight:'bold'}}>{error.error}</Typography>}
                             </Grid>
                         </Grid>
                     </form>
