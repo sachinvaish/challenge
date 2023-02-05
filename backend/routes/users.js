@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
 const isAdmin = require('../middleware/isAdmin.js');
-const { getUserByAuthtoken, getUserById, createUser, loginUser, loginAdmin, updateUser, deleteUser, updateUserByAdmin, deleteUserByAdmin, getAllUsers, deleteProfilePhoto, setProfilePhoto } = require('../controllers/userController.js');
+const { getUserByAuthtoken, getUserById, createUser, loginUser, loginAdmin, updateUser, deleteUser, updateUserByAdmin, deleteUserByAdmin, getAllUsers, deleteProfilePhoto, setProfilePhoto, sendMail, verifyEmail } = require('../controllers/userController.js');
 
 // Set Profile Photo
 router.put('/setphoto', fetchuser, setProfilePhoto)
@@ -29,6 +29,8 @@ router.post('/signup', [
     body('password', 'Password must be min 8 characters').isLength(8)
 ], createUser)
 
+//GET : Verify Email
+router.get('/verify/:id', verifyEmail);
 
 // POST : Authenticate a User
 router.post('/login', [

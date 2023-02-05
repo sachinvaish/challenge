@@ -29,6 +29,10 @@ const UserSchema = new Schema({
     type : Number,
     default : 0
   },
+  is_verified :{
+    type : Number,
+    default : 0
+  },
   photo_url : String,
   portfolio_url : String,
   facebook_url : String,

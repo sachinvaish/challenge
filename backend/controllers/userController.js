@@ -4,9 +4,10 @@ const fs = require('fs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const nodemailer = require("nodemailer");
 
 // GET : Get a User by authToken
-exports.getUserByAuthtoken =  async (req, res) => {
+exports.getUserByAuthtoken = async (req, res) => {
     try {
         userID = req.user.id;
         const user = await User.findById(userID).select("-password");
@@ -53,15 +54,60 @@ exports.createUser = async (req, res) => {
             email: req.body.email,
             password: secPass
         });
-
         const payload = {
             id: user.id
         }
         const secretKey = process.env.SECRET_KEY;
         let authToken = await jwt.sign(payload, secretKey);
+
         res.json({ authToken });
+        let mail = this.sendMail(user.name, user.email, user._id);
+        console.log(mail);
     } catch (error) {
         res.json({ error });
+    }
+}
+
+//Send Mail 
+exports.sendMail = async (username, email, user_id) => {
+    try {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: 'lazydesigner54@gmail.com', // generated ethereal user
+                pass: '', // generated ethereal password
+            },
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: '"Alibaba" <alhabibi@dubai.com>', // sender address
+            to: email, // list of receivers
+            subject: "Verification Mail", // Subject line
+            text: "Verification mail", // plain text body
+            html: "<b>Hi " + username + "</b><p>Thank you for joining us, please verify your email,<a href='" + process.env.HOST + "/users/verify/" + user_id + "'>Click Here</a></p > ",
+            // html: "<b>Hi " + username + "</b><p>Thank you for joining us, please verify your email,<a href='http://localhost:5000/users/verify/" + user_id + "'> Click Here</a></p > ", 
+        });
+        return info;
+    } catch (error) {
+        console.log( error )
+    }
+}
+
+exports.verifyEmail = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await User.findById(id)
+        if(user){
+            console.log('agya user',user);
+            await User.findByIdAndUpdate(id,{is_verified:1})
+        }
+        res.send('Email Verified Successfully');
+    } catch (error) {
+        res.json({error})
     }
 }
 
