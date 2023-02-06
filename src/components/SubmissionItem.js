@@ -27,7 +27,7 @@ export default function SubmissionItem(props) {
 
 const getUserByID = async () => {
     try {
-        const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
+        const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/id/${user_id}`);
         const res = await user.json();
         // console.log('Got user detail :',res);
         setUser(res);
@@ -73,7 +73,7 @@ const getUserByID = async () => {
                     }
                     title={
                         <Box sx={{ display: 'flex', alignItems:'center' }}>
-                        <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                        <Link variant="h6" onClick={() => { navigate(`/profile/${user.username}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                             {user.name?user.name:user.username}
                         </Link>
                         {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E', ml:1 }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD', ml:1  }} />))}

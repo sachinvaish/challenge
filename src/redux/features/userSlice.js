@@ -167,7 +167,7 @@ const userSlice = createSlice({
                 if (action.payload.authToken) {
                     localStorage.setItem('authToken', action.payload.authToken);
                     // console.log('inside IF fulfilled',action.payload);
-                    toast.success('User Created Successfully');
+                    toast.success('Account Created Successfully, Please check your mail for verification');
                     state.isLoggedIn = true;
                     state.error = null;
                 }

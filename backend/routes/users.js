@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
 const isAdmin = require('../middleware/isAdmin.js');
-const { getUserByAuthtoken, getUserById, createUser, loginUser, loginAdmin, updateUser, deleteUser, updateUserByAdmin, deleteUserByAdmin, getAllUsers, deleteProfilePhoto, setProfilePhoto, sendMail, verifyEmail } = require('../controllers/userController.js');
+const { getUserByAuthtoken, getUserById, createUser, loginUser, loginAdmin, updateUser, deleteUser, updateUserByAdmin, deleteUserByAdmin, getAllUsers, deleteProfilePhoto, setProfilePhoto, sendMail, verifyEmail, getUserByUsername } = require('../controllers/userController.js');
 
 // Set Profile Photo
 router.put('/setphoto', fetchuser, setProfilePhoto)
@@ -20,7 +20,10 @@ router.delete('/deletephoto', fetchuser, deleteProfilePhoto)
 router.get('/', fetchuser, getUserByAuthtoken);
 
 // GET : Get a User by ID
-router.get('/:id', getUserById);
+router.get('/id/:id', getUserById);
+
+// GET : Get a User by Username
+router.get('/:username', getUserByUsername);
 
 // POST : Create a User
 router.post('/signup', [

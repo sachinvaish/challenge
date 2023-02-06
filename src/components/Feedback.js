@@ -5,6 +5,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import Like from './Like';
 import { useDispatch, useSelector } from 'react-redux';
 import { getChallengeByID } from '../redux/features/challengeSlice';
+import { useNavigate } from 'react-router';
 
 export default function Feedback(props) {
 
@@ -13,6 +14,7 @@ export default function Feedback(props) {
     // console.log('inside feedback component',feedback);
     const [user, setUser] = useState({});
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { loading, challenge } = useSelector((state) => ({ ...state.ChallengeReducer }))
     // console.log('challenge', challenge);
 
@@ -23,7 +25,7 @@ export default function Feedback(props) {
 
     const getUser = async () => {
         try {
-            const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
+            const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/id/${user_id}`);
             const res = await user.json();
             // console.log('Got user detail :',res);
             setUser(res);
@@ -39,7 +41,7 @@ export default function Feedback(props) {
             <Avatar sx={{ width: '30px', height: '30px' }} src={user.photo_url && `${process.env.REACT_APP_BACKEND_URL}/uploads/profile/${user.photo_url}`}>
                     {user.name && (user.username).charAt(0).toUpperCase()}
                 </Avatar>
-                <Link marginX={1} variant="h6" onClick={() => { alert('taking you to user profile'); }} sx={{ fontSize: '16px', cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                <Link marginX={1} variant="h6" onClick={() => { navigate(`/profile/${user.username}`) }} sx={{ fontSize: '16px', cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                     {user.name?user.name:user.username}
                 </Link>
                 {challenge && (challenge.feedback_winner_id === _id && <EmojiEventsIcon sx={{ color: '#E8AF0E' }} />)}

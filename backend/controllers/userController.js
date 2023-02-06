@@ -31,6 +31,18 @@ exports.getUserById = async (req, res) => {
     }
 }
 
+// GET : Get a User by ID
+exports.getUserByUsername = async (req, res) => {
+    try {
+        const user = await User.findOne({username:req.params.username}).select("-password");
+        res.json(user);
+    } catch (error) {
+        //catching errors 
+        console.log(error);
+        res.status(500).json({ "message": "Server Error Occured" });
+    }
+}
+
 // POST : Create a User
 exports.createUser = async (req, res) => {
     const errors = validationResult(req);

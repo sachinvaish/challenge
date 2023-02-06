@@ -15,7 +15,6 @@ import Login from "./components/Login";
 import Profile from "./pages/Profile";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./redux/features/userSlice";
-import AlertMessage from "./components/AlertMessage";
 import { toast, ToastContainer } from "react-toastify";
 import { Button } from "@mui/material";
 
@@ -76,7 +75,7 @@ function App() {
         </Route>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
-        <Route exact path="/profile/:id" element={<Profile />} />
+        <Route exact path="/profile/:username" element={<Profile />} />
         <Route exact path="/*" element={<h3>404 Not Found</h3>} />
       </Routes>
       <Footer />

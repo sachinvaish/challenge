@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from 'react-redux';
 import { createUser } from '../redux/features/userSlice';
-import { showAlert } from '../redux/features/alertSlice';
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function Signup(props) {
@@ -46,7 +45,7 @@ export default function Signup(props) {
     }
     
 
-    console.log("Inside Signup componetn");
+    // console.log("Inside Signup componetn");
 
     return (
         <>

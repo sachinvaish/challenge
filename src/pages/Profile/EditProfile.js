@@ -15,7 +15,7 @@ import { deletePhoto, getUser, updateProfilePhoto, updateUser } from '../../redu
 
 export default function EditProfile(props) {
 
-    const { open, onClose, userInfo, getUserByID } = props;
+    const { open, onClose, userInfo } = props;
     const [preloadedValues, setPreloadedValues] = useState({
         username: userInfo.username,
         name: userInfo.name,
