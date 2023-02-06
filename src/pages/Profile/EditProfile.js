@@ -168,7 +168,7 @@ export default function EditProfile(props) {
 
                                         {(user.photo_url && !enableAvatar) && <Button variant='contained' size='small' fullWidth color='error' onClick={handleDelete}>Delete</Button>}
 
-                                        {img && <Button variant='contained' size='small' fullWidth color='success' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
+                                        {img && <Button variant='contained' size='small' fullWidth color='error' onClick={() => { setImg(null); setEnableAvatar(false); }}>Delete</Button>}
 
                                         {enableAvatar && <Button variant='contained' size='small' fullWidth onClick={handleCrop}>Set</Button>}
                                     </Box>

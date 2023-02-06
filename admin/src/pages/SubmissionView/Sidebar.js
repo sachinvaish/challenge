@@ -28,7 +28,7 @@ export default function Sidebar(props) {
 
     const getUserByID = async (user_id) => {
         try {
-            const user = await fetch(`${host}/users/${user_id}`);
+            const user = await fetch(`${host}/users/id/${user_id}`);
             const res = await user.json();
             // console.log('Got user detail :',res);
             setUser(res);
@@ -84,7 +84,7 @@ export default function Sidebar(props) {
                             }
                             title={
                                 <Box sx={{ display: 'flex', alignItems:'center' }}>
-                                <Link variant="h6" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
+                                <Link variant="body1" onClick={() => { navigate(`/profile/${user._id}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black', fontWeight:'bold' }} >
                                     {user.name ? user.name : user.username}
                                 </Link>
                                 {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E', ml:1 }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD', ml:1  }} />))}
@@ -102,7 +102,7 @@ export default function Sidebar(props) {
                         </Typography>
                         <Divider sx={{ marginY: 1 }} />
                         <Box>
-                            <Typography variant='h6'>Feedbacks ({feedbacks.length})</Typography>
+                            <Typography variant='button'>Feedbacks ({feedbacks.length})</Typography>
                             {feedbacks.map((feedback) => {
                                 return (
                                     <Feedback key={feedback._id} feedback={feedback} challenge_id={challenge_id} />

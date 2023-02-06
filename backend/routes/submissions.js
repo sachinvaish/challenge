@@ -7,7 +7,7 @@ const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
 const path = require('path');
 const isAdmin = require('../middleware/isAdmin.js');
-const { createSubmission, getSubmissionsByChallengeId, getSubmissionById, getSubmissionsByUser, deleteUserSubmissions, deleteSubmissionByAdmin } = require('../controllers/submissionController.js');
+const { createSubmission, getSubmissionsByChallengeId, getSubmissionById, getSubmissionsByUser, deleteUserSubmissions, deleteSubmissionByAdmin, getSubmissionsCountByUser } = require('../controllers/submissionController.js');
 
 const upload = multer({
     storage: multer.diskStorage({

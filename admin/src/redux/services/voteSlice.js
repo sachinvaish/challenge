@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 const host=process.env.REACT_APP_BACKEND_URL;
 
 export const toggleVote = createAsyncThunk('vote/toggleVote',
@@ -39,6 +40,7 @@ const voteSlice = createSlice({
         (builder)=>{
             builder.addCase(toggleVote.fulfilled,(state,action)=>{
                 state.message = action.payload;
+                toast(action.payload.message);
             });
             builder.addCase(toggleVote.rejected, (state, action)=>{
                 state.error = action.payload;

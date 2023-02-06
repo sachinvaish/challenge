@@ -8,7 +8,7 @@ import {getSubmissions, SubmissionReducer} from '../redux/services/submissionSli
 export default function Submissions(props) {
     const {xs, sm, md, lg, challenge_id, submissions} = props;
     // const {submissions} = useSelector((state)=>({...state.SubmissionReducer}))
-
+    // console.log('inside Submissionjs',submissions);
     return (
         <Grid sx={{ display: 'flex', flexWrap: 'wrap' }} >
             {submissions && submissions.map((submission) => {

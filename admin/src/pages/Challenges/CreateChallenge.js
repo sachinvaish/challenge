@@ -2,7 +2,6 @@ import { Box, Button, ButtonGroup, Dialog, DialogContent, DialogTitle, FormContr
 import React, { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { useForm } from "react-hook-form";
-import { FormatAlignJustify, PhotoCamera } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateTimePicker } from '@mui/x-date-pickers';

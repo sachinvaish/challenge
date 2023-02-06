@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import Profile from './pages/Users/Profile';
 
 function App() {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ function App() {
           <Route path='challenges' element={<Challenges />} />
           <Route path='challenge/:challengeID' element={<ChallengeDetail />} />
           <Route path='users' element={<Users />} />
+          <Route path='profile/:username' element={<Profile/>}/>
           <Route path='submissions' element={<Submissions />} />
           <Route path="submission/:id" element={<SubmissionView />} />
         </Route>

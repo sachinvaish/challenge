@@ -72,7 +72,7 @@ export const getUser = createAsyncThunk('user/getUser',
 
 export const getUserProfile = createAsyncThunk('user/getUserProfile',
     async (id) => {
-        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${id}`,{
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users/id/${id}`,{
             method:'GET',
             headers:{
                 'Content-type':'application/json'

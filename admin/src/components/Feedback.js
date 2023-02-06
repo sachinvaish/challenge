@@ -50,7 +50,7 @@ export default function Feedback(props) {
 
     const getUser = async () => {
         try {
-            const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user_id}`);
+            const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/id/${user_id}`);
             const res = await user.json();
             // console.log('Got user detail :',res);
             setUser(res);
@@ -73,7 +73,7 @@ export default function Feedback(props) {
 
             </Box>
             <Box sx={{ marginY: 1, textAlign: 'left' }}>
-                <Typography variant='p'>
+                <Typography variant='p' sx={{whiteSpace:'pre-wrap'}}>
                     {feedback}
                 </Typography>
             </Box>

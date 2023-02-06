@@ -28,7 +28,7 @@ export default function SubmissionItem(props) {
 
 const getUserByID = async () => {
     try {
-        const user = await fetch(`${host}/users/${user_id}`);
+        const user = await fetch(`${host}/users/id/${user_id}`);
         const res = await user.json();
         // console.log('Got user detail :',res);
         setUser(res);
