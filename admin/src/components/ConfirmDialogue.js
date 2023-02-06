@@ -2,16 +2,16 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import React from 'react';
 
 export default function ConfirmDialogue(props) {
-    const { open, onClose, data, method } = props;
+    const { open, onClose, data, method, title, message } = props;
 
   return (
     <Dialog open={open} onClose={onClose}>
         <DialogTitle id="alert-dialog-title">
-          "Delete Challenge"
+          {title}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Do you really want to DELETE this Challenge ?
+            {message}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

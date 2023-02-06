@@ -37,9 +37,9 @@ export default function Challenges() {
 
   const deleteChallengeMethod = (id) => {
     const authToken = localStorage.getItem('authToken');
-    if(authToken){
+    if (authToken) {
       dispatch(deleteChallenge({ id, authToken }));
-    }else{
+    } else {
       alert('Please Login');
     }
 
@@ -89,7 +89,7 @@ export default function Challenges() {
       // renderCell: ({ row }) => (Number(row.first_prize + row.second_prize + row.feedback_prize))
     },
     {
-      field: 'actions', headerName: 'Actions', flex:1, align: 'center',
+      field: 'actions', headerName: 'Actions', flex: 1, align: 'center',
       renderCell: ({ row }) => (<>
         <IconButton sx={{ marginX: '3px' }} variant='contained' size='small' onClick={() => { handleEditChallenge(row.challenge) }}>
           <ModeEditIcon />
@@ -119,7 +119,8 @@ export default function Challenges() {
     <>
       <CreateChallenge open={createOpen} onClose={onCreateClose} />
       {editOpen && <EditChallenge open={editOpen} onClose={onEditClose} challenge={challenge} />}
-      {deleteOpen && <ConfirmDialogue open={deleteOpen} onClose={onDeleteClose} data={challenge._id} method={deleteChallengeMethod} />}
+      {deleteOpen && <ConfirmDialogue title='Delete Challenge' message='Do you really want to delete this challenge'
+      open={deleteOpen} onClose={onDeleteClose} data={challenge._id} method={deleteChallengeMethod} />}
 
       <Box marginY={2} width='100%' sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant='h4'>Challenges</Typography>

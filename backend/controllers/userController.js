@@ -73,14 +73,14 @@ exports.createUser = async (req, res) => {
         let authToken = await jwt.sign(payload, secretKey);
 
         res.json({ authToken });
-        // let mail = this.sendMail(user.name, user.email, user._id);
+        let mail = this.sendMail(user.name, user.email, user._id);
         // console.log(mail);
     } catch (error) {
         res.json({ error });
     }
 }
 
-//Send Mail 
+//Send Mail after User Creation
 exports.sendMail = async (username, email, user_id) => {
     try {
         let transporter = nodemailer.createTransport({
@@ -90,13 +90,13 @@ exports.sendMail = async (username, email, user_id) => {
             secure: false, // true for 465, false for other ports
             auth: {
                 user: 'lazydesigner54@gmail.com', // generated ethereal user
-                pass: '', // generated ethereal password
+                pass: 'wispbdysaqmegmtc', // generated ethereal password
             },
         });
 
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"Alibaba" <alhabibi@dubai.com>', // sender address
+            from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
             to: email, // list of receivers
             subject: "Verification Mail", // Subject line
             text: "Verification mail", // plain text body
@@ -104,6 +104,38 @@ exports.sendMail = async (username, email, user_id) => {
             // html: "<b>Hi " + username + "</b><p>Thank you for joining us, please verify your email,<a href='http://localhost:5000/users/verify/" + user_id + "'> Click Here</a></p > ", 
         });
         return info;
+    } catch (error) {
+        console.log( error )
+    }
+}
+
+//Send Custommail : /sendmail
+exports.sendCustomMail = async (req,res) => {
+
+    try {
+        let transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: 'lazydesigner54@gmail.com', // generated ethereal user
+                pass: 'wispbdysaqmegmtc', // generated ethereal password
+            },
+        });
+
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
+            to: req.body.email, // list of receivers
+            subject: req.body.subject, // Subject line
+            text: req.body.message, // plain text body
+            
+        });
+        // console.log(info);
+        if(info.accepted){
+            res.send({"message":"Mail sent"})
+        }
     } catch (error) {
         console.log( error )
     }
@@ -286,7 +318,7 @@ exports.updateUserByAdmin = async (req, res) => {
 // Delete a user by ADMIN
 exports.deleteUserByAdmin = async (req, res) => {
     try {
-        userID = req.body.user_id;
+        userID = req.params.id;
         //deleting photo
         let photo_url = await User.findById(userID).select('photo_url');
         uploadPath = './public/uploads/profile/';

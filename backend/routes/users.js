@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchuser');
 const multer = require('multer');
 const isAdmin = require('../middleware/isAdmin.js');
-const { getUserByAuthtoken, getUserById, createUser, loginUser, loginAdmin, updateUser, deleteUser, updateUserByAdmin, deleteUserByAdmin, getAllUsers, deleteProfilePhoto, setProfilePhoto, sendMail, verifyEmail, getUserByUsername } = require('../controllers/userController.js');
+const { getUserByAuthtoken, getUserById, createUser, loginUser, loginAdmin, updateUser, deleteUser, updateUserByAdmin, deleteUserByAdmin, getAllUsers, deleteProfilePhoto, setProfilePhoto, sendMail, verifyEmail, getUserByUsername, sendCustomMail } = require('../controllers/userController.js');
 
 // Set Profile Photo
 router.put('/setphoto', fetchuser, setProfilePhoto)
@@ -47,7 +47,7 @@ router.put('/', fetchuser, [
 ], updateUser)
 
 // DELETE : Delete a User (self)
-router.delete('/', fetchuser, deleteUser)
+// router.delete('/', fetchuser, deleteUser)
 
 
 // ADMIN ROUTES
@@ -62,9 +62,12 @@ router.post('/admin/login', [
 router.put('/admin', fetchuser, isAdmin, updateUserByAdmin)
 
 // Delete a user by ADMIN
-router.delete('/', isAdmin, deleteUserByAdmin)
+router.delete('/admin/:id', fetchuser, isAdmin, deleteUserByAdmin);
 
 // POST : Get All Users
 router.post('/getallusers', getAllUsers)
+
+//POST : Send Custom Email
+router.post('/sendmail',fetchuser, isAdmin, sendCustomMail);
 
 module.exports = router;
