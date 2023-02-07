@@ -5,7 +5,7 @@ const { body, validationResult } = require("express-validator");
 const fetchuser = require("../middleware/fetchuser.js");
 const isAdmin = require("../middleware/isAdmin.js");
 const Challenge = require("../models/Challenge.js");
-const { createChallenge, getChallengeById, getLastChallenge, getCurrentChallenge, getAllChallenges, updateChallenge, removeFeedbackWinner, setWinner, deleteChallenge } = require("../controllers/challengeController.js");
+const { createChallenge, getChallengeById, getLastChallenge, getCurrentChallenge, getAllChallenges, updateChallenge, removeFeedbackWinner, setWinner, deleteChallenge, getPastChallenges } = require("../controllers/challengeController.js");
 
 // POST : Create a Challenge
 router.post(
@@ -31,8 +31,12 @@ router.get("/getchallenge/last", getLastChallenge);
 //GET : Get Current nearest challenge
 router.get("/getchallenge/current", getCurrentChallenge);
 
+// GET : Get Past Challenges
+router.get("/getchallenge/past", getPastChallenges);
+
 // GET : Get All Challenges
 router.get("/", getAllChallenges);
+
 
 // PUT : Update a Challenge
 router.put(

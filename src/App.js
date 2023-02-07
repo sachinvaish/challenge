@@ -18,6 +18,8 @@ import { logout } from "./redux/features/userSlice";
 import { toast, ToastContainer } from "react-toastify";
 import { Button } from "@mui/material";
 import SetPassword from "./pages/Profile/SetPassword";
+import Explore from "./pages/Explore";
+import ChallengeDetail from "./pages/ChallengeDetail";
 
 
 
@@ -76,6 +78,8 @@ function App() {
         </Route>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
+        <Route exact path="/explore" element={<Explore />} />
+        <Route exact path="/challenge/:id" element={<ChallengeDetail/>} />
         <Route exact path="/profile/:username" element={<Profile />} />
         <Route exact path="/reset-password/:id" element={<SetPassword />} />
         <Route exact path="/*" element={<h3>404 Not Found</h3>} />

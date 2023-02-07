@@ -27,6 +27,18 @@ async()=>{
     ).catch((err)=>err)
 })
 
+export const getPastChallenges = createAsyncThunk('challenge/getPastChallenges',
+async()=>{
+    return fetch(`${host}/challenges/getchallenge/past`,{
+        method:'GET',
+        headers:{
+            'Content-type':'application/json'
+        }
+    }).then((res)=>res.json()
+    ).then((res)=>res
+    ).catch((err)=>err)
+})
+
 export const getCurrentChallenge = createAsyncThunk('challenge/getCurrentChallenge',
 async()=>{
     return fetch(`${host}/challenges/getchallenge/current`,{
@@ -59,7 +71,8 @@ const challengeSlice = createSlice({
         lastChallenge : null,
         loading: false,
         error: null,
-        allChallenges: null
+        allChallenges: null,
+        pastChallenges :null
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -75,6 +88,12 @@ const challengeSlice = createSlice({
             state.lastChallenge = action.payload;
         });
         builder.addCase(getLastChallenge.rejected,(state,action)=>{
+            state.error = action.payload;
+        });
+        builder.addCase(getPastChallenges.fulfilled,(state,action)=>{
+            state.pastChallenges = action.payload;
+        });
+        builder.addCase(getPastChallenges.rejected,(state,action)=>{
             state.error = action.payload;
         });
         builder.addCase(getCurrentChallenge.fulfilled,(state,action)=>{

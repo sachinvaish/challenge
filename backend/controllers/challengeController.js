@@ -59,6 +59,20 @@ exports.getChallengeById = async (req, res) => {
     }
   }
 
+  //GET : Get all past challenges
+  exports.getPastChallenges = async (req, res) => {
+    try {
+      const challenges = await Challenge.find({
+        due_date: { $lte: dayjs() },
+      }).sort({ due_date: "desc" });
+      res.send(challenges);
+    } catch (error) {
+      //catching errors
+      console.error(error);
+      res.status(500).json({ message: "Server Error Occured" });
+    }
+  }
+
   //GET : Get Current nearest challenge
   exports.getCurrentChallenge = async (req, res) => {
     try {

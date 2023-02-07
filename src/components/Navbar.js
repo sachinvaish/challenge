@@ -46,7 +46,7 @@ export default function Navbar() {
                             <Tabs value={value} onChange={handleChange}>
                                 <Tab label="Home" onClick={() => { navigate("/") }} />
                                 <Tab label="This Week's Challenge" onClick={() => { navigate("/contest") }} />
-                                <Tab label="Explore" />
+                                <Tab label="Explore" onClick={() => { navigate("/explore") }}/>
                             </Tabs>
                         </Box>
                         {(isLoggedIn && user) ? (
