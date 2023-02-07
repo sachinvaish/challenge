@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import { loginUser } from '../redux/features/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import ResetPassword from './ResetPassword';
 
 export default function Login(props) {
 
     const { open } = props;
     const [loginOpen, setLoginOpen] = useState(open);
+    const [passwordOpen, setPasswordOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -18,6 +20,10 @@ export default function Login(props) {
     const onClose = () => {
         setLoginOpen(false);
         navigate("/");
+    }
+
+    const onResetPWClose = () => {
+        setPasswordOpen(false);
     }
 
     useEffect(() => {
@@ -41,7 +47,7 @@ export default function Login(props) {
     return (
         <>
             <Dialog open={loginOpen} onClose={onClose} fullWidth maxWidth='sm' >
-
+                {passwordOpen && <ResetPassword open={passwordOpen} onClose={onResetPWClose}/>}
                 <DialogContent>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Typography variant='h4' textAlign='center'>
@@ -80,7 +86,7 @@ export default function Login(props) {
                                 
                             </Grid>
                             <Grid item lg sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button>Forgot Password ?</Button>
+                                <Button onClick={()=>setPasswordOpen(true)}>Forgot Password ?</Button>
                             </Grid>
                         </Grid>
                     </form>

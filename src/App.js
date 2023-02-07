@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./redux/features/userSlice";
 import { toast, ToastContainer } from "react-toastify";
 import { Button } from "@mui/material";
+import SetPassword from "./pages/Profile/SetPassword";
 
 
 
@@ -76,6 +77,7 @@ function App() {
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
         <Route exact path="/profile/:username" element={<Profile />} />
+        <Route exact path="/reset-password/:id" element={<SetPassword />} />
         <Route exact path="/*" element={<h3>404 Not Found</h3>} />
       </Routes>
       <Footer />

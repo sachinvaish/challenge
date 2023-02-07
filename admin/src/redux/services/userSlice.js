@@ -200,7 +200,7 @@ const userSlice = createSlice({
         });
         builder.addCase(sendMail.fulfilled, (state, action) => {
             // console.log('fulfilled', action.payload);
-            toast.success(action.payload.message);
+            toast(action.payload.message);
         });
         builder.addCase(sendMail.rejected, (state, action) => {
             // console.log('rejected', action.payload);

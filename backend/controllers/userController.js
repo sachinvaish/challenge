@@ -6,6 +6,17 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const nodemailer = require("nodemailer");
 
+let transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'lazydesigner54@gmail.com', // generated ethereal user
+        pass: process.env.APP_PASS, // generated ethereal password
+    },
+});
+
 // GET : Get a User by authToken
 exports.getUserByAuthtoken = async (req, res) => {
     try {
@@ -83,17 +94,6 @@ exports.createUser = async (req, res) => {
 //Send Mail after User Creation
 exports.sendMail = async (username, email, user_id) => {
     try {
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: 'lazydesigner54@gmail.com', // generated ethereal user
-                pass: 'wispbdysaqmegmtc', // generated ethereal password
-            },
-        });
-
         // send mail with defined transport object
         let info = await transporter.sendMail({
             from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
@@ -111,19 +111,7 @@ exports.sendMail = async (username, email, user_id) => {
 
 //Send Custommail : /sendmail
 exports.sendCustomMail = async (req,res) => {
-
     try {
-        let transporter = nodemailer.createTransport({
-            service: 'Gmail',
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false, // true for 465, false for other ports
-            auth: {
-                user: 'lazydesigner54@gmail.com', // generated ethereal user
-                pass: 'wispbdysaqmegmtc', // generated ethereal password
-            },
-        });
-
         // send mail with defined transport object
         let info = await transporter.sendMail({
             from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
@@ -135,9 +123,67 @@ exports.sendCustomMail = async (req,res) => {
         // console.log(info);
         if(info.accepted){
             res.send({"message":"Mail sent"})
+        }else{
+            res.send({"message":"Something is wrong, mail not sent"})
         }
     } catch (error) {
         console.log( error )
+        res.send({"message":"Something is wrong, mail not sent"})
+    }
+}
+
+// Reset Password
+exports.resetPassword = async(req,res)=>{
+    console.log('inside reset password');
+    try {
+        let user = await User.findOne({email:req.body.email})
+        if(user){
+           let info= this.sendResetMail(user.name, user.email, user._id)
+           res.send({"message":"Please check your mailbox"});
+        }else{
+            res.send({"message":"User not found with this email"});
+        }
+
+    } catch (error) {
+        console.log( error )
+        res.send({"message":"Something is wrong, mail not sent"})
+    }
+}
+
+//Send Mail to RESET password
+exports.sendResetMail = async (username, email, user_id) => {
+    console.log('inside sending RESET Mail');
+    try {
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
+            to: email, // list of receivers
+            subject: "Reset Password", // Subject line
+            text: "", // plain text body
+            html: "<b>Hi " + username + "</b><p>Click on the given link to reset your password ,<a href='" + process.env.CLIENT + "/reset-password/" + user_id + "'>Click Here</a></p > ",
+            // html: "<b>Hi " + username + "</b><p>Thank you for joining us, please verify your email,<a href='http://localhost:5000/users/verify/" + user_id + "'> Click Here</a></p > ", 
+        });
+        return info;
+    } catch (error) {
+        console.log( error )
+    }
+}
+
+//set new password
+exports.setNewPassword = async(req,res)=>{
+    console.log('inside Set NEW password');
+    try {
+        userID = req.params.id;
+        let salt = await bcrypt.genSalt(10);
+        let secPass = await bcrypt.hash(req.body.password, salt);
+
+        user = await User.findByIdAndUpdate(userID,{
+            password: secPass
+        });
+        res.send({"message":"Password Changed"});
+    } catch (error) {
+        console.log( error )
+        res.send({"message":"Something is wrong, mail not sent"})
     }
 }
 
