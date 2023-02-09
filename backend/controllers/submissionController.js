@@ -4,6 +4,8 @@ const Submission = require('../models/Submission.js');
 const multer = require('multer');
 const path = require('path');
 
+const sharp = require('sharp');
+
 // POST : Create a Submission
 exports.createSubmission = async (req, res, next) => {
     const errors = validationResult(req);
@@ -30,9 +32,25 @@ exports.createSubmission = async (req, res, next) => {
             tags : req.body.tags
         });
 
+        
+        const dirPath = `./public/uploads/submissions/thumbnails`;
+        fs.mkdirSync(dirPath, { recursive: true })
+        const npath = `./public/uploads/submissions/thumbnails/${req.file.filename}`;
+    // toFile() method stores the image on disk
+        await sharp(req.file.path).resize(800,600).toFile(npath);
         res.json({ submission, message: 'Thanks for participation, Your Design has been submitted successfully' });
     } catch (error) {
         res.json({ error });
+    }
+}
+
+//GET All Submissions
+exports.getAllSubmissions = async (req, res) => {
+    try {
+        let submissions = await Submission.find();
+        res.send(submissions);
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -90,9 +108,14 @@ exports.deleteSubmissionByAdmin = async (req, res) => {
                 // console.log('value of existsSync : ',fs.existsSync(url))
                 fs.unlinkSync(url);
             }
+            let thUrl = `./public/uploads/submissions/thumbnails/${photo_url.photo_url}`
+            if (fs.existsSync(thUrl)) {
+                // console.log('value of existsSync : ',fs.existsSync(url))
+                fs.unlinkSync(thUrl);
+            }
         }
         await Submission.findByIdAndDelete(submission_id);
-        res.json({ "success": "Submission Deleted Successfully" });
+        res.json({ "message": "Submission Deleted Successfully" });
     } catch (error) {
         res.status(500).json({ "message": "Server Error Occured" });
     }

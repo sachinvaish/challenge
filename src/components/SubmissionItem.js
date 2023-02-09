@@ -61,7 +61,7 @@ export default function SubmissionItem(props) {
                 component="img"
                 height="300px"
                 width='auto'
-                image={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/${photo_url}`}
+                image={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${photo_url}`}
                 alt="submission"
             />
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>

@@ -9,17 +9,17 @@ import { useParams } from 'react-router';
 import { getChallengeByID } from '../../redux/features/challengeSlice';
 
 export default function ChallengeDetail() {
-    const { challengeID } = useParams();
+    const { id } = useParams();
     const dispatch = useDispatch();
     const { challenge } = useSelector((state) => ({ ...state.ChallengeReducer }));
     const { submissions } = useSelector((state) => ({ ...state.SubmissionReducer }));
 
     useEffect(() => {
-        if (challengeID) {
-            dispatch(getChallengeByID(challengeID));
-            dispatch(getSubmissions(challengeID));
+        if (id) {
+            dispatch(getChallengeByID(id));
+            dispatch(getSubmissions(id));
         }
-    }, [challengeID]);
+    }, [id]);
 
     return (
         <Container>
@@ -27,7 +27,7 @@ export default function ChallengeDetail() {
             {(submissions && submissions.length > 0) && (<>
                 <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                     <Grid container>
-                        <Submissions sm={12} md={6} lg={4} challengeID={challengeID} submissions={submissions} />
+                        <Submissions sm={12} md={6} lg={4} challengeID={id} submissions={submissions} />
                     </Grid>
                 </Box>
             </>)}

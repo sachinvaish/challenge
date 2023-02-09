@@ -22,7 +22,11 @@ exports.getUserByAuthtoken = async (req, res) => {
     try {
         userID = req.user.id;
         const user = await User.findById(userID).select("-password");
-        res.json(user);
+        if(user){
+            res.json(user);
+        }else{
+            res.status(404).json({"message":"User not found"});
+        }
     } catch (error) {
         //catching errors 
         console.log(error);
