@@ -23,6 +23,8 @@ const upload = multer({
     })
 }).single('image');
 
+
+
 // router.post('/upload', upload, async(req,res)=>{
 //     // console.log(req.file);
 // })

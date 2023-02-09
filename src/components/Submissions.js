@@ -6,7 +6,7 @@ import SubmissionItem from './SubmissionItem';
 import { getSubmissions, SubmissionReducer } from '../redux/features/submissionSlice';
 
 export default function Submissions(props) {
-    const { xs, sm, md, lg, challenge_id, submissions, limit } = props;
+    const { xs, sm, md, lg, challenge, submissions, limit } = props;
     // const {submissions} = useSelector((state)=>({...state.SubmissionReducer}))
 
     return (
@@ -15,7 +15,7 @@ export default function Submissions(props) {
                 submissions && submissions.slice(0, limit).map((submission) => {
                     return (
                         <Grid key={submission._id} item xs={xs} sm={sm} md={md} lg={lg} >
-                            <SubmissionItem key={submission._id} submission={submission} />
+                            <SubmissionItem key={submission._id} challenge={challenge} submission={submission} />
                         </Grid>
                     )
                 })

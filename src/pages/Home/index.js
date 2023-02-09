@@ -29,7 +29,7 @@ export default function Home() {
             {(submissions && submissions.length > 0) && (<>
             <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                 <Grid container>
-                    <Submissions sm={12} md={6} lg={4} challenge_id={lastChallenge._id} submissions={submissions} />
+                    <Submissions sm={12} md={6} lg={4} challenge={lastChallenge} submissions={submissions} />
                 </Grid>
             </Box>
             </>)}
