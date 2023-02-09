@@ -3,6 +3,7 @@ import { Typography, Container, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import SubmitDialog from './SubmitDialog';
+import { toast } from 'react-toastify';
 
 export default function ChallengeHeader(props) {
   const {challenge}=props;
@@ -15,7 +16,7 @@ export default function ChallengeHeader(props) {
     if(localStorage.getItem('authToken'))
       setOpen(true);
     else
-      alert('please login');
+      toast('please login');
   }
 
   return (

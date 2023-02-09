@@ -11,6 +11,7 @@ import { Add } from '@mui/icons-material';
 import EditChallenge from './EditChallenge';
 import ConfirmDialogue from '../../components/ConfirmDialogue';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 export default function Challenges() {
 
@@ -65,7 +66,7 @@ export default function Challenges() {
     if (localStorage.getItem('authToken'))
       setCreateOpen(true);
     else
-      alert('please login');
+      toast('Please login');
   }
   // console.log(allUsers);
 

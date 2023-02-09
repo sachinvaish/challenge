@@ -18,7 +18,13 @@ export default function CurrentChallenge() {
 
   return (
     <Container >
-      {currentChallenge && <ChallengeHeader challenge={currentChallenge} />}
+      {currentChallenge ? <ChallengeHeader challenge={currentChallenge} /> :
+        <Box sx={{width:'500px', height:'75vh'}} textAlign='center' py={'15%'} m={'auto'}>
+        <Typography variant='h3' fontWeight='bold'>Sorry!!!</Typography>
+        <Typography variant='h5'>No challenges available</Typography>
+        <Typography variant='h6'>Stay tuned...</Typography>
+    </Box>
+      }
       <Typography variant='body1' textAlign='center'>Submission Deadline</Typography>
       <Box paddingX='auto' alignItems='center' marginX='30vw' >
         {currentChallenge && <Timer countDownDate={currentChallenge.due_date} />}

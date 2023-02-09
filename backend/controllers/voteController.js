@@ -41,14 +41,26 @@ exports.getVotesBySubmission = async (req, res) => {
 
 // delete all votes for a user
 // when a user account is deleted, this API should be hit
-exports.deleteUserVotes =  async (req, res) => {
+exports.deleteUserVotes =  async (user_id) => {
     try {
-        let votes = await Vote.deleteMany({ user_id: req.params.user_id });
-        res.json({"message":"All Votes Deleted for this User"});
+        let votes = await Vote.deleteMany({ user_id: user_id });
+        console.log('inside deleteUserVotes :', votes);
+        // res.json({"message":"All Votes Deleted for this User"});
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({ "error": "Internal Server Error" });
+        // res.status(500).send({ "error": "Internal Server Error" });
+    }
+}
+
+exports.deleteSubmissionVotes = async (submission_id) => {
+    try {
+        let votes = await Vote.deleteMany({ submission_id: submission_id });
+        // res.json({"message":"All Votes Deleted for this Submission"});
+
+    } catch (error) {
+        console.log(error);
+        // res.status(500).send({ "error": "Internal Server Error" });
     }
 }
 

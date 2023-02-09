@@ -79,8 +79,12 @@ const submissionSlice = createSlice({
             builder.addCase(getSubmissions.rejected, (state, action) => {
                 state.error = action.payload;
             });
+            builder.addCase(getSubmissionByID.pending, (state, action) => {
+                state.loading = true;
+            });
             builder.addCase(getSubmissionByID.fulfilled, (state, action) => {
-                state.singleSubmission = action.payload
+                state.singleSubmission = action.payload;
+                state.loading = false;
             });
             builder.addCase(getSubmissionByID.rejected, (state, action) => {
                 state.error = action.payload;

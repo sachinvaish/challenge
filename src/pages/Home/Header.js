@@ -1,6 +1,6 @@
 import { Grid, Typography, Container, Box, Card, CardContent, Button } from '@mui/material';
 import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
 
 export default function Header(props) {
@@ -10,7 +10,6 @@ export default function Header(props) {
 
     return (
         <Container sx={{ marginY: '30px' }}>
-            <Outlet />
             <Grid container spacing={2} >
                 <Grid item md={9}>
                     <Typography variant='h6'>Last Week's Challenge</Typography>

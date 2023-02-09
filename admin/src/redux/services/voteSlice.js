@@ -18,6 +18,34 @@ export const toggleVote = createAsyncThunk('vote/toggleVote',
         ).catch((err)=>err)
     })
 
+// export const deleteSubmissionVotes = createAsyncThunk('vote/deleteSubmissionVotes',
+// async({submission_id, authToken})=>{
+//     return fetch(`${host}/votes/submission/${submission_id}`,{
+//         method : 'DELETE',
+//         headers : {
+//             'Content-type':'application/json',
+//             'auth-token': authToken
+//         }
+//     }).then(
+//         (res)=>res.json()
+//     ).then((res)=>res
+//     ).catch((err)=>err)
+// })
+
+// export const deleteUserVotes = createAsyncThunk('vote/deleteUserVotes',
+// async({user_id, authToken})=>{
+//     return fetch(`${host}/votes/user/${user_id}`,{
+//         method : 'DELETE',
+//         headers : {
+//             'Content-type':'application/json',
+//             'auth-token': authToken
+//         }
+//     }).then(
+//         (res)=>res.json()
+//     ).then((res)=>res
+//     ).catch((err)=>err)
+// })
+
 // export const getVotes = createAsyncThunk('vote/getVotes',
 //     async(submission_id)=>{
 //         console.log('inside gietVotes', submission_id);
@@ -45,10 +73,16 @@ const voteSlice = createSlice({
             builder.addCase(toggleVote.rejected, (state, action)=>{
                 state.error = action.payload;
             });
-            // builder.addCase(getVotes.fulfilled,(state, action)=>{
-            //     state.votesCount = action.payload.votesCount;
+            // builder.addCase(deleteSubmissionVotes.fulfilled,(state, action)=>{
+            //     toast(action.payload.message);
             // });
-            // builder.addCase(getVotes.rejected, (state, action)=>{
+            // builder.addCase(deleteSubmissionVotes.rejected, (state, action)=>{
+            //     state.error = action.payload;
+            // });
+            // builder.addCase(deleteUserVotes.fulfilled,(state, action)=>{
+            //     toast(action.payload.message);
+            // });
+            // builder.addCase(deleteUserVotes.rejected, (state, action)=>{
             //     state.error = action.payload;
             // });
         }

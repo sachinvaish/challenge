@@ -7,6 +7,7 @@ import { PhotoCamera } from '@mui/icons-material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSubmission } from '../../redux/features/submissionSlice';
+import { toast } from 'react-toastify';
 
 export default function SubmitDialog(props) {
 
@@ -27,7 +28,7 @@ export default function SubmitDialog(props) {
         // If no image selected, return
         const file = e.target.files[0];
         if (!/^image\//.test(file.type)) {
-            alert(`File ${file.name} is not an image.`);
+            toast(`File ${file.name} is not an image.`);
             return false;
         } else {
             // console.log('no errors, setting image')

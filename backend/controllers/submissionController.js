@@ -5,6 +5,8 @@ const multer = require('multer');
 const path = require('path');
 
 const sharp = require('sharp');
+const { deleteSubmissionFeedbacks } = require('./feedbackController.js');
+const { deleteSubmissionVotes } = require('./voteController.js');
 
 // POST : Create a Submission
 exports.createSubmission = async (req, res, next) => {
@@ -86,14 +88,33 @@ exports.getSubmissionsByUser =  async (req, res) => {
 
 // delete all Submissions for a user
 // when a user account is deleted, this API should be hit
-exports.deleteUserSubmissions = async (req, res) => {
+exports.deleteUserSubmissions = async (user_id) => {
     try {
-        let submission = await Submission.deleteMany({ user_id: req.params.user_id });
-        res.json({ "message": "All Submissions Deleted for this User" });
+        let submission = await Submission.deleteMany({ user_id: user_id });
+        console.log('inside deleteUserSubmissions :', submission);
+        // res.json({ "message": "All Submissions Deleted for this User" });
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({ "error": "Internal Server Error" });
+        // res.status(500).send({ "error": "Internal Server Error" });
+    }
+}
+
+exports.deleteChallengeSubmissions = async (challenge_id) => {
+    try {
+        let submissions = await Submission.find({ challenge_id: challenge_id });
+        if(submissions.length > 0){
+            submissions.map(async (submission)=>{
+                await deleteSubmissionFeedbacks(submission._id);
+                await deleteSubmissionVotes(submission._id);
+            })
+        }
+        await Submission.deleteMany({challenge_id:challenge_id});
+        // res.json({ "message": "All Submissions Deleted for this Challenge" });
+
+    } catch (error) {
+        console.log(error);
+        // res.status(500).send({ "error": "Internal Server Error" });
     }
 }
 
@@ -115,6 +136,8 @@ exports.deleteSubmissionByAdmin = async (req, res) => {
             }
         }
         await Submission.findByIdAndDelete(submission_id);
+        await deleteSubmissionFeedbacks(submission_id);
+        await deleteSubmissionVotes(submission_id)
         res.json({ "message": "Submission Deleted Successfully" });
     } catch (error) {
         res.status(500).json({ "message": "Server Error Occured" });

@@ -75,21 +75,15 @@ export default function Submissions() {
     {
       field: 'photo', headerName: 'Photo', width: 200, align: 'left',
       renderCell: ({ row }) => (<>
-        <Box component='img' sx={{ margin: '10px', width:'170px', height:'auto', borderRadius: '10px' }} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/${row.photo}`}/>
+        <Box component='img' sx={{ margin: '10px', width:'170px', height:'auto', borderRadius: '10px' }} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${row.photo}`}/>
       </>),
     },
-    { field: 'description', headerName: 'Description', width: 150, align: 'left' },
+    { field: 'description', headerName: 'Description', width: 250, align: 'left' },
     { field: 'user_id', headerName: 'User', width: 150, align: 'left' },
     { field: 'challenge_id', headerName: 'Challenge', width: 150, align: 'left' },
     {
-      field: 'actions', headerName: 'Actions', width: 300, align: 'center',
+      field: 'actions', headerName: 'Actions', width: 120, align: 'center',
       renderCell: ({ row }) => (<>
-        <Button startIcon={<EmailIcon />} sx={{ marginX: '5px' }} variant='contained' size='small' color='info' onClick={() => { handleMail(row.user) }}>
-          Mail
-        </Button>
-        <Button disabled startIcon={<BlockIcon />} sx={{ marginX: '5px' }} variant='outlined' size='small' color='error' onClick={() => alert(`Block User ${row.username}`)}>
-          Block
-        </Button>
         <Button startIcon={<DeleteIcon />} sx={{ marginX: '5px' }} variant='contained' size='small' color='error' onClick={() => { handleDeleteSubmission(row.submission_id) }}>
           Delete
         </Button>

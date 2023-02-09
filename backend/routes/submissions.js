@@ -42,7 +42,7 @@ router.get('/user/:user_id',getSubmissionsByUser)
 
 // delete all Submissions for a user
 // when a user account is deleted, this API should be hit
-router.delete('/user/:user_id', deleteUserSubmissions)
+// router.delete('/user/:user_id', deleteUserSubmissions)
 
 // Delete a submission by ADMIN
 router.delete('/:id', fetchuser, isAdmin, deleteSubmissionByAdmin)

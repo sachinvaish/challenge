@@ -4,7 +4,7 @@ const Feedback = require('../models/Feedback.js');
 const fetchuser = require('../middleware/fetchuser');
 const { body, validationResult } = require('express-validator');
 const isAdmin = require('../middleware/isAdmin.js');
-const { createFeedback, getFeedbacksBySubmission, getFeedbackCountBySubmission, deleteUserFeedbacks, deleteFeedbackByAdmin } = require('../controllers/feedbackController.js');
+const { createFeedback, getFeedbacksBySubmission, getFeedbackCountBySubmission, deleteUserFeedbacks, deleteFeedbackByAdmin, deleteSubmissionFeedbacks } = require('../controllers/feedbackController.js');
 
 // POST Create a feedback
 router.post('/',fetchuser,[
@@ -19,7 +19,11 @@ router.get('/getfeedbackscount/:submission_id', getFeedbackCountBySubmission)
 
 // delete all Feedbacks for a user
 // when a user account is deleted, this API should be hit
-router.delete('/:user_id', deleteUserFeedbacks)
+// router.delete('/user/:user_id', deleteUserFeedbacks)
+
+// delete all Feedbacks for a Submission
+// when a Submission is deleted, this API should be hit
+// router.delete('/submission/:submission_id', deleteSubmissionFeedbacks)
 
 // Delete a feedback by ADMIN
 router.delete('/:feedback_id', fetchuser,isAdmin, deleteFeedbackByAdmin)

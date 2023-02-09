@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 const host=process.env.REACT_APP_BACKEND_URL;
 
 export const createFeedback = createAsyncThunk('feedback/createFeedback',
@@ -32,6 +33,32 @@ async(submission_id)=>{
     ).catch((err)=>console.log(err))
 })
 
+// export const deleteUserFeedbacks = createAsyncThunk('feedback/deleteUserFeedbacks',
+// async({user_id,authToken})=>{
+//     return fetch(`${host}/feedbacks/user/${user_id}`,{
+//         method:'DELETE',
+//         headers : {
+//             'Content-type':'application/json',
+//             'auth-token':authToken
+//         }
+//     }).then((res)=>res.json()
+//     ).then((res)=>res
+//     ).catch((err)=>console.log(err))
+// })
+
+// export const deleteSubmissionFeedbacks = createAsyncThunk('feedback/deleteSubmissionFeedbacks',
+// async({submission_id,authToken})=>{
+//     return fetch(`${host}/feedbacks/user/${submission_id}`,{
+//         method:'DELETE',
+//         headers : {
+//             'Content-type':'application/json',
+//             'auth-token':authToken
+//         }
+//     }).then((res)=>res.json()
+//     ).then((res)=>res
+//     ).catch((err)=>console.log(err))
+// })
+
 const feedbackSlice = createSlice({
     name: 'feedback',
     initialState: {
@@ -57,6 +84,18 @@ const feedbackSlice = createSlice({
             builder.addCase(getFeedbacks.rejected, (state, action) => {
                 console.log('getfeedbacks rejected', action.payload);
             });
+            // builder.addCase(deleteUserFeedbacks.fulfilled, (state, action) => {
+            //     toast(action.payload.message);
+            // });
+            // builder.addCase(deleteUserFeedbacks.rejected, (state, action) => {
+            //     state.error = action.payload;
+            // });
+            // builder.addCase(deleteSubmissionFeedbacks.fulfilled, (state, action) => {
+            //     toast(action.payload.message);
+            // });
+            // builder.addCase(deleteSubmissionFeedbacks.rejected, (state, action) => {
+            //     state.error = action.payload;
+            // });
         }
 })
 

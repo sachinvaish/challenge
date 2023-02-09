@@ -7,6 +7,8 @@ import { createFeedback, FeedbackReducer, getFeedbacks } from '../../redux/featu
 import { useNavigate } from 'react-router';
 import { getChallengeByID } from '../../redux/features/challengeSlice';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
 
 export default function Sidebar(props) {
     const submission = props.submission;
@@ -61,7 +63,7 @@ export default function Sidebar(props) {
             setNewFeedback("");
             getAllFeedbacks();
         } else {
-            alert('please login');
+            toast('Please login');
         }
     }
 
@@ -69,7 +71,7 @@ export default function Sidebar(props) {
         if (localStorage.getItem('authToken')) {
             setNewFeedback(e.target.value);
         } else {
-            alert('please login');
+            toast('Please login');
         }
 
     }
@@ -129,7 +131,7 @@ export default function Sidebar(props) {
                         <Button disabled={newFeedback === ''} onClick={handleFeedback} variant='contained'>Post</Button>
                     </Box>
                 </Box>
-            </>) : 'Please wait'}
+            </>) : <Loader/>}
         </Card>
     )
 }

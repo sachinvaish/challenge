@@ -24,7 +24,7 @@ export default function Profile(props) {
 
   const handleClick = () => {
     if (localStorage.getItem("authToken")) setOpen(true);
-    else alert("please login");
+    else toast("Please login");
   };
 
   useEffect(() => {

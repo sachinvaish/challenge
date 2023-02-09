@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleVote, VoteReducer } from '../redux/features/voteSlice';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Like(props) {
     const {submission_id } = props;
@@ -23,7 +24,7 @@ export default function Like(props) {
             getVotes(submission_id);
             getIsLiked(submission_id, user._id);
         } else {
-            alert('please login');
+            toast('please login');
         }
     }
 

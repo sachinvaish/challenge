@@ -6,6 +6,7 @@ import Header from './Header';
 import empty from '../../assets/empty.png';
 import { getSubmissions } from '../../redux/features/submissionSlice';
 import { getLastChallenge } from '../../redux/features/challengeSlice';
+import { Outlet } from 'react-router';
 
 export default function Home() {
 
@@ -19,13 +20,21 @@ export default function Home() {
 
       useEffect(()=>{
         if(lastChallenge){
+            console.log('last challenge condition true', lastChallenge);
             dispatch(getSubmissions(lastChallenge._id));
         }
       },[lastChallenge])
 
     return (
         <Container >
-            {lastChallenge && <Header challenge={lastChallenge}/>}
+            <Outlet/>
+            {lastChallenge ?<Header challenge={lastChallenge}/> :
+                <Box sx={{width:'500px', height:'75vh'}} textAlign='center' py={'15%'} m={'auto'}>
+                    <Typography variant='h3' fontWeight='bold'>Sorry!!!</Typography>
+                    <Typography variant='h5'>No challenges available</Typography>
+                    <Typography variant='h6'>Stay tuned...</Typography>
+                </Box>
+            }
             {(submissions && submissions.length > 0) && (<>
             <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                 <Grid container>

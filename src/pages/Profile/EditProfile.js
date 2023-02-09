@@ -12,6 +12,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import AvatarEditor from 'react-avatar-editor';
 import { deletePhoto, getUser, updateProfilePhoto, updateUser } from '../../redux/features/userSlice';
+import { toast } from 'react-toastify';
 
 export default function EditProfile(props) {
 
@@ -61,7 +62,7 @@ export default function EditProfile(props) {
         // If no image selected, return
         const file = e.target.files[0];
         if (!/^image\//.test(file.type)) {
-            alert(`File ${file.name} is not an image.`);
+            toast(`File ${file.name} is not an image.`);
             return false;
         } else {
             console.log('no errors, setting image')

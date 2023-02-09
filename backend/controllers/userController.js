@@ -5,6 +5,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const nodemailer = require("nodemailer");
+const { deleteUserSubmissions } = require('./submissionController.js');
+const { deleteUserFeedbacks } = require('./feedbackController.js');
+const { deleteUserVotes } = require('./voteController.js');
 
 let transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -322,6 +325,9 @@ exports.deleteUser = async (req, res) => {
             }
         }
         user = await User.findByIdAndDelete(userID);
+        await deleteUserSubmissions(user_id);
+        await deleteUserFeedbacks(user_id);
+        await deleteUserVotes(user_id);
         console.log(user);
         res.json({ "success": "User Deleted Successfully" });
 

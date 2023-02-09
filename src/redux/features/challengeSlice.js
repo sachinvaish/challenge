@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 const host=process.env.REACT_APP_BACKEND_URL;
 
@@ -23,7 +24,7 @@ async()=>{
             'Content-type':'application/json'
         }
     }).then((res)=>res.json()
-    ).then((res)=>res
+    ).then((res)=> res
     ).catch((err)=>err)
 })
 
@@ -79,6 +80,7 @@ const challengeSlice = createSlice({
         builder.addCase(getAllChallenges.fulfilled, (state, action) => {
             // console.log('fulfilled', action.payload);
             state.allChallenges = action.payload;
+            toast(action.payload.message);
         });
         builder.addCase(getAllChallenges.rejected, (state, action) => {
             // console.log('rejected', action.payload);
@@ -98,6 +100,7 @@ const challengeSlice = createSlice({
         });
         builder.addCase(getCurrentChallenge.fulfilled,(state,action)=>{
             state.currentChallenge = action.payload;
+            toast(action.payload.message);
         });
         builder.addCase(getCurrentChallenge.rejected,(state,action)=>{
             state.error = action.payload;
@@ -105,6 +108,7 @@ const challengeSlice = createSlice({
         builder.addCase(getChallengeByID.fulfilled, (state, action) => {
             // console.log('fulfilled', action.payload);
             state.challenge = action.payload;
+            toast(action.payload.message);
         });
         builder.addCase(getChallengeByID.rejected, (state, action) => {
             // console.log('rejected', action.payload);

@@ -62,7 +62,7 @@ const getUserByID = async () => {
                 component="img"
                 height="auto"
                 width='auto'
-                image={`${host}/uploads/submissions/${photo_url}`}
+                image={`${host}/uploads/submissions/thumbnails/${photo_url}`}
                 alt="submission"
             />
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>

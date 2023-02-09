@@ -53,14 +53,27 @@ exports.getFeedbackCountBySubmission = async (req, res) => {
 
 // delete all Feedbacks for a user
 // when a user account is deleted, this API should be hit
-exports.deleteUserFeedbacks = async (req, res) => {
+exports.deleteUserFeedbacks = async (user_id) => {
     try {
-        let feedback = await Feedback.deleteMany({ user_id: req.params.user_id });
-        res.json({"message":"All Feedbacks Deleted for this User"});
+        let feedback = await Feedback.deleteMany({ user_id: user_id });
+        // res.json({"message":"All Feedbacks Deleted for this User"});
 
     } catch (error) {
         console.log(error);
-        res.status(500).send({ "error": "Internal Server Error" });
+        // res.status(500).send({ "error": "Internal Server Error" });
+    }
+}
+
+// delete all Feedbacks for a Submission
+// when a Submission is deleted, this API should be hit
+exports.deleteSubmissionFeedbacks = async (submission_id) => {
+    try {
+        let feedback = await Feedback.deleteMany({ submission_id: submission_id });
+        // res.json({"message":"All Feedbacks Deleted for this Submission"});
+
+    } catch (error) {
+        console.log(error);
+        // res.status(500).send({ "error": "Internal Server Error" });
     }
 }
 

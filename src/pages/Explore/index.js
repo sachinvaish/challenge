@@ -21,11 +21,17 @@ export default function Explore() {
             <Typography my={3} variant='h5' fontWeight={'bold'} textAlign='center'>Explore Past Challenges</Typography>
             <Container sx={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px' }} my={3} >
                 <Box >
-                    {pastChallenges && pastChallenges.map((challenge) => {
+                    {pastChallenges ? pastChallenges.map((challenge) => {
                         return (
                             <Challenge key={challenge._id} challenge={challenge} />
                         )
-                    })}
+                    }) :
+                        <Box sx={{ width: '500px', height: '75vh' }} textAlign='center' py={'15%'} m={'auto'}>
+                            <Typography variant='h3' fontWeight='bold'>Sorry!!!</Typography>
+                            <Typography variant='h5'>No challenges available</Typography>
+                            <Typography variant='h6'>Stay tuned...</Typography>
+                        </Box>
+                    }
 
                 </Box>
             </Container>
