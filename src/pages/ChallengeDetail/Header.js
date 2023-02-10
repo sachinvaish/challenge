@@ -1,7 +1,9 @@
-import { Grid, Typography, Container, Box, Card, CardContent, Button } from '@mui/material';
+import { Grid, Typography, Container, Box, Card, CardContent, Button, Avatar, Divider } from '@mui/material';
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CommentIcon from '@mui/icons-material/Comment';
 
 export default function Header(props) {
     const { challenge, submissionCount } = props;
@@ -46,9 +48,50 @@ export default function Header(props) {
                         <Grid item md={3} xs={12}>
                             <Card sx={{ color: 'text.secondary', textAlign: 'center' }}>
                                 <CardContent>
-                                    <Typography variant='h6' fontWeight='bold'>Deadline</Typography>
+                                    {(challenge.due_date < Date.now())
+                                    ?
+                                    <>
+                                    <Typography variant='h6' fontWeight='bold'>Winner announced in</Typography>
                                     <Timer countDownDate={challenge.due_date} size='md' />
                                     <Typography variant='h6'>Submissions : {submissionCount}</Typography>
+                                    </>
+                                :
+                                    <>
+                                        <Typography fontWeight='bold' variant='h6' mb={1}>Winners</Typography>
+                                        <Box gap={1} sx={{display:'flex', flexDirection:'column'}}>
+                                            <Box sx={{display:'flex', alignItems:'center'}} gap={1.2}>
+                                                <EmojiEventsIcon sx={{ color: '#E8AF0E', ml: 1 }} />
+                                                <Avatar sx={{width:50, height:50}} src='https://avatars.githubusercontent.com/u/25712570?v=4'>S</Avatar>
+                                                <Box textAlign='left'>
+                                                    <Typography fontWeight='bold' vairant='h6' color='primary'>Sachin Vaish</Typography>
+                                                    <Typography variant='body2' fontWeight='bold'>View Submission</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Divider/>
+                                            <Box sx={{display:'flex', alignItems:'center'}} gap={1.2}>
+                                                <EmojiEventsIcon sx={{ color: '#C6CBCD', ml: 1 }} />
+                                                <Avatar sx={{width:50, height:50}} src='https://avatars.githubusercontent.com/u/25712570?v=4'>S</Avatar>
+                                                <Box textAlign='left'>
+                                                    <Typography fontWeight='bold' vairant='h6' color='primary'>Sachin Tichkule</Typography>
+                                                    <Typography variant='body2' fontWeight='bold'>View Submission</Typography>
+                                                </Box>
+                                            </Box>
+                                            <Divider/>
+                                            <Box sx={{display:'flex', alignItems:'center'}} gap={1.2}>
+                                                <CommentIcon sx={{ color: '#ae34eb', ml: 1 }} />
+                                                <Avatar sx={{width:50, height:50}} src='https://avatars.githubusercontent.com/u/25712570?v=4'>S</Avatar>
+                                                <Box textAlign='left'>
+                                                    <Typography fontWeight='bold' vairant='h6' color='primary'>Sachin Tendulkar</Typography>
+                                                    <Typography variant='body2' fontWeight='bold'>View Feedback</Typography>
+                                                </Box>
+                                            </Box>
+                                            
+                                        </Box>
+                                        
+                                        
+                                    </>
+                                }
+                                    
                                 </CardContent>
                             </Card>
                         </Grid>

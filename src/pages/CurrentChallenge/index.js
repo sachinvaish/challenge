@@ -33,8 +33,8 @@ export default function CurrentChallenge() {
         currentChallenge && (
           <>
             <ChallengeHeader challenge={currentChallenge} />
-            <Typography variant="body1" textAlign="center">
-              Submission Deadline
+            <Typography variant="h6" textAlign="center">
+              Submit Your Designs Before
             </Typography>
             <Box paddingX="auto" alignItems="center" marginX="30vw">
               {currentChallenge && (
