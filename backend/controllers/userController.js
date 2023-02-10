@@ -387,9 +387,9 @@ exports.deleteUserByAdmin = async (req, res) => {
             }
         }
         user = await User.findByIdAndDelete(userID);
-        await deleteUserSubmissions(user_id);
-        await deleteUserFeedbacks(user_id);
-        await deleteUserVotes(user_id);
+        await deleteUserSubmissions(userID);
+        await deleteUserFeedbacks(userID);
+        await deleteUserVotes(userID);
         console.log(user);
         res.json({ "success": "User Deleted Successfully" });
 
