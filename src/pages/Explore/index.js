@@ -21,7 +21,7 @@ export default function Explore() {
             <Typography my={3} variant='h5' fontWeight={'bold'} textAlign='center'>Explore Past Challenges</Typography>
             <Container sx={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px' }} my={3} >
                 <Box >
-                    {pastChallenges ? pastChallenges.map((challenge) => {
+                    {pastChallenges.length > 0  ? pastChallenges.map((challenge) => {
                         return (
                             <Challenge key={challenge._id} challenge={challenge} />
                         )

@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Submissions from '../../components/Submissions';
 import Header from './Header';
@@ -7,9 +7,10 @@ import empty from '../../assets/empty.png';
 import { getSubmissions } from '../../redux/features/submissionSlice';
 import { getLastChallenge } from '../../redux/features/challengeSlice';
 import { Outlet } from 'react-router';
+import { toast } from 'react-toastify';
 
 export default function Home() {
-
+    const [error,setError]=useState(null);
     const dispatch = useDispatch();
     const {submissions} = useSelector((state)=>({...state.SubmissionReducer}));
     const {lastChallenge}= useSelector((state)=>({...state.ChallengeReducer}))
@@ -20,18 +21,22 @@ export default function Home() {
 
       useEffect(()=>{
         if(lastChallenge){
-            console.log('last challenge condition true', lastChallenge);
-            dispatch(getSubmissions(lastChallenge._id));
+            if(Object.hasOwn(lastChallenge, '_id')){
+                dispatch(getSubmissions(lastChallenge._id));
+            }else{
+                // toast.error(lastChallenge.message);
+                setError(lastChallenge.message);
+            }
         }
       },[lastChallenge])
 
     return (
         <Container >
             <Outlet/>
-            {lastChallenge ?<Header challenge={lastChallenge}/> :
+            {!error ? (lastChallenge && <Header challenge={lastChallenge}/>) :
                 <Box sx={{width:'500px', height:'75vh'}} textAlign='center' py={'15%'} m={'auto'}>
                     <Typography variant='h3' fontWeight='bold'>Sorry!!!</Typography>
-                    <Typography variant='h5'>No challenges available</Typography>
+                    <Typography variant='h5'>{error}</Typography>
                     <Typography variant='h6'>Stay tuned...</Typography>
                 </Box>
             }

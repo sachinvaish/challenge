@@ -88,19 +88,21 @@ const challengeSlice = createSlice({
         });
         builder.addCase(getLastChallenge.fulfilled,(state,action)=>{
             state.lastChallenge = action.payload;
+            // toast(action.payload.message);
         });
         builder.addCase(getLastChallenge.rejected,(state,action)=>{
             state.error = action.payload;
         });
         builder.addCase(getPastChallenges.fulfilled,(state,action)=>{
             state.pastChallenges = action.payload;
+            
         });
         builder.addCase(getPastChallenges.rejected,(state,action)=>{
             state.error = action.payload;
         });
         builder.addCase(getCurrentChallenge.fulfilled,(state,action)=>{
             state.currentChallenge = action.payload;
-            toast(action.payload.message);
+            // toast(action.payload.message);
         });
         builder.addCase(getCurrentChallenge.rejected,(state,action)=>{
             state.error = action.payload;
@@ -108,7 +110,7 @@ const challengeSlice = createSlice({
         builder.addCase(getChallengeByID.fulfilled, (state, action) => {
             // console.log('fulfilled', action.payload);
             state.challenge = action.payload;
-            toast(action.payload.message);
+            // toast(action.payload.message);
         });
         builder.addCase(getChallengeByID.rejected, (state, action) => {
             // console.log('rejected', action.payload);

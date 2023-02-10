@@ -49,10 +49,12 @@ exports.getChallengeById = async (req, res) => {
 //GET : Get last finished challenge
 exports.getLastChallenge = async (req, res) => {
   try {
-    const challenge = await Challenge.findOne({
-      due_date: { $lte: dayjs() },
-    }).sort({ due_date: "desc" });
-    res.send(challenge);
+    const challenge = await Challenge.findOne({due_date: { $lte: dayjs() },}).sort({ due_date: "desc" });
+    if(challenge){
+      res.send(challenge);
+    }else{
+      res.send({"message":"No Challenges available right now"});
+    }
   } catch (error) {
     //catching errors
     console.error(error);
@@ -66,7 +68,7 @@ exports.getPastChallenges = async (req, res) => {
     const challenges = await Challenge.find({
       due_date: { $lte: dayjs() },
     }).sort({ due_date: "desc" });
-    res.send(challenges);
+      res.send(challenges);
   } catch (error) {
     //catching errors
     console.error(error);
@@ -80,7 +82,11 @@ exports.getCurrentChallenge = async (req, res) => {
     const challenge = await Challenge.findOne({
       due_date: { $gte: dayjs() },
     }).sort({ due_date: "asc" });
-    res.send(challenge);
+    if(challenge){
+      res.send(challenge);
+    }else{
+      res.send({"message":"No Challenges available right now"});
+    }
   } catch (error) {
     //catching errors
     console.error(error);
@@ -92,7 +98,11 @@ exports.getCurrentChallenge = async (req, res) => {
 exports.getAllChallenges = async (req, res) => {
   try {
     const challenges = await Challenge.find();
-    res.json(challenges);
+    if(challenges){
+      res.send(challenges);
+    }else{
+      res.send({"message":"No Challenges available right now"});
+    }
   } catch (error) {
     //catching errors
     console.error(error);
