@@ -27,7 +27,7 @@ export default function ChallengeDetail() {
             {(submissions && submissions.length > 0) && (<>
                 <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                     <Grid container>
-                        <Submissions sm={12} md={6} lg={4} challengeID={id} submissions={submissions} />
+                        <Submissions sm={12} md={6} lg={4} challengeID={id} challenge={challenge} submissions={submissions} />
                     </Grid>
                 </Box>
             </>)}

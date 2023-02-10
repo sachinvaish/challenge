@@ -38,6 +38,17 @@ exports.getFeedbacksBySubmission = async (req, res) => {
         console.log(error);
     }
 }
+
+//Get Feedback by ID
+exports.getFeedbackById = async(req,res)=>{
+    try{
+        let feedback = await Feedback.findById(req.params.id);
+        res.send(feedback);
+    }catch (error) {
+        console.log(error);
+    }
+}
+
 //Get feedbacksCount by submission ID
 exports.getFeedbackCountBySubmission = async (req, res) => {
     // console.log('submission id', req.params.submission_id);
@@ -56,6 +67,7 @@ exports.getFeedbackCountBySubmission = async (req, res) => {
 exports.deleteUserFeedbacks = async (user_id) => {
     try {
         let feedback = await Feedback.deleteMany({ user_id: user_id });
+        console.log('inside deleteUserFeedbacks :', feedback);
         // res.json({"message":"All Feedbacks Deleted for this User"});
 
     } catch (error) {

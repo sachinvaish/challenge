@@ -39,7 +39,7 @@ export default function Challenge(props) {
                 {(submissions && submissions.length > 0) && (<>
                     <Box sx={{ backgroundColor: 'white', borderRadius: '20px', padding: '10px' }}>
                         <Grid container>
-                            <Submissions limit={3} sm={12} md={6} lg={4} challenge_id={challenge._id} submissions={submissions} />
+                            <Submissions limit={3} sm={12} md={6} lg={4} challenge_id={challenge._id} challenge={challenge} submissions={submissions} />
                         </Grid>
                     </Box>
                 </>)}

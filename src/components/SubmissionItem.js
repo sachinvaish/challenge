@@ -19,12 +19,12 @@ export default function SubmissionItem(props) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getUserByID();
+        getUserByID(user_id);
         getFeedbacksBySubmissionID();
     }, []);
 
 
-    const getUserByID = async () => {
+    const getUserByID = async (user_id) => {
         try {
             const user = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/id/${user_id}`);
             const res = await user.json();
@@ -74,7 +74,7 @@ export default function SubmissionItem(props) {
                             <Link variant="h6" onClick={() => { navigate(`/profile/${user.username}`) }} sx={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }} >
                                 {user.name ? user.name : user.username}
                             </Link>
-                            {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E', ml: 1 }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD', ml: 1 }} />))}
+                            {challenge && (challenge.first_winner_id === _id ? <EmojiEventsIcon sx={{ color: '#E8AF0E', ml:1 }} /> : ((challenge.second_winner_id === _id) && <EmojiEventsIcon sx={{ color: '#C6CBCD', ml:1  }} />))}
                         </Box>
                     }
                     subheader={`${feedbackCount} Feedbacks`}

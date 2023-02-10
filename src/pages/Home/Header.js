@@ -1,11 +1,15 @@
-import { Grid, Typography, Container, Box, Card, CardContent, Button } from '@mui/material';
+import { Grid, Typography, Container, Box, Card, CardContent, Button, Divider } from '@mui/material';
 import React from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
+import WinnerDetail from '../ChallengeDetail/WinnerDetail';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import CommentIcon from '@mui/icons-material/Comment';
+import Sponsor from '../../components/Sponsor';
 
 export default function Header(props) {
     const { challenge } = props;
-    const {due_date}=props.challenge;
+    const { due_date } = props.challenge;
     const navigate = useNavigate();
 
     return (
@@ -45,10 +49,35 @@ export default function Header(props) {
                 <Grid item md={3} xs={12}>
                     <Card sx={{ color: 'text.secondary', textAlign: 'center' }}>
                         <CardContent>
-                            <h4>Winner Announced in</h4>
-                            <Timer countDownDate={new Date(due_date).setDate(new Date(due_date).getDate() + 7)} />
-                            <h4>Want to participate ?</h4>
-                            <Button variant="contained" onClick={() => { navigate("/contest") }}>View this week's challenge</Button>
+                            {(challenge.first_winner_id || challenge.second_winner_id || challenge.feedback_winner_id) ?
+                                <>
+                                    <Typography fontWeight='bold' variant='h6' mb={1}>Winners</Typography>
+                                    <Box gap={1} sx={{ display: 'flex', flexDirection: 'column' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1.2}>
+                                            <EmojiEventsIcon sx={{ color: '#E8AF0E', ml: 1 }} />
+                                            <WinnerDetail first_winner={challenge.first_winner_id} />
+                                        </Box>
+                                        <Divider />
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1.2}>
+                                            <EmojiEventsIcon sx={{ color: '#C6CBCD', ml: 1 }} />
+                                            <WinnerDetail second_winner={challenge.second_winner_id} />
+                                        </Box>
+                                        <Divider />
+                                        <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1.2}>
+                                            <CommentIcon sx={{ color: '#ae34eb', ml: 1 }} />
+                                            <WinnerDetail feedback_winner={challenge.feedback_winner_id} />
+                                        </Box>
+                                    </Box>
+                                </>
+                                :
+                                <>
+                                    <h4>Winner Announced in</h4>
+                                    <Timer countDownDate={new Date(due_date).setDate(new Date(due_date).getDate() + 7)} />
+                                    <h4>Want to participate ?</h4>
+                                    <Button variant="contained" onClick={() => { navigate("/contest") }}>View this week's challenge</Button>
+                                </>
+                            }
+                            <Sponsor/>
                         </CardContent>
                     </Card>
                 </Grid>

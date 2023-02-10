@@ -1,9 +1,10 @@
 import { Grid, Typography, Container, Box, Card, CardContent, Button, Avatar, Divider } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Timer from '../../components/Timer';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import CommentIcon from '@mui/icons-material/Comment';
+import WinnerDetail from './WinnerDetail';
 
 export default function Header(props) {
     const { challenge, submissionCount } = props;
@@ -61,34 +62,19 @@ export default function Header(props) {
                                         <Box gap={1} sx={{display:'flex', flexDirection:'column'}}>
                                             <Box sx={{display:'flex', alignItems:'center'}} gap={1.2}>
                                                 <EmojiEventsIcon sx={{ color: '#E8AF0E', ml: 1 }} />
-                                                <Avatar sx={{width:50, height:50}} src='https://avatars.githubusercontent.com/u/25712570?v=4'>S</Avatar>
-                                                <Box textAlign='left'>
-                                                    <Typography fontWeight='bold' vairant='h6' color='primary'>Sachin Vaish</Typography>
-                                                    <Typography variant='body2' fontWeight='bold'>View Submission</Typography>
-                                                </Box>
+                                                <WinnerDetail first_winner={challenge.first_winner_id}/>
                                             </Box>
                                             <Divider/>
                                             <Box sx={{display:'flex', alignItems:'center'}} gap={1.2}>
                                                 <EmojiEventsIcon sx={{ color: '#C6CBCD', ml: 1 }} />
-                                                <Avatar sx={{width:50, height:50}} src='https://avatars.githubusercontent.com/u/25712570?v=4'>S</Avatar>
-                                                <Box textAlign='left'>
-                                                    <Typography fontWeight='bold' vairant='h6' color='primary'>Sachin Tichkule</Typography>
-                                                    <Typography variant='body2' fontWeight='bold'>View Submission</Typography>
-                                                </Box>
+                                                <WinnerDetail second_winner={challenge.second_winner_id}/>
                                             </Box>
                                             <Divider/>
                                             <Box sx={{display:'flex', alignItems:'center'}} gap={1.2}>
                                                 <CommentIcon sx={{ color: '#ae34eb', ml: 1 }} />
-                                                <Avatar sx={{width:50, height:50}} src='https://avatars.githubusercontent.com/u/25712570?v=4'>S</Avatar>
-                                                <Box textAlign='left'>
-                                                    <Typography fontWeight='bold' vairant='h6' color='primary'>Sachin Tendulkar</Typography>
-                                                    <Typography variant='body2' fontWeight='bold'>View Feedback</Typography>
-                                                </Box>
-                                            </Box>
-                                            
+                                                <WinnerDetail feedback_winner={challenge.feedback_winner_id}/>
+                                            </Box>          
                                         </Box>
-                                        
-                                        
                                     </>
                                 }
                                     

@@ -10,7 +10,7 @@ export default function Submissions(props) {
     // const {submissions} = useSelector((state)=>({...state.SubmissionReducer}))
 
     return (
-        <Grid sx={{ display: 'flex', flexWrap: 'wrap' }} >
+        <Grid sx={{ display: 'flex', flexGrow: 1, flexWrap:'wrap'}} >
             {limit ?
                 submissions && submissions.slice(0, limit).map((submission) => {
                     return (
@@ -24,7 +24,7 @@ export default function Submissions(props) {
                 submissions && submissions.map((submission) => {
                     return (
                         <Grid key={submission._id} item xs={xs} sm={sm} md={md} lg={lg} >
-                            <SubmissionItem key={submission._id} submission={submission} />
+                            <SubmissionItem key={submission._id} submission={submission} challenge={challenge} />
                         </Grid>
                     )
                 })

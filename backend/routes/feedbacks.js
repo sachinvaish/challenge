@@ -4,7 +4,7 @@ const Feedback = require('../models/Feedback.js');
 const fetchuser = require('../middleware/fetchuser');
 const { body, validationResult } = require('express-validator');
 const isAdmin = require('../middleware/isAdmin.js');
-const { createFeedback, getFeedbacksBySubmission, getFeedbackCountBySubmission, deleteUserFeedbacks, deleteFeedbackByAdmin, deleteSubmissionFeedbacks } = require('../controllers/feedbackController.js');
+const { createFeedback, getFeedbacksBySubmission, getFeedbackCountBySubmission, deleteUserFeedbacks, deleteFeedbackByAdmin, deleteSubmissionFeedbacks, getFeedbackById } = require('../controllers/feedbackController.js');
 
 // POST Create a feedback
 router.post('/',fetchuser,[
@@ -13,6 +13,9 @@ router.post('/',fetchuser,[
 
 //Get List of feedbacks by submission ID
 router.get('/:submission_id', getFeedbacksBySubmission)
+
+//Get feedback by ID
+router.get('/id/:id',getFeedbackById)
 
 //Get feedbacksCount by submission ID
 router.get('/getfeedbackscount/:submission_id', getFeedbackCountBySubmission)
