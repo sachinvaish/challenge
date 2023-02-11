@@ -32,8 +32,8 @@ export default function Layout() {
                     <Sidebar />
                     <Box
                         component="main"
-                        sx={{ flexGrow: 1, bgcolor: '#EFF1F2', p: 3, height: '100vh' }}>
-                        <Outlet sx={{ height: '500px' }} />
+                        sx={{ flexGrow: 1, bgcolor: '#EFF1F2', p: 3, height: 'auto', minHeight:'100vh' }}>
+                        <Outlet sx={{ height: '100%' }} />
                     </Box>
 
                 </Box>

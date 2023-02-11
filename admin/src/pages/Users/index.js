@@ -137,8 +137,11 @@ export default function Users() {
       {mailOpen && <Mail open={mailOpen} onClose={onMailClose} user={userInfo} method={sendMailMethod} />}
       {deleteOpen && <ConfirmDialogue title='Delete User' message='Do you really want to delete this user'
         open={deleteOpen} onClose={onDeleteClose} data={userID} method={deleteUserMethod} />}
+      <Box marginY={2} width='100%' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant='h4'>Users</Typography>
+      </Box>
       {rows && (
-        <Box sx={{ height: '50%', display: 'flex' }}>
+        <Box sx={{ height: '90vh' }}>
           <DataGrid
             rows={rows}
             columns={columns}

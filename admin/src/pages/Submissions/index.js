@@ -75,7 +75,7 @@ export default function Submissions() {
     {
       field: 'photo', headerName: 'Photo', width: 200, align: 'left',
       renderCell: ({ row }) => (<>
-        <Box component='img' sx={{ margin: '10px', width:'170px', height:'auto', borderRadius: '10px' }} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${row.photo}`}/>
+        <Box component='img' sx={{ margin: '10px', width: '170px', height: 'auto', borderRadius: '10px' }} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${row.photo}`} />
       </>),
     },
     { field: 'description', headerName: 'Description', width: 250, align: 'left' },
@@ -96,37 +96,40 @@ export default function Submissions() {
     let x = 1;
     rows = submissions.map((submissions) => ({
       id: x++,
-      submission_id : submissions._id,
-      photo : submissions.photo_url,
-      description : submissions.description,
-      user_id : submissions.user_id,
-      challenge_id : submissions.challenge_id
+      submission_id: submissions._id,
+      photo: submissions.photo_url,
+      description: submissions.description,
+      user_id: submissions.user_id,
+      challenge_id: submissions.challenge_id
     }))
   }
 
   return (
     <>
-    {mailOpen && <Mail open={mailOpen} onClose={onMailClose} user={userInfo} method={sendMailMethod} />}
-    {deleteOpen && <ConfirmDialogue title='Delete Submission' message='Do you really want to delete this Submission'
-      open={deleteOpen} onClose={onDeleteClose} data={submissionID} method={deleteSubmissionMethod} />}
-    {rows && (
-      <Box sx={{ height: '90vh', display: 'flex' }}>
-        <DataGrid
-        getRowHeight={() => { return 'auto' }}
-          rows={rows}
-          columns={columns}
-          pdesignationSize={12}
-          rowsPerPdesignationOptions={[12]}
-          disableSelectionOnClick
-          sx={{
-            color: '#011111', backgroundColor: 'white',
-            "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
-              outline: "none !important",
-            },
-          }}
-        />
-      </Box>
-    )}
-  </>
+      <Box marginY={2} width='100%' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant='h4'>Submissions</Typography>
+       </Box>
+      {mailOpen && <Mail open={mailOpen} onClose={onMailClose} user={userInfo} method={sendMailMethod} />}
+      {deleteOpen && <ConfirmDialogue title='Delete Submission' message='Do you really want to delete this Submission'
+        open={deleteOpen} onClose={onDeleteClose} data={submissionID} method={deleteSubmissionMethod} />}
+      {rows && (
+        <Box sx={{ height: '90vh' }}>
+          <DataGrid
+            getRowHeight={() => { return 'auto' }}
+            rows={rows}
+            columns={columns}
+            pdesignationSize={12}
+            rowsPerPdesignationOptions={[12]}
+            disableSelectionOnClick
+            sx={{
+              color: '#011111', backgroundColor: 'white',
+              "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
+                outline: "none !important",
+              },
+            }}
+          />
+        </Box>
+      )}
+    </>
   );
 }

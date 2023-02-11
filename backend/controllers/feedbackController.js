@@ -49,6 +49,16 @@ exports.getFeedbackById = async(req,res)=>{
     }
 }
 
+//Get All Feedback
+exports.getAllFeedbacks = async(req,res)=>{
+    try{
+        let feedbacks = await Feedback.find();
+        res.send(feedbacks);
+    }catch (error) {
+        console.log(error);
+    }
+}
+
 //Get feedbacksCount by submission ID
 exports.getFeedbackCountBySubmission = async (req, res) => {
     // console.log('submission id', req.params.submission_id);

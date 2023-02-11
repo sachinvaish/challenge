@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Profile from './pages/Users/Profile';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   const navigate = useNavigate();
@@ -46,10 +47,11 @@ function App() {
       <Routes>
         <Route path='/' element={<Auth />} />
         <Route path='/admin' element={<Layout />}>
+          <Route path='dashboard' element={<Dashboard />} />
           <Route path='challenges' element={<Challenges />} />
           <Route path='challenge/:challengeID' element={<ChallengeDetail />} />
           <Route path='users' element={<Users />} />
-          <Route path='profile/:username' element={<Profile/>}/>
+          <Route path='profile/:username' element={<Profile />} />
           <Route path='submissions' element={<Submissions />} />
           <Route path="submission/:id" element={<SubmissionView />} />
         </Route>
