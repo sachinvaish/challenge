@@ -75,7 +75,7 @@ export default function Submissions() {
     {
       field: 'photo', headerName: 'Photo', width: 200, align: 'left',
       renderCell: ({ row }) => (<>
-        <Box component='img' sx={{ margin: '10px', width: '170px', height: 'auto', borderRadius: '10px' }} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${row.photo}`} />
+        <Box component='img' sx={{ margin: '10px', width: '170px', height: 'auto', borderRadius: '10px', cursor:'pointer' }} onClick={()=>{navigate(`/admin/submission/${row.submission_id}`);}} src={row.photo && `${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${row.photo}`} />
       </>),
     },
     { field: 'description', headerName: 'Description', width: 250, align: 'left' },

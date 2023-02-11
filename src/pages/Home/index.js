@@ -32,7 +32,7 @@ export default function Home() {
 
     return (
         <Container >
-            <Outlet/>
+            {/* <Outlet/> */}
             {!error ? (lastChallenge && <Header challenge={lastChallenge}/>) :
                 <Box sx={{width:'500px', height:'75vh'}} textAlign='center' py={'15%'} m={'auto'}>
                     <Typography variant='h3' fontWeight='bold'>Sorry!!!</Typography>

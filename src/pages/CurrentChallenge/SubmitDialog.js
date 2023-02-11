@@ -72,6 +72,7 @@ export default function SubmitDialog(props) {
                             </IconButton>
                         </Box>
                     </Box>
+                    <Typography sx={{color:'green'}}>Ideally, One Submission is allowed per user, but for testing purpose multiple submissions are allowed</Typography>
                 </DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>

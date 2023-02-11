@@ -14,7 +14,7 @@ export default function Login(props) {
 
     useEffect(() => {
         if (isLoggedIn) {
-            navigate('/admin');
+            navigate('/admin/dashboard');
         }
     }, [isLoggedIn]);
 

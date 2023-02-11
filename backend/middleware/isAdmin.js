@@ -1,12 +1,12 @@
 const User = require('../models/User.js');
 
 const isAdmin = async (req, res, next) => {
-    console.log('inside isAdmin');
+    // console.log('inside isAdmin');
     try {
         let user = await User.findById(req.user.id);
         if(user){
             if (user.role === 1) {
-                console.log('user role OK');
+                // console.log('user role OK');
                 next();
             }else{
                 res.status(401).send({ "error": "You need to be an Admin to access this path" });

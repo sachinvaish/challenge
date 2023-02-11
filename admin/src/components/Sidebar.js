@@ -39,7 +39,7 @@ export default function Sidebar() {
                 {/* <h2>Crowwwn</h2>
                 <Divider /> */}
                 <List gap={1}>
-                <MenuItem onClick={()=>navigate('/admin/dashboard')} selected={value===0} divider>
+                <MenuItem sx={{paddingY:2}} onClick={()=>navigate('/admin/dashboard')} selected={value===0} >
                         <ListItemIcon>
                             <DashboardIcon />
                         </ListItemIcon>
@@ -47,7 +47,7 @@ export default function Sidebar() {
                             Dashboard
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={()=>navigate('/admin/users')} selected={value===1} divider>
+                    <MenuItem sx={{paddingY:2}} onClick={()=>navigate('/admin/users')} selected={value===1} >
                         <ListItemIcon>
                             <AccountBox />
                         </ListItemIcon>
@@ -55,7 +55,7 @@ export default function Sidebar() {
                             Users
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={()=>navigate('/admin/challenges')} selected={value===2} divider>
+                    <MenuItem sx={{paddingY:2}} onClick={()=>navigate('/admin/challenges')} selected={value===2} >
                         <ListItemIcon>
                             <Assignment />
                         </ListItemIcon>
@@ -63,7 +63,7 @@ export default function Sidebar() {
                             Challenges
                         </ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={()=>navigate('/admin/submissions')} selected={value===3} divider>
+                    <MenuItem sx={{paddingY:2}} onClick={()=>navigate('/admin/submissions')} selected={value===3} >
                         <ListItemIcon>
                             <PermMedia />
                         </ListItemIcon>

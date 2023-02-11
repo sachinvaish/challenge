@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = process.env.SECRET_KEY;
 
 const fetchuser = async (req, res, next) => {
-    console.log('inside fetchuser');
+    // console.log('inside fetchuser');
     const token = req.header('auth-token');
     let data;
     if (!token) {

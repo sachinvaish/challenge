@@ -25,7 +25,7 @@ function App() {
       dispatch(getUser(localStorage.getItem('authToken')));
     }
     if (isLoggedIn) {
-      navigate('/admin');
+      navigate('/admin/dashboard');
     } else {
       navigate('/')
     }

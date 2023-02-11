@@ -15,7 +15,8 @@ export default function Navbar() {
 
 
     useEffect(() => {
-        if (location === '/') {
+
+        if (location === '/home') {
             setValue(0);
         }
         if (location === '/contest') {
@@ -41,10 +42,10 @@ export default function Navbar() {
             <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'sticky' }}>
                 <Container>
                     <Toolbar >
-                        <Typography variant='h6' flexGrow={1}>Crowwwn</Typography>
+                        <Typography fontWeight={'bold'} variant='h4' sx={{cursor:'pointer'}} flexGrow={1} onClick={() => { navigate("/") }}>DigiFinch</Typography>
                         <Box flexGrow={1}>
                             <Tabs value={value} onChange={handleChange}>
-                                <Tab label="Home" onClick={() => { navigate("/") }} />
+                                <Tab label="Home" onClick={() => { navigate("/home") }} />
                                 <Tab label="This Week's Challenge" onClick={() => { navigate("/contest") }} />
                                 <Tab label="Explore" onClick={() => { navigate("/explore") }}/>
                             </Tabs>

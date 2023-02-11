@@ -20,6 +20,7 @@ import { Button } from "@mui/material";
 import SetPassword from "./pages/Profile/SetPassword";
 import Explore from "./pages/Explore";
 import ChallengeDetail from "./pages/ChallengeDetail";
+import LandingPage from "./pages/LandingPage";
 
 
 
@@ -72,10 +73,11 @@ function App() {
         theme="dark"
       />
       <Routes>
-        <Route exact path="/" element={<Home />}>
-          <Route path="/login" element={<Login open={true} />} />
-          <Route path="/signup" element={<Signup open={true} />} />
+        <Route path="/" element={<LandingPage/>}>
+          <Route path="login" element={<Login open={true} />} />
+          <Route path="signup" element={<Signup open={true} />} />
         </Route>
+        <Route exact path="/home" element={<Home />}/>
         <Route exact path="/submission/:id" element={<SubmissionView />} />
         <Route exact path="/contest" element={<CurrentChallenge />} />
         <Route exact path="/explore" element={<Explore />} />
