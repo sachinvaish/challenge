@@ -103,7 +103,7 @@ exports.sendMail = async (username, email, user_id) => {
     try {
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
+            from: '"Digifinch" <alhabibi@dubai.com>', // sender address
             to: email, // list of receivers
             subject: "Verification Mail", // Subject line
             text: "Verification mail", // plain text body
@@ -121,7 +121,7 @@ exports.sendCustomMail = async (req,res) => {
     try {
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
+            from: '"Digifinch" <alhabibi@dubai.com>', // sender address
             to: req.body.email, // list of receivers
             subject: req.body.subject, // Subject line
             text: req.body.message, // plain text body
@@ -163,7 +163,7 @@ exports.sendResetMail = async (username, email, user_id) => {
     try {
         // send mail with defined transport object
         let info = await transporter.sendMail({
-            from: '"Crowwwn" <alhabibi@dubai.com>', // sender address
+            from: '"DigiFinch" <alhabibi@dubai.com>', // sender address
             to: email, // list of receivers
             subject: "Reset Password", // Subject line
             text: "", // plain text body
