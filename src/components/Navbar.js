@@ -42,7 +42,7 @@ export default function Navbar() {
             <AppBar sx={{ backgroundColor: "white", color: "blue", position: 'sticky' }}>
                 <Container>
                     <Toolbar >
-                        <Typography fontWeight={'bold'} variant='h4' sx={{cursor:'pointer'}} flexGrow={1} onClick={() => { navigate("/") }}>DigiFinch</Typography>
+                        <Typography fontWeight={'bold'} variant='h5' sx={{cursor:'pointer'}} flexGrow={1} onClick={() => { navigate("/") }}>DigiFinch</Typography>
                         <Box flexGrow={1}>
                             <Tabs value={value} onChange={handleChange}>
                                 <Tab label="Home" onClick={() => { navigate("/home") }} />
