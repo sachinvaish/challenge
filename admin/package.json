@@ -1,6 +1,6 @@
 {
   "name": "admin",
-  "homepage": "http://sachintech.in:3000",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

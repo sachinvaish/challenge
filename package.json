@@ -1,6 +1,6 @@
 {
   "name": "challenge",
-  "homepage": "http://sachintech.in",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
