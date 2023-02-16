@@ -51,11 +51,11 @@ exports.getChallengeById = async (req, res) => {
 //GET : Get last finished challenge
 exports.getLastChallenge = async (req, res) => {
   try {
-    const challenge = await Challenge.findOne({due_date: { $lte: dayjs() },}).sort({ due_date: "desc" });
-    if(challenge){
+    const challenge = await Challenge.findOne({ due_date: { $lte: dayjs() }, }).sort({ due_date: "desc" });
+    if (challenge) {
       res.send(challenge);
-    }else{
-      res.send({"message":"No Challenges available right now"});
+    } else {
+      res.send({ "message": "No Challenges available right now" });
     }
   } catch (error) {
     //catching errors
@@ -70,7 +70,7 @@ exports.getPastChallenges = async (req, res) => {
     const challenges = await Challenge.find({
       due_date: { $lte: dayjs() },
     }).sort({ due_date: "desc" });
-      res.send(challenges);
+    res.send(challenges);
   } catch (error) {
     //catching errors
     console.error(error);
@@ -84,10 +84,10 @@ exports.getCurrentChallenge = async (req, res) => {
     const challenge = await Challenge.findOne({
       due_date: { $gte: dayjs() },
     }).sort({ due_date: "asc" });
-    if(challenge){
+    if (challenge) {
       res.send(challenge);
-    }else{
-      res.send({"message":"No Challenges available right now"});
+    } else {
+      res.send({ "message": "No Challenges available right now" });
     }
   } catch (error) {
     //catching errors
@@ -100,10 +100,10 @@ exports.getCurrentChallenge = async (req, res) => {
 exports.getAllChallenges = async (req, res) => {
   try {
     const challenges = await Challenge.find();
-    if(challenges){
+    if (challenges) {
       res.send(challenges);
-    }else{
-      res.send({"message":"No Challenges available right now"});
+    } else {
+      res.send({ "message": "No Challenges available right now" });
     }
   } catch (error) {
     //catching errors
@@ -245,43 +245,52 @@ exports.setWinner = async (req, res) => {
   }
 }
 
-exports.getAchievementsByUserId = async(req,res)=>{
+exports.getAchievementsByUserId = async (req, res) => {
   try {
-      let user_id = req.params.user_id;
-      let stats = {
-        first : 0,
-        second : 0,
-        feedback : 0
+    let user_id = req.params.user_id;
+    let stats = {
+      first: 0,
+      second: 0,
+      feedback: 0
+    }
+
+    let challenges = await Challenge.find(
+      { $or: [{ first_winner_id: { $exists: true } }, { second_winner_id: { $exists: true } }, { feedback_winner_id: { $exists: true } }] },
+      { title: 1, first_winner_id: 1, second_winner_id: 1, feedback_winner_id: 1 },
+    );
+
+    challenges.map(async (challenge) => {
+      if (challenge.first_winner_id) {
+        // console.log('entering match 1', challenge.first_winner_id)
+        let submission = await Submission.findById(challenge.first_winner_id);
+        if (String(user_id) === String(submission.user_id)) {
+          // console.log('matched 1')
+          stats.first = stats.first + 1
+        }
       }
-
-      let challenges = await Challenge.find(
-        {$or:[{first_winner_id:{$exists:true}},{second_winner_id:{$exists:true}},{feedback_winner_id:{$exists:true}}]},
-        {title:1,first_winner_id:1,second_winner_id:1,feedback_winner_id:1},
-        );
-
-      challenges.map(async (challenge)=>{
-        if(challenge.first_winner_id){
-          let submission = await Submission.findById(challenge.first_winner_id);
-          if(user_id === submission.user_id){
-            console.log('matched 1')
-            stats.first=stats.first+1}
+      if (challenge.second_winner_id) {
+        // console.log('entering match 2', challenge.second_winner_id)
+        let submission = await Submission.findById(challenge.second_winner_id);
+        if (String(user_id) === String(submission.user_id)) {
+          // console.log('matched 2')
+          stats.second = stats.second + 1
         }
-        if(challenge.second_winner_id){
-          let submission = await Submission.findById(challenge.second_winner_id);
-          if(user_id === submission.user_id){
-            console.log('matched 2')
-            stats.second=stats.second+1}
+      }
+      if (challenge.feedback_winner_id) {
+        // console.log('entering match 3', challenge.feedback_winner_id)
+        let feedback = await Feedback.findById(challenge.feedback_winner_id);
+        if (String(user_id) === String(feedback.user_id)) {
+          // console.log('matched 3')
+          stats.feedback = stats.feedback + 1
         }
-        if(challenge.feedback_winner_id){
-          let feedback = await Feedback.findById(challenge.feedback_winner_id);
-          if(user_id === feedback.user_id){
-            console.log('matched 3')
-            stats.feedback=stats.feedback+1}
-        }
-      })
+      }
+    })
 
-      // let res = await challenge.json();
+    // let res = await challenge.json();
+    setTimeout(() => {
+      // console.log(stats);
       res.send(stats);
+    }, 2000);
 
   } catch (error) {
     console.error(error);

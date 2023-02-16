@@ -1,7 +1,7 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Sidebar from './Sidebar';
 import { getSubmissionByID, SubmissionReducer } from '../../redux/features/submissionSlice';
 import { getChallengeByID } from '../../redux/features/challengeSlice';
@@ -11,6 +11,7 @@ export default function SubmissionView() {
 
     const dispatch = useDispatch();
     const { id } = useParams();
+    const navigate = useNavigate();
     // console.log('inside Submission VIEW');
     // console.log('id is :',id);
     const { loading, singleSubmission } = useSelector((state) => ({ ...state.SubmissionReducer }));
@@ -30,6 +31,9 @@ export default function SubmissionView() {
 
     return (
         <Box sx={{ marginTop: 3, padding: 3 }}>
+            <Box mb={1}>
+                <Button variant='outlined' onClick={()=>{navigate(-1)}}>Back</Button>
+            </Box>
             <Grid container spacing={2}>
                 {singleSubmission && (<>
                     <Grid item md={8}>
@@ -39,6 +43,7 @@ export default function SubmissionView() {
                                 src={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/${singleSubmission.photo_url}`}
                                 maxWidth='100%'
                                 padding={0}
+                                sx={{loading:'lazy'}}
                             >
                             </Box>
                         }

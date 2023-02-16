@@ -57,7 +57,7 @@ export default function SubmissionItem(props) {
                     onClick={() => {
                         navigate(`/submission/${_id}`);
                     }}
-                    sx={{ cursor: 'pointer', objectFit: 'cover', aspectRatio: '4/3','&:hover':{filter:`brightness(70%)`,transform:`scale(1.2)`}, transition:`transform .5s ease,filter .5s ease`}}
+                    sx={{ cursor: 'pointer', objectFit: 'cover',loading:'lazy', aspectRatio: '4/3','&:hover':{filter:`brightness(70%)`,transform:`scale(1.2)`}, transition:`transform .5s ease,filter .5s ease`}}
                     component="img"
                     height="300px"
                     width='auto'
