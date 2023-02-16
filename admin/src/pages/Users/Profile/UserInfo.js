@@ -10,6 +10,11 @@ import { useNavigate } from 'react-router';
 
 export default function UserInfo(props) {
     const {userInfo } = props;
+    const [achievements, setAchievements] = useState({
+        first: 0,
+        second: 0,
+        feedback: 0
+    });
     // console.log(user);
     const navigate = useNavigate();
 
@@ -24,6 +29,18 @@ export default function UserInfo(props) {
 
     }, [userInfo])
 
+    useEffect(()=>{
+        getAchievements(userInfo._id);
+        setProfile(userInfo);
+    },[])
+
+    const getAchievements = async (user_id) => {
+        const stats = await fetch(`${process.env.REACT_APP_BACKEND_URL}/challenges/user/getachievements/${user_id}`);
+            let res = await stats.json();
+            console.log(res);
+            setAchievements(res);
+    }
+
     return (
         <Paper sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
             {profile && (<>
@@ -37,19 +54,19 @@ export default function UserInfo(props) {
                 <Box my={1} sx={{ width: '100%' }} textAlign='center'>
                     <Typography variant='h6' fontWeight='bold'>Awards</Typography>
                     <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'space-evenly' }}>
-                        <Box>
-                            <Typography variant='h5' fontWeight='bold'>4</Typography>
-                            <Typography variant='subtitle2'>Winner</Typography>
+                    <Box>
+                            <Typography variant='h5' fontWeight='bold'>{achievements.first}</Typography>
+                            <Typography variant='subtitle2'>1st Winner</Typography>
                         </Box>
                         <Divider orientation="vertical" variant='middle' flexItem />
                         <Box>
-                            <Typography variant='h5' fontWeight='bold'>12</Typography>
-                            <Typography variant='subtitle2'>Runner up</Typography>
+                            <Typography variant='h5' fontWeight='bold'>{achievements.second}</Typography>
+                            <Typography variant='subtitle2'>2nd Winner</Typography>
                         </Box>
                         <Divider orientation="vertical" variant='middle' flexItem />
                         <Box>
-                            <Typography variant='h5' fontWeight='bold'>32</Typography>
-                            <Typography variant='subtitle2'>Feedbacks</Typography>
+                            <Typography variant='h5' fontWeight='bold'>{achievements.feedback}</Typography>
+                            <Typography variant='subtitle2'>Feedback</Typography>
                         </Box>
                     </Box>
                 </Box>
