@@ -53,18 +53,20 @@ const getUserByID = async () => {
 
     return (
         <Card sx={{minWidth:'340px', width: 'auto', height: 'auto', color: 'black', margin: 1.5 }} >
-            <CardMedia
-                onClick={() => { 
-                    // dispatch(getSubmissionByID(_id));
-                    navigate(`/admin/submission/${_id}`); 
-                }}
-                sx={{cursor:'pointer', objectFit:'cover', aspectRatio: '4/3'}}
-                component="img"
-                height="auto"
-                width='auto'
-                image={`${host}/uploads/submissions/thumbnails/${photo_url}`}
-                alt="submission"
-            />
+            <Box sx={{overflow:'hidden'}}>
+                <CardMedia
+                    onClick={() => { 
+                        // dispatch(getSubmissionByID(_id));
+                        navigate(`/admin/submission/${_id}`); 
+                    }}
+                    sx={{ cursor: 'pointer', objectFit: 'cover', aspectRatio: '4/3','&:hover':{filter:`brightness(70%)`,transform:`scale(1.2)`}, transition:`transform .5s ease,filter .5s ease` }}
+                    component="img"
+                    height="auto"
+                    width='auto'
+                    image={`${host}/uploads/submissions/thumbnails/${photo_url}`}
+                    alt="submission"
+                />
+            </Box>
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                 <CardHeader
                     avatar={

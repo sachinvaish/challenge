@@ -5,7 +5,9 @@ const { body, validationResult } = require("express-validator");
 const fetchuser = require("../middleware/fetchuser.js");
 const isAdmin = require("../middleware/isAdmin.js");
 const Challenge = require("../models/Challenge.js");
-const { deleteChallengeSubmissions } = require("./submissionController.js");
+const Submission = require('../models/Submission.js');
+const Feedback = require('../models/Feedback.js');
+const { deleteChallengeSubmissions, getSubmissionById } = require("./submissionController.js");
 
 // POST : Create a Challenge
 exports.createChallenge = async (req, res) => {
@@ -186,7 +188,7 @@ exports.setWinner = async (req, res) => {
         let secondWinner = await Challenge.findByIdAndUpdate(challengeID, {
           $set: { second_winner_id: null },
         });
-        console.log("result", secondWinner);
+        // console.log("result", secondWinner);
       }
       const challenge = await Challenge.findByIdAndUpdate(
         challengeID,
@@ -195,7 +197,7 @@ exports.setWinner = async (req, res) => {
         },
         { new: true }
       );
-      console.log("1st winner ghoshit");
+      // console.log("1st winner ghoshit");
       res.json(challenge);
     }
 
@@ -212,7 +214,7 @@ exports.setWinner = async (req, res) => {
         let secondWinner = await Challenge.findByIdAndUpdate(challengeID, {
           $set: { first_winner_id: null },
         });
-        console.log("result", secondWinner);
+        // console.log("result", secondWinner);
       }
       const challenge = await Challenge.findByIdAndUpdate(
         challengeID,
@@ -221,7 +223,7 @@ exports.setWinner = async (req, res) => {
         },
         { new: true }
       );
-      console.log("2nd winner ghoshit");
+      // console.log("2nd winner ghoshit");
       res.json(challenge);
     }
     //setting Feedback Winner
@@ -233,13 +235,57 @@ exports.setWinner = async (req, res) => {
         },
         { new: true }
       );
-      console.log("Feedback winner ghoshit", challenge);
+      // console.log("Feedback winner ghoshit", challenge);
       res.json(challenge);
     }
   } catch (error) {
     //catching errors
     console.error("error aya", error);
     res.status(500).json({ error: "Server Error Occured" });
+  }
+}
+
+exports.getAchievementsByUserId = async(req,res)=>{
+  try {
+      let user_id = req.params.user_id;
+      let stats = {
+        first : 0,
+        second : 0,
+        feedback : 0
+      }
+
+      let challenges = await Challenge.find(
+        {$or:[{first_winner_id:{$exists:true}},{second_winner_id:{$exists:true}},{feedback_winner_id:{$exists:true}}]},
+        {title:1,first_winner_id:1,second_winner_id:1,feedback_winner_id:1},
+        );
+
+      challenges.map(async (challenge)=>{
+        if(challenge.first_winner_id){
+          let submission = await Submission.findById(challenge.first_winner_id);
+          if(user_id === submission.user_id){
+            console.log('matched 1')
+            stats.first=stats.first+1}
+        }
+        if(challenge.second_winner_id){
+          let submission = await Submission.findById(challenge.second_winner_id);
+          if(user_id === submission.user_id){
+            console.log('matched 2')
+            stats.second=stats.second+1}
+        }
+        if(challenge.feedback_winner_id){
+          let feedback = await Feedback.findById(challenge.feedback_winner_id);
+          if(user_id === feedback.user_id){
+            console.log('matched 3')
+            stats.feedback=stats.feedback+1}
+        }
+      })
+
+      // let res = await challenge.json();
+      res.send(stats);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Some Error Occured");
   }
 }
 

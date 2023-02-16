@@ -52,18 +52,19 @@ export default function SubmissionItem(props) {
 
     return (
         <Card sx={{ minWidth: '340px', width: 'auto', height: 'auto', color: 'black', margin: 1.5 }} >
-            <CardMedia
-                onClick={() => {
-                    // dispatch(getSubmissionByID(_id));
-                    navigate(`/submission/${_id}`);
-                }}
-                sx={{ cursor: 'pointer', objectFit: 'cover', aspectRatio: '4/3', loading: 'lazy', imageResolution:'20dpi' }}
-                component="img"
-                height="300px"
-                width='auto'
-                image={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${photo_url}`}
-                alt="submission"
-            />
+            <Box sx={{overflow:'hidden'}}>
+                <CardMedia
+                    onClick={() => {
+                        navigate(`/submission/${_id}`);
+                    }}
+                    sx={{ cursor: 'pointer', objectFit: 'cover', aspectRatio: '4/3','&:hover':{filter:`brightness(70%)`,transform:`scale(1.2)`}, transition:`transform .5s ease,filter .5s ease`}}
+                    component="img"
+                    height="300px"
+                    width='auto'
+                    image={`${process.env.REACT_APP_BACKEND_URL}/uploads/submissions/thumbnails/${photo_url}`}
+                    alt="submission"
+                />
+            </Box>
             <Box sx={{ display: 'flex' }} justifyContent='space-between'>
                 <CardHeader
                     avatar={

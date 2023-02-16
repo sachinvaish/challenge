@@ -48,17 +48,17 @@ export default function UserInfo(props) {
                     <Box sx={{ padding: '10px', display: 'flex', justifyContent: 'space-evenly' }}>
                         <Box>
                             <Typography variant='h5' fontWeight='bold'>4</Typography>
-                            <Typography variant='subtitle2'>Winner</Typography>
+                            <Typography variant='subtitle2'>1st Winner</Typography>
                         </Box>
                         <Divider orientation="vertical" variant='middle' flexItem />
                         <Box>
                             <Typography variant='h5' fontWeight='bold'>12</Typography>
-                            <Typography variant='subtitle2'>Runner up</Typography>
+                            <Typography variant='subtitle2'>2nd Winner</Typography>
                         </Box>
                         <Divider orientation="vertical" variant='middle' flexItem />
                         <Box>
                             <Typography variant='h5' fontWeight='bold'>32</Typography>
-                            <Typography variant='subtitle2'>Feedbacks</Typography>
+                            <Typography variant='subtitle2'>Feedback</Typography>
                         </Box>
                     </Box>
                 </Box>
