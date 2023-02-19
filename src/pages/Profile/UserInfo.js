@@ -40,7 +40,7 @@ export default function UserInfo(props) {
     const getAchievements = async (user_id) => {
         const stats = await fetch(`${process.env.REACT_APP_BACKEND_URL}/challenges/user/getachievements/${user_id}`);
             let res = await stats.json();
-            console.log(res);
+            // console.log(res);
             setAchievements(res);
     }
 

@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Submissions from '../../components/Submissions';
@@ -6,7 +6,7 @@ import Header from './Header';
 import empty from '../../assets/empty.png';
 import { getSubmissions } from '../../redux/features/submissionSlice';
 import { getLastChallenge } from '../../redux/features/challengeSlice';
-import { Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 
 export default function Home() {
@@ -14,6 +14,7 @@ export default function Home() {
     const dispatch = useDispatch();
     const {submissions} = useSelector((state)=>({...state.SubmissionReducer}));
     const {lastChallenge}= useSelector((state)=>({...state.ChallengeReducer}))
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getLastChallenge());
@@ -38,6 +39,7 @@ export default function Home() {
                     <Typography variant='h3' fontWeight='bold'>Sorry!!!</Typography>
                     <Typography variant='h5'>{error}</Typography>
                     <Typography variant='h6'>Stay tuned...</Typography>
+                    <Button variant='contained' onClick={()=>{navigate('/explore')}}>Explore past challenges</Button>
                 </Box>
             }
             {(submissions && submissions.length > 0) && (<>

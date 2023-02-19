@@ -1,8 +1,9 @@
-import { Typography, Container } from "@mui/material";
+import { Typography, Container, Button } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import Timer from "../../components/Timer";
 import { getCurrentChallenge } from "../../redux/features/challengeSlice";
 import ChallengeHeader from "./ChallengeHeader";
@@ -11,9 +12,8 @@ import PrizeSection from "./PrizeSection";
 export default function CurrentChallenge() {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const { currentChallenge } = useSelector((state) => ({
-    ...state.ChallengeReducer,
-  }));
+  const { currentChallenge } = useSelector((state) => ({...state.ChallengeReducer}));
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCurrentChallenge());
@@ -70,6 +70,7 @@ export default function CurrentChallenge() {
           </Typography>
           <Typography variant="h5">{error}</Typography>
           <Typography variant="h6">Stay tuned...</Typography>
+          <Button variant='contained' onClick={() => { navigate('/explore') }}>Explore past challenges</Button>
         </Box>
       )}
     </Container>

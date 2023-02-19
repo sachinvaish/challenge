@@ -39,7 +39,7 @@ export default function Profile(props) {
   }, [userInfo]);
 
   const getUserByUsername = async (username) => {
-    console.log("getting user by username");
+    // console.log("getting user by username");
     try {
       // setUser(null);
       const user = await fetch(

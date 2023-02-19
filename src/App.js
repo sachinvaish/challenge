@@ -21,6 +21,7 @@ import SetPassword from "./pages/Profile/SetPassword";
 import Explore from "./pages/Explore";
 import ChallengeDetail from "./pages/ChallengeDetail";
 import LandingPage from "./pages/LandingPage";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -84,7 +85,7 @@ function App() {
         <Route exact path="/challenge/:id" element={<ChallengeDetail/>} />
         <Route exact path="/profile/:username" element={<Profile />} />
         <Route exact path="/reset-password/:id" element={<SetPassword />} />
-        <Route exact path="/*" element={<h3>404 Not Found</h3>} />
+        <Route exact path="/*" element={<NotFound/>} />
       </Routes>
       <Footer />
     </ThemeProvider>

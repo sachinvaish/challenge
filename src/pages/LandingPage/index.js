@@ -21,7 +21,7 @@ export default function LandingPage() {
           <Typography variant="h6" sx={{color:'white'}}> Welcome to DigiFinch</Typography>
           <Typography variant='h4' sx={{color:'white'}}>Participate in Design Challenges & Win Exciting Prizes</Typography>
           <Typography variant='h3' sx={{color:'white'}} fontWeight='bold'>Every Week !</Typography>
-          <Button variant='contained' size='large' sx={{mt:5}} onClick={()=>{navigate('/contest')}}>See this week's Challenge</Button>
+          <Button variant='contained' size='large' sx={{mt:5}} onClick={()=>{navigate('/home')}}>See last week's Challenge</Button>
       </Box>
     </Box>
   );
